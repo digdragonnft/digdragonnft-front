@@ -5,7 +5,7 @@ import MenuItem from "./MenuItem";
 
 const Drawer = () => {
   return (
-    <div className="drawer">
+    <div className="drawer z-10">
       <input id="my-drawer" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content">
         {/* Page content here */}
@@ -23,7 +23,7 @@ const Drawer = () => {
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
-        <ul className="menu bg-primary min-h-full w-80 p-4 text-white">
+        <ul className="menu min-h-full w-80 bg-primary p-4 text-white">
           {/* Sidebar content here */}
           <Image src="/images/logo.png" width={120} height={120} alt="logo" />
           <div className="divider"></div>
