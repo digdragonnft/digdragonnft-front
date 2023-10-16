@@ -20,6 +20,7 @@
     "@trpc/next": "^10.37.1",
     "@trpc/react-query": "^10.37.1",
     "@trpc/server": "^10.37.1",
+    "axios": "^1.5.1",
     "framer-motion": "^10.16.4",
     "next": "^13.5.4",
     "next-sanity": "^5.5.8",

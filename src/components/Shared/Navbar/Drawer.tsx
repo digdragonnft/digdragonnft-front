@@ -2,6 +2,7 @@ import React from "react";
 import { HiMenuAlt2 } from "react-icons/hi";
 import Image from "next/image";
 import MenuItem from "./MenuItem";
+import ConnectWalletButton from "../Blockchain/Buttons/ConnectWallet";
 
 const Drawer = () => {
   return (
@@ -29,20 +30,21 @@ const Drawer = () => {
           <div className="divider"></div>
           <div className="flex flex-col gap-3">
             <li>
-              <MenuItem title="Profile" />
+              <MenuItem title="Profile" path="/wallet" />
             </li>
             <li>
-              <MenuItem title="Whitepaper" />
+              <MenuItem title="Whitepaper" path="#" />
             </li>
             <li>
-              <MenuItem title="NFT Market" />
+              <MenuItem title="NFT Market" path="#" />
             </li>
             <li>
-              <MenuItem title="Bitkub Chain" />
+              <MenuItem title="Bitkub Chain" path="#" />
             </li>
             <li>
-              <MenuItem title="Freecity.finance" />
+              <MenuItem title="Freecity.finance" path="#" />
             </li>
+            <ConnectWalletButton />
           </div>
         </ul>
       </div>
