@@ -1,0 +1,128 @@
+import { useEffect, useState } from "react";
+import { type MyNFTProps } from "~/interfaces/Wallet/MyNFTProps";
+import {
+  GiSwordSpade,
+  GiShieldReflect,
+  GiWingfoot,
+  GiDragonHead,
+} from "react-icons/gi";
+import { FaExternalLinkAlt } from "react-icons/fa";
+import MyNFTStatus from "./MyNFTStatus";
+import MyNFTStat from "./MyNFTStat";
+import { type MyNFTRarity } from "~/interfaces/Wallet/MyNFTRarity";
+
+const MyNFT = ({ data }: MyNFTProps) => {
+  const [rarity, setRarity] = useState<MyNFTRarity>({
+    text: "N",
+    color: "bg-base-300",
+  });
+
+  const getRarity = () => {
+    switch (data?.attributes[0].value) {
+      case "normal": {
+        setRarity({ text: "N", color: `bg-base-300` });
+        break;
+      }
+      case "rare": {
+        setRarity({ text: "R", color: "bg-base-300" });
+        break;
+      }
+      case "super rare": {
+        setRarity({ text: "SR", color: "bg-base-300" });
+        break;
+      }
+      case "super special rare": {
+        setRarity({ text: "SSR", color: "bg-base-300" });
+        break;
+      }
+      default: {
+        setRarity({
+          text: "N",
+          color: "bg-base-300",
+        });
+      }
+    }
+  };
+
+  useEffect(() => {
+    getRarity();
+  }, []);
+
+  return (
+    <>
+      <div className="card w-full max-w-[320px] bg-base-100 shadow-[rgba(50,_50,_105,_0.15)_0px_2px_5px_0px,_rgba(0,_0,_0,_0.05)_0px_1px_1px_0px]">
+        {/**Rarity Badge */}
+        <div
+          className={` absolute right-3 top-5 flex h-[45px] w-[45px] items-center  justify-center rounded-full ${rarity.color}  font-bold`}
+        >
+          {rarity.text}
+        </div>
+
+        <div
+          className={`absolute left-5 top-8 flex flex-col items-start  justify-center text-5xl font-bold`}
+        >
+          <div className="text-2xl leading-3 text-white">
+            {
+              //@ts-ignore
+              data?.attributes[5].value
+            }
+          </div>
+          <div className="text-xs font-bold text-warning">HASH</div>
+        </div>
+        <figure className=" overflow-hidden py-2">
+          <img
+            className="w-96 rounded-3xl p-2"
+            src={data?.image}
+            alt="nft-image"
+          />
+        </figure>
+        <div className="stats stats-vertical shadow">
+          {/**TokenName */}
+          <MyNFTStat
+            icon={<GiDragonHead size={30} />}
+            title={"Token's Name"}
+            value={data?.name}
+          />
+          <MyNFTStatus
+            icon={<GiSwordSpade size={24} />}
+            title={
+              //@ts-ignore
+              data?.attributes[2].trait_type
+            }
+            value={
+              //@ts-ignore
+              data?.attributes[2].value
+            }
+          />
+          <MyNFTStatus
+            icon={<GiShieldReflect size={24} />}
+            title={
+              //@ts-ignore
+              data?.attributes[3].trait_type
+            }
+            value={
+              //@ts-ignore
+              data?.attributes[3].value
+            }
+          />
+          <MyNFTStatus
+            icon={<GiWingfoot size={24} />}
+            title={
+              //@ts-ignore
+              data?.attributes[4].trait_type
+            }
+            value={
+              //@ts-ignore
+              data?.attributes[4].value
+            }
+          />
+          <button className="btn btn-ghost mx-1 my-1">
+            <FaExternalLinkAlt /> on bkcscan
+          </button>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default MyNFT;
