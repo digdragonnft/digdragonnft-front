@@ -5,7 +5,7 @@ import Link from "next/link";
 const MenuItem = ({ title, path }: MenuItemProps) => {
   return (
     <Link
-      href={path == undefined ? path : "#"}
+      href={path != undefined ? path : "#"}
       className="flex items-center gap-2"
     >
       <GiMineWagon size={24} />

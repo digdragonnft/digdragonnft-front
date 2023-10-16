@@ -3,6 +3,7 @@ import { HiMenuAlt2 } from "react-icons/hi";
 import Image from "next/image";
 import MenuItem from "./MenuItem";
 import ConnectWalletButton from "../Blockchain/Buttons/ConnectWallet";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 const Drawer = () => {
   return (
@@ -44,7 +45,17 @@ const Drawer = () => {
             <li>
               <MenuItem title="Freecity.finance" path="#" />
             </li>
-            <ConnectWalletButton />
+            <li className="flex items-center justify-center">
+              <div>
+                <ConnectButton
+                  label="Connect Wallet"
+                  accountStatus={{
+                    smallScreen: "address",
+                    largeScreen: "address",
+                  }}
+                />
+              </div>
+            </li>
           </div>
         </ul>
       </div>
