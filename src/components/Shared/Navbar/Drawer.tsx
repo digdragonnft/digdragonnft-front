@@ -4,6 +4,7 @@ import Image from "next/image";
 import MenuItem from "./MenuItem";
 import ConnectWalletButton from "../Blockchain/Buttons/ConnectWallet";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import Link from "next/link";
 
 const Drawer = () => {
   return (
@@ -27,7 +28,9 @@ const Drawer = () => {
         ></label>
         <ul className="menu min-h-full w-80 bg-primary p-4 text-white">
           {/* Sidebar content here */}
-          <Image src="/images/logo.png" width={120} height={120} alt="logo" />
+          <Link href="/">
+            <Image src="/images/logo.png" width={120} height={120} alt="logo" />
+          </Link>
           <div className="divider"></div>
           <div className="flex flex-col gap-3">
             <li>
