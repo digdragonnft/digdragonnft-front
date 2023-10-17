@@ -37,13 +37,22 @@ const Drawer = () => {
               <MenuItem title="Whitepaper" path="#" />
             </li>
             <li>
-              <MenuItem title="NFT Market" path="#" />
+              <MenuItem
+                title="Buy Your DIG"
+                path="https://app.freecity.finance/collection/digdragon"
+              />
             </li>
             <li>
-              <MenuItem title="Bitkub Chain" path="#" />
+              <MenuItem
+                title="DIG On Bitkub Chain"
+                path="https://www.bitkubchain.com/th/ecosystem/c0f9e023-bb5b-4d39-8c0a-7b59bdad60ce"
+              />
             </li>
             <li>
-              <MenuItem title="Freecity.finance" path="#" />
+              <MenuItem
+                title="Freecity.finance"
+                path="https://app.freecity.finance/home"
+              />
             </li>
             <li className="flex items-center justify-center">
               <div>

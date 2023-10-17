@@ -36,7 +36,7 @@ const WalletPage = () => {
           <div className="py-5 text-center text-3xl font-bold text-white">
             Your NFT
           </div>
-          <div className="flex h-full items-start justify-center px-3 md:hidden md:h-screen">
+          {/* <div className="flex h-full items-start justify-center px-3 md:hidden md:h-screen">
             {!nft.isLoading && isConnected ? (
               <div className="carousel carousel-center rounded-box max-w-md space-x-4 p-4">
                 <div className="carousel-item space-x-3">
@@ -48,11 +48,13 @@ const WalletPage = () => {
                 <Loading />
               </div>
             )}
-          </div>
+          </div> */}
 
-          <div className="hidden grid-cols-2 place-content-center place-items-center gap-3 px-10 md:grid">
+          <div className=" grid grid-cols-1 place-content-center place-items-center gap-3 px-3 py-6 md:grid-cols-2">
             {!nft.isLoading && isConnected ? (
-              <>{nft.data?.map((nft) => <MyNFT key={nft.name} data={nft} />)}</>
+              <div>
+                {nft.data?.map((nft) => <MyNFT key={nft.name} data={nft} />)}
+              </div>
             ) : (
               <div className="mt-10 min-h-screen font-bold text-white">
                 Empty
