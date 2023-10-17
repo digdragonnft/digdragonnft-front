@@ -2,6 +2,8 @@ import React from "react";
 import { api } from "~/utils/api";
 import Loading from "../Inidcators/Loading";
 import { MineData } from "~/interfaces/blockchain/Mine/MineData";
+import Link from "next/link";
+import { GiGoldMine } from "react-icons/gi";
 
 const MineStat = () => {
   const { data, isLoading } = api.mine.getAll.useQuery();
@@ -29,6 +31,16 @@ const MineStat = () => {
                 {new Date(mine.startTime as string).toDateString()} -
                 {new Date(mine.endTime as string).toDateString()}
               </div>
+              {mine.isActive ? (
+                <Link
+                  href={mine.mineUrl as string}
+                  target="_blank"
+                  className="btn btn-ghost"
+                >
+                  <GiGoldMine size={24} />
+                  to Mine
+                </Link>
+              ) : null}
             </div>
           ))}
         </div>
