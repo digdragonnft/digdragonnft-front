@@ -133,6 +133,7 @@ const MyNFT = ({ data }: MyNFTProps) => {
             href={`https://www.bkcscan.com/token/0x7c80f994c724b0c8f834f4303c4f142004798219/instance/${
               data.name.split(" ")[1]
             }/token-transfers`}
+            target="_blank"
             className="btn btn-ghost mx-1 my-1"
           >
             <FaExternalLinkAlt /> on bkcscan
