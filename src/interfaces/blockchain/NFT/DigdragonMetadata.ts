@@ -1,4 +1,5 @@
 export interface DigDragonMeta {
+  tokenId?: string;
   name: string;
   description: string;
   image: string;

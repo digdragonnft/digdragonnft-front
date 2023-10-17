@@ -13,6 +13,7 @@ import { type MyNFTRarity } from "~/interfaces/Wallet/MyNFTRarity";
 import Link from "next/link";
 
 const MyNFT = ({ data }: MyNFTProps) => {
+  console.log(data);
   const [rarity, setRarity] = useState<MyNFTRarity>({
     text: "N",
     color: "bg-base-300",
@@ -130,9 +131,7 @@ const MyNFT = ({ data }: MyNFTProps) => {
             }
           />
           <Link
-            href={`https://www.bkcscan.com/token/0x7c80f994c724b0c8f834f4303c4f142004798219/instance/${
-              data.name.split(" ")[1]
-            }/token-transfers`}
+            href={`https://www.bkcscan.com/token/0x7c80f994c724b0c8f834f4303c4f142004798219/instance/${data.tokenId?.toString()}/token-transfers`}
             target="_blank"
             className="btn btn-ghost mx-1 my-1"
           >
