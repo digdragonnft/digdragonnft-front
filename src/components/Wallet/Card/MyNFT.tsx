@@ -10,6 +10,7 @@ import { FaExternalLinkAlt } from "react-icons/fa";
 import MyNFTStatus from "./MyNFTStatus";
 import MyNFTStat from "./MyNFTStat";
 import { type MyNFTRarity } from "~/interfaces/Wallet/MyNFTRarity";
+import Link from "next/link";
 
 const MyNFT = ({ data }: MyNFTProps) => {
   const [rarity, setRarity] = useState<MyNFTRarity>({
@@ -128,9 +129,14 @@ const MyNFT = ({ data }: MyNFTProps) => {
               Math.floor(+data?.attributes[4].value).toString()
             }
           />
-          <button className="btn btn-ghost mx-1 my-1">
+          <Link
+            href={`https://www.bkcscan.com/token/0x7c80f994c724b0c8f834f4303c4f142004798219/instance/${
+              data.name.split(" ")[1]
+            }/token-transfers`}
+            className="btn btn-ghost mx-1 my-1"
+          >
             <FaExternalLinkAlt /> on bkcscan
-          </button>
+          </Link>
         </div>
       </div>
     </>
