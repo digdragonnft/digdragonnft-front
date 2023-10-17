@@ -31,7 +31,7 @@ const BaseNavbar = () => {
 
 const RightMenu = () => {
   return (
-    <div className="dropdown-end dropdown">
+    <div className="dropdown dropdown-end">
       <label tabIndex={0} className="btn btn-ghost m-1 text-white">
         Click
       </label>

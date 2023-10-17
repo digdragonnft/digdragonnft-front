@@ -5,6 +5,7 @@ import MenuItem from "./MenuItem";
 import ConnectWalletButton from "../Blockchain/Buttons/ConnectWallet";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Link from "next/link";
+import MineStat from "../Card/MineStat";
 
 const Drawer = () => {
   return (
@@ -31,7 +32,7 @@ const Drawer = () => {
           <Link href="/">
             <Image src="/images/logo.png" width={120} height={120} alt="logo" />
           </Link>
-          <div className="divider"></div>
+          <div className="divider">Menu</div>
           <div className="flex flex-col gap-3">
             <li>
               <MenuItem title="Profile" path="/wallet" />
@@ -69,6 +70,8 @@ const Drawer = () => {
               </div>
             </li>
           </div>
+          <div className="divider">Mine Status</div>
+          <MineStat />
         </ul>
       </div>
     </div>
