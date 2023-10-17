@@ -9,12 +9,20 @@ const client = createPublicClient({
   transport: http(),
 });
 
-export const extractTokensMetadata = async (tokens: string[]) => {
+export const extractTokensMetadata = async (
+  tokens: { uri: string; tokenId: bigint }[],
+) => {
   const responses = await Promise.all(
-    tokens.map(async (token) => await axios.get(token)),
+    tokens.map(async (token) => {
+      const res = await axios.get(token.uri);
+      return {
+        tokenId: token.tokenId,
+        ...res.data,
+      };
+    }),
   );
 
-  return responses.map((r) => r.data as DigDragonMeta);
+  return responses;
 };
 
 export const getTokensURIOf = async (owner: Address) => {
@@ -22,16 +30,21 @@ export const getTokensURIOf = async (owner: Address) => {
     const tokens = await getTokensOfOwner(owner);
 
     const uris = (await Promise.all(
-      tokens.map(
-        async (token) =>
-          await client.readContract({
-            abi,
-            address,
-            functionName: "tokenURI",
-            args: [token],
-          }),
-      ),
-    )) as string[];
+      tokens.map(async (token) => {
+        const uri = await client.readContract({
+          abi,
+          address,
+          functionName: "tokenURI",
+          args: [token],
+        });
+        return {
+          tokenId: token,
+          uri,
+        };
+      }),
+    )) as { tokenId: bigint; uri: string }[];
+
+    console.log(uris);
 
     if (uris.length > 0) {
       const meta = await extractTokensMetadata(uris);
