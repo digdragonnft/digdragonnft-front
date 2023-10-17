@@ -1,3 +1,4 @@
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 import React, { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import ConnectWalletButton from "~/components/Shared/Blockchain/Buttons/ConnectWallet";
@@ -28,7 +29,7 @@ const WalletPage = () => {
       {!isConnected ? (
         <>
           <div className="mt-[10vh] flex h-screen items-start justify-center text-secondary">
-            <ConnectWalletButton />
+            <ConnectButton />
           </div>
         </>
       ) : (
@@ -52,9 +53,7 @@ const WalletPage = () => {
 
           <div className=" grid grid-cols-1 place-content-center place-items-center gap-3 px-3 py-6 md:grid-cols-2">
             {!nft.isLoading && isConnected ? (
-              <div>
-                {nft.data?.map((nft) => <MyNFT key={nft.name} data={nft} />)}
-              </div>
+              <>{nft.data?.map((nft) => <MyNFT key={nft.name} data={nft} />)}</>
             ) : (
               <div className="mt-10 min-h-screen font-bold text-white">
                 Empty
