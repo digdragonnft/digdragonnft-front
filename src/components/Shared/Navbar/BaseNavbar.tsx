@@ -2,6 +2,7 @@ import React from "react";
 import Drawer from "./Drawer";
 import LogoImage from "./LogoImage";
 import { useAccount } from "wagmi";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 const BaseNavbar = () => {
   const { isConnected } = useAccount();
@@ -14,7 +15,15 @@ const BaseNavbar = () => {
         <LogoImage />
       </div>
       <div className="navbar-end">
-        {/* {isConnected ? <RightMenu /> : null} */}
+        {isConnected ? (
+          <ConnectButton
+            chainStatus={"none"}
+            accountStatus={{
+              largeScreen: "avatar",
+              smallScreen: "avatar",
+            }}
+          />
+        ) : null}
       </div>
     </div>
   );
@@ -22,7 +31,7 @@ const BaseNavbar = () => {
 
 const RightMenu = () => {
   return (
-    <div className="dropdown dropdown-end">
+    <div className="dropdown-end dropdown">
       <label tabIndex={0} className="btn btn-ghost m-1 text-white">
         Click
       </label>

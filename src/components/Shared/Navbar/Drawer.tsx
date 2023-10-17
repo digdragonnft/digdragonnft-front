@@ -4,6 +4,7 @@ import Image from "next/image";
 import MenuItem from "./MenuItem";
 import ConnectWalletButton from "../Blockchain/Buttons/ConnectWallet";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import Link from "next/link";
 
 const Drawer = () => {
   return (
@@ -27,7 +28,9 @@ const Drawer = () => {
         ></label>
         <ul className="menu min-h-full w-80 bg-primary p-4 text-white">
           {/* Sidebar content here */}
-          <Image src="/images/logo.png" width={120} height={120} alt="logo" />
+          <Link href="/">
+            <Image src="/images/logo.png" width={120} height={120} alt="logo" />
+          </Link>
           <div className="divider"></div>
           <div className="flex flex-col gap-3">
             <li>
@@ -37,13 +40,22 @@ const Drawer = () => {
               <MenuItem title="Whitepaper" path="#" />
             </li>
             <li>
-              <MenuItem title="NFT Market" path="#" />
+              <MenuItem
+                title="Buy Your DIG"
+                path="https://app.freecity.finance/collection/digdragon"
+              />
             </li>
             <li>
-              <MenuItem title="Bitkub Chain" path="#" />
+              <MenuItem
+                title="DIG On Bitkub Chain"
+                path="https://www.bitkubchain.com/th/ecosystem/c0f9e023-bb5b-4d39-8c0a-7b59bdad60ce"
+              />
             </li>
             <li>
-              <MenuItem title="Freecity.finance" path="#" />
+              <MenuItem
+                title="Freecity.finance"
+                path="https://app.freecity.finance/home"
+              />
             </li>
             <li className="flex items-center justify-center">
               <div>
