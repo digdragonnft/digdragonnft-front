@@ -20,19 +20,31 @@ const MyNFT = ({ data }: MyNFTProps) => {
   const getRarity = () => {
     switch (data?.attributes[0].value) {
       case "normal": {
-        setRarity({ text: "N", color: `bg-base-300` });
+        setRarity({
+          text: "N",
+          color: "bg-base-300",
+        });
         break;
       }
       case "rare": {
-        setRarity({ text: "R", color: "bg-base-300" });
+        setRarity({
+          text: "R",
+          color: "bg-gradient-to-br from-[#2E3192] to-[#1BFFFF] text-white",
+        });
         break;
       }
       case "super rare": {
-        setRarity({ text: "SR", color: "bg-base-300" });
+        setRarity({
+          text: "SR",
+          color: "bg-gradient-to-br from-[#009245] to-[#FCEE21] text-white",
+        });
         break;
       }
-      case "super special rare": {
-        setRarity({ text: "SSR", color: "bg-base-300" });
+      case "Super special rare": {
+        setRarity({
+          text: "SSR",
+          color: "bg-gradient-to-br from-[#FF512F] to-[#DD2476] text-white",
+        });
         break;
       }
       default: {
@@ -91,7 +103,7 @@ const MyNFT = ({ data }: MyNFTProps) => {
             }
             value={
               //@ts-ignore
-              data?.attributes[2].value
+              Math.floor(+data?.attributes[2].value).toString()
             }
           />
           <MyNFTStatus
@@ -102,7 +114,7 @@ const MyNFT = ({ data }: MyNFTProps) => {
             }
             value={
               //@ts-ignore
-              data?.attributes[3].value
+              Math.floor(+data?.attributes[3].value).toString()
             }
           />
           <MyNFTStatus
@@ -113,7 +125,7 @@ const MyNFT = ({ data }: MyNFTProps) => {
             }
             value={
               //@ts-ignore
-              data?.attributes[4].value
+              Math.floor(+data?.attributes[4].value).toString()
             }
           />
           <button className="btn btn-ghost mx-1 my-1">

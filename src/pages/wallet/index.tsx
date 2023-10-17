@@ -36,7 +36,7 @@ const WalletPage = () => {
           <div className="py-5 text-center text-3xl font-bold text-white">
             Your NFT
           </div>
-          <div className="flex h-screen items-start justify-center md:hidden">
+          <div className="flex h-full items-start justify-center px-3 md:hidden md:h-screen">
             {!nft.isLoading && isConnected ? (
               <div className="carousel carousel-center rounded-box max-w-md space-x-4 p-4">
                 <div className="carousel-item space-x-3">
