@@ -66,6 +66,7 @@ const Drawer = () => {
                     smallScreen: "address",
                     largeScreen: "address",
                   }}
+                  showBalance={{ smallScreen: false, largeScreen: false }}
                 />
               </div>
             </li>

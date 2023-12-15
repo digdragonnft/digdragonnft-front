@@ -11,9 +11,29 @@ import MyNFTStatus from "./MyNFTStatus";
 import MyNFTStat from "./MyNFTStat";
 import { type MyNFTRarity } from "~/interfaces/Wallet/MyNFTRarity";
 import Link from "next/link";
+import { useStake, useStakedEvent } from "~/blockchain/Mine/stake";
+import { useAccount } from "wagmi";
+import Loading from "~/components/Shared/Inidcators/Loading";
 
-const MyNFT = ({ data }: MyNFTProps) => {
-  console.log(data);
+const MyNFT = ({ data, isApprovedForAll }: MyNFTProps) => {
+  const { address } = useAccount();
+  const [loading, setLoading] = useState<boolean>(false);
+  const { stake, staking } = useStake();
+  const { stakedEvent, resetStaked } = useStakedEvent(address as string);
+
+  useEffect(() => {
+    if (stakedEvent) {
+      setLoading(false);
+      resetStaked();
+    }
+  }, [stakedEvent]);
+
+  const handleToMine = () => {
+    setLoading(true);
+    const tokenId = +(data?.tokenId)!.toString();
+    stake([tokenId]);
+  };
+
   const [rarity, setRarity] = useState<MyNFTRarity>({
     text: "N",
     color: "bg-base-300",
@@ -83,7 +103,7 @@ const MyNFT = ({ data }: MyNFTProps) => {
           </div>
           <div className="text-xs font-bold text-warning">HASH</div>
         </div>
-        <figure className=" overflow-hidden py-2">
+        <figure className="overflow-hidden py-2">
           <img
             className="w-96 rounded-3xl p-2"
             src={data?.image}
@@ -130,6 +150,26 @@ const MyNFT = ({ data }: MyNFTProps) => {
               Math.floor(+data?.attributes[4].value).toString()
             }
           />
+          <button
+            className="btn btn-neutral mx-1"
+            disabled={!isApprovedForAll || staking || loading}
+            onClick={() => handleToMine()}
+          >
+            {isApprovedForAll ? (
+              <>
+                {loading || staking ? (
+                  <div className="flex items-center gap-2">
+                    <Loading />
+                    <span>Entering..</span>
+                  </div>
+                ) : (
+                  <span>To Mine</span>
+                )}
+              </>
+            ) : (
+              "not approve to mine"
+            )}
+          </button>
           <Link
             href={`https://www.bkcscan.com/token/0x7c80f994c724b0c8f834f4303c4f142004798219/instance/${data.tokenId?.toString()}/token-transfers`}
             target="_blank"

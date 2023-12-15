@@ -1,7 +1,7 @@
 import { groq } from "next-sanity";
 import { client } from "../../../../sanity/lib/client";
 import { viem } from "./viem.service";
-import { abi } from "~/blockchain/Mine/abi";
+import { abi, address } from "~/blockchain/Mine/abi";
 import { MineType } from "sanity/schema/Mine";
 import { Address, formatUnits } from "viem";
 
@@ -29,20 +29,38 @@ export const getActiveMineData = async () => {
 
 export const getUserInfo = async (wallet: Address) => {
   try {
-    const mine = (await getActiveMineData()) as (typeof MineType)[];
     const userInfo = (await viem.readContract({
       abi,
       //@ts-ignore
-      address: mine[0].mineAddress,
+      address: address,
+      // address: mine[0].mineAddress,
       functionName: "getUserInfo",
       args: [wallet],
     })) as { stakedTokenIds: bigint[]; stakedHashPowerAmount: bigint };
     //@ts-ignore
-    const pendingReward = await getPendingReward(wallet, mine[0].mineAddress);
-    console.log(userInfo);
-    return { userInfo, pendingReward: formatUnits(pendingReward[1][0], 18) };
+    // const pendingReward = await getPendingReward(wallet, mine[0].mineAddress);
+    const pendingReward = await getPendingReward(wallet, address);
+
+    // console.log({
+    //   userInfo: {
+    //     //@ts-ignore
+    //     stakedTokenIds: userInfo[0],
+    //     //@ts-ignore
+    //     stakedHashPowerAmount: userInfo[1],
+    //   },
+    //   pendingReward: formatUnits(pendingReward[1], 18),
+    // });
+    return {
+      userInfo: {
+        //@ts-ignore
+        stakedTokenIds: userInfo[0],
+        //@ts-ignore
+        stakedHashPowerAmount: userInfo[1],
+      },
+      pendingReward: formatUnits(pendingReward[1], 18),
+    };
   } catch (error) {
-    // console.log(error);
+    console.log(error);
   }
 };
 
@@ -53,7 +71,7 @@ export const getPendingReward = async (wallet: Address, mine: Address) => {
       abi,
       functionName: "pendingReward",
       args: [wallet],
-    })) as [[string], [bigint]];
+    })) as [string, bigint];
     return pendingReward;
   } catch (error) {
     // console.log(error);

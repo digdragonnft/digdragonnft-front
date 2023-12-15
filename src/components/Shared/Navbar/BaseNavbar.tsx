@@ -22,6 +22,7 @@ const BaseNavbar = () => {
               largeScreen: "avatar",
               smallScreen: "avatar",
             }}
+            showBalance={{ smallScreen: false, largeScreen: false }}
           />
         ) : null}
       </div>

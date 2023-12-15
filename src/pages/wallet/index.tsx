@@ -15,6 +15,10 @@ const WalletPage = () => {
     wallet: address as string,
   });
 
+  const { data: isApprovedForAll } = api.nft.isApprovedForAll.useQuery({
+    wallet: address as string,
+  });
+
   useEffect(() => {
     if (isConnected && nft.isSuccess) {
       void nft.refetch();
@@ -38,27 +42,19 @@ const WalletPage = () => {
           <div className="py-5 text-center text-3xl font-bold text-white">
             Your NFTs
           </div>
-          {/* <div className="flex h-full items-start justify-center px-3 md:hidden md:h-screen">
-            {!nft.isLoading && isConnected ? (
-              <div className="carousel carousel-center rounded-box max-w-md space-x-4 p-4">
-                <div className="carousel-item space-x-3">
-                  {nft.data?.map((nft) => <MyNFT key={nft.name} data={nft} />)}
-                </div>
-              </div>
-            ) : (
-              <div className="mt-10 min-h-screen font-bold text-white">
-                <Loading />
-              </div>
-            )}
-          </div> */}
-
           <div className="grid grid-cols-1 place-content-center place-items-center gap-3 px-3 py-6 md:grid-cols-2">
             {!nft.isLoading && isConnected ? (
               <>
                 {nft?.data?.length! > 0 ? (
                   <>
                     {nft.data?.map((nft) => (
-                      <MyNFT key={nft.name} data={nft} />
+                      <MyNFT
+                        key={nft.name}
+                        data={nft}
+                        isApprovedForAll={
+                          (isApprovedForAll as boolean) ?? false
+                        }
+                      />
                     ))}
                   </>
                 ) : (
@@ -79,5 +75,8 @@ const WalletPage = () => {
     </BaseLayout>
   );
 };
+// function onlyUnique(value: any, index: any, array: any[]) {
+//   return array.indexOf(value) === index;
+// }
 
 export default WalletPage;

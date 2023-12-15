@@ -1,1060 +1,335 @@
 export const abi = [
   {
-    inputs: [
-      {
-        internalType: "address",
-        name: "profileManager",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "hashPowerStorage",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "nft",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "beneficiary",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "startFee",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "endBlock",
-        type: "uint256",
-      },
-      {
-        internalType: "bool",
-        name: "acceptedTokenIdFeature",
-        type: "bool",
-      },
-    ],
-    stateMutability: "nonpayable",
     type: "constructor",
-  },
-  {
-    anonymous: false,
     inputs: [
+      { type: "address", name: "_digdragon", internalType: "contract IERC721" },
+      { type: "address", name: "_reward", internalType: "contract IERC20" },
       {
-        indexed: false,
-        internalType: "address",
-        name: "token",
         type: "address",
+        name: "_hashPowerStorage",
+        internalType: "contract IHashPowerStorage",
       },
+      { type: "address", name: "_feeCollector", internalType: "address" },
+      { type: "uint256", name: "_startBlock", internalType: "uint256" },
+      { type: "uint256", name: "_rewardPerBlock", internalType: "uint256" },
+      { type: "uint256", name: "_rewardEndBlock", internalType: "uint256" },
     ],
-    name: "AddNewTokenReward",
-    type: "event",
   },
   {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "address",
-        name: "token",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "rewardPerBlock",
-        type: "uint256",
-      },
-    ],
-    name: "ChangeTokenReward",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "address",
-        name: "token",
-        type: "address",
-      },
-    ],
-    name: "DisableTokenReward",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "address",
-        name: "user",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "tokenCount",
-        type: "uint256",
-      },
-    ],
-    name: "EmergencyWithdraw",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "oldFee",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "newFee",
-        type: "uint256",
-      },
-    ],
-    name: "FeeChanged",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "address",
-        name: "user",
-        type: "address",
-      },
-    ],
-    name: "RewardWithdrawn",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "bytes32",
-        name: "role",
-        type: "bytes32",
-      },
-      {
-        indexed: true,
-        internalType: "bytes32",
-        name: "previousAdminRole",
-        type: "bytes32",
-      },
-      {
-        indexed: true,
-        internalType: "bytes32",
-        name: "newAdminRole",
-        type: "bytes32",
-      },
-    ],
-    name: "RoleAdminChanged",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "bytes32",
-        name: "role",
-        type: "bytes32",
-      },
-      {
-        indexed: true,
-        internalType: "address",
-        name: "account",
-        type: "address",
-      },
-      {
-        indexed: true,
-        internalType: "address",
-        name: "sender",
-        type: "address",
-      },
-    ],
-    name: "RoleGranted",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "bytes32",
-        name: "role",
-        type: "bytes32",
-      },
-      {
-        indexed: true,
-        internalType: "address",
-        name: "account",
-        type: "address",
-      },
-      {
-        indexed: true,
-        internalType: "address",
-        name: "sender",
-        type: "address",
-      },
-    ],
-    name: "RoleRevoked",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "uint256[]",
-        name: "ids",
-        type: "uint256[]",
-      },
-      {
-        indexed: false,
-        internalType: "bool",
-        name: "accepted",
-        type: "bool",
-      },
-    ],
-    name: "SetAcceptedTokenIds",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "address",
-        name: "user",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "hashPowerAmount",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "uint256[]",
-        name: "tokensId",
-        type: "uint256[]",
-      },
-    ],
-    name: "StakeTokens",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "address",
-        name: "user",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "hashPowerAmount",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "uint256[]",
-        name: "tokensId",
-        type: "uint256[]",
-      },
-    ],
-    name: "UnstakeToken",
-    type: "event",
-  },
-  {
-    inputs: [],
-    name: "DEFAULT_ADMIN_ROLE",
-    outputs: [
-      {
-        internalType: "bytes32",
-        name: "",
-        type: "bytes32",
-      },
-    ],
-    stateMutability: "view",
     type: "function",
-  },
-  {
-    inputs: [],
-    name: "MANAGER_ROLE",
-    outputs: [
-      {
-        internalType: "bytes32",
-        name: "",
-        type: "bytes32",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    name: "acceptedTokenIds",
-    outputs: [
-      {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_newToken",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "_startBlock",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "_rewardPerBlock",
-        type: "uint256",
-      },
-    ],
-    name: "addNewTokenReward",
-    outputs: [],
     stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "asset",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "bonusEndBlock",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_token",
-        type: "address",
-      },
-    ],
-    name: "disableTokenReward",
     outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_token",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "_amount",
-        type: "uint256",
-      },
-    ],
     name: "emergencyRewardTokenWithdraw",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    inputs: [
+      { type: "address", name: "_token", internalType: "address" },
+      { type: "uint256", name: "_amount", internalType: "uint256" },
+    ],
   },
   {
-    inputs: [],
+    type: "function",
+    stateMutability: "nonpayable",
+    outputs: [],
     name: "emergencyUnstake",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    inputs: [{ type: "address", name: "_owner", internalType: "address" }],
   },
   {
-    inputs: [],
-    name: "enableAcceptedTokenIdFeature",
+    type: "function",
+    stateMutability: "view",
     outputs: [
       {
-        internalType: "bool",
-        name: "",
-        type: "bool",
+        type: "tuple",
+        name: "info",
+        internalType: "struct DigDragonMine.MineInfo",
+        components: [
+          { type: "address" },
+          { type: "address" },
+          { type: "address" },
+          { type: "address" },
+          { type: "uint256" },
+          { type: "uint256" },
+          { type: "uint256" },
+          { type: "uint256" },
+          { type: "uint256" },
+          { type: "uint256" },
+          { type: "uint256" },
+        ],
       },
     ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_token",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "_startBlock",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "_rewardPerBlock",
-        type: "uint256",
-      },
-    ],
-    name: "enableTokenReward",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
+    name: "getMineInfo",
     inputs: [],
-    name: "fee",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
   },
   {
-    inputs: [],
-    name: "getListRewardTokens",
-    outputs: [
-      {
-        internalType: "address[]",
-        name: "",
-        type: "address[]",
-      },
-    ],
-    stateMutability: "view",
     type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "_from",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "_to",
-        type: "uint256",
-      },
-    ],
+    stateMutability: "view",
+    outputs: [{ type: "uint256", name: "", internalType: "uint256" }],
     name: "getMultiplier",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
+    inputs: [
+      { type: "uint256", name: "_from", internalType: "uint256" },
+      { type: "uint256", name: "_to", internalType: "uint256" },
     ],
-    stateMutability: "view",
-    type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "address",
-        name: "user",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "token",
-        type: "address",
-      },
-    ],
+    type: "function",
+    stateMutability: "view",
+    outputs: [{ type: "uint256", name: "amount", internalType: "uint256" }],
     name: "getRewardDebt",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
+    inputs: [{ type: "address", name: "_miner", internalType: "address" }],
   },
   {
-    inputs: [
-      {
-        internalType: "bytes32",
-        name: "role",
-        type: "bytes32",
-      },
-    ],
-    name: "getRoleAdmin",
+    type: "function",
+    stateMutability: "view",
     outputs: [
       {
-        internalType: "bytes32",
-        name: "",
-        type: "bytes32",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "user",
-        type: "address",
+        type: "tuple",
+        name: "userInfo",
+        internalType: "struct DigDragonMine.Miner",
+        components: [{ type: "uint256[]" }, { type: "uint256" }],
       },
     ],
     name: "getUserInfo",
-    outputs: [
-      {
-        components: [
-          {
-            internalType: "uint256[]",
-            name: "stakedTokenIds",
-            type: "uint256[]",
-          },
-          {
-            internalType: "uint256",
-            name: "stakedHashPowerAmount",
-            type: "uint256",
-          },
-        ],
-        internalType: "struct FreeCityMiningPool.UserInfo",
-        name: "userInfo",
-        type: "tuple",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
+    inputs: [{ type: "address", name: "_miner", internalType: "address" }],
   },
   {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_user",
-        type: "address",
-      },
-    ],
-    name: "getUserStakedHashPowerAmount",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
     type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_user",
-        type: "address",
-      },
-    ],
+    stateMutability: "view",
+    outputs: [{ type: "uint256[]", name: "", internalType: "uint256[]" }],
     name: "getUserStakedTokens",
-    outputs: [
-      {
-        internalType: "uint256[]",
-        name: "",
-        type: "uint256[]",
-      },
-    ],
+    inputs: [{ type: "address", name: "_miner", internalType: "address" }],
+  },
+  {
+    type: "function",
     stateMutability: "view",
-    type: "function",
+    outputs: [{ type: "uint256", name: "", internalType: "uint256" }],
+    name: "getuserStakedHashPowerAmount",
+    inputs: [{ type: "address", name: "_miner", internalType: "address" }],
   },
   {
-    inputs: [
-      {
-        internalType: "bytes32",
-        name: "role",
-        type: "bytes32",
-      },
-      {
-        internalType: "address",
-        name: "account",
-        type: "address",
-      },
-    ],
-    name: "grantRole",
-    outputs: [],
-    stateMutability: "nonpayable",
     type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "bytes32",
-        name: "role",
-        type: "bytes32",
-      },
-      {
-        internalType: "address",
-        name: "account",
-        type: "address",
-      },
-    ],
-    name: "hasRole",
-    outputs: [
-      {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
-    ],
     stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "id",
-        type: "uint256",
-      },
-    ],
-    name: "isAcceptedTokenId",
-    outputs: [
-      {
-        internalType: "bool",
-        name: "accepted",
-        type: "bool",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
+    outputs: [{ type: "uint256", name: "", internalType: "uint256" }],
     name: "lastRewardBlock",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
+    inputs: [],
   },
   {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    name: "listRewardTokens",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
     type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-      {
-        internalType: "bytes",
-        name: "",
-        type: "bytes",
-      },
-    ],
-    name: "onERC721Received",
-    outputs: [
-      {
-        internalType: "bytes4",
-        name: "",
-        type: "bytes4",
-      },
-    ],
     stateMutability: "nonpayable",
-    type: "function",
+    outputs: [{ type: "bytes4", name: "", internalType: "bytes4" }],
+    name: "onERC721Received",
+    inputs: [
+      { type: "address", name: "", internalType: "address" },
+      { type: "address", name: "", internalType: "address" },
+      { type: "uint256", name: "", internalType: "uint256" },
+      { type: "bytes", name: "", internalType: "bytes" },
+    ],
   },
   {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_user",
-        type: "address",
-      },
+    type: "function",
+    stateMutability: "view",
+    outputs: [{ type: "address", name: "", internalType: "address" }],
+    name: "owner",
+    inputs: [],
+  },
+  {
+    type: "function",
+    stateMutability: "view",
+    outputs: [
+      { type: "address", name: "", internalType: "contract IERC20" },
+      { type: "uint256", name: "", internalType: "uint256" },
     ],
     name: "pendingReward",
-    outputs: [
-      {
-        internalType: "address[]",
-        name: "",
-        type: "address[]",
-      },
-      {
-        internalType: "uint256[]",
-        name: "",
-        type: "uint256[]",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
+    inputs: [{ type: "address", name: "_miner", internalType: "address" }],
   },
   {
-    inputs: [
-      {
-        internalType: "bytes32",
-        name: "role",
-        type: "bytes32",
-      },
-      {
-        internalType: "address",
-        name: "account",
-        type: "address",
-      },
-    ],
-    name: "renounceRole",
-    outputs: [],
+    type: "function",
     stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "bytes32",
-        name: "role",
-        type: "bytes32",
-      },
-      {
-        internalType: "address",
-        name: "account",
-        type: "address",
-      },
-    ],
-    name: "revokeRole",
     outputs: [],
+    name: "renounceOwnership",
+    inputs: [],
+  },
+  {
+    type: "function",
     stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    name: "rewardDebt",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    name: "rewardTokens",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "rewardPerBlock",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "startBlock",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "accTokenPerShare",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "rewardsForWithdrawal",
-        type: "uint256",
-      },
-      {
-        internalType: "bool",
-        name: "enabled",
-        type: "bool",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256[]",
-        name: "ids",
-        type: "uint256[]",
-      },
-      {
-        internalType: "bool",
-        name: "accepted",
-        type: "bool",
-      },
-    ],
-    name: "setAcceptedTokenIds",
     outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    name: "setFeeCollector",
+    inputs: [{ type: "address", name: "_collector", internalType: "address" }],
   },
   {
-    inputs: [
-      {
-        internalType: "address",
-        name: "beneficiary",
-        type: "address",
-      },
-    ],
-    name: "setBeneficiary",
+    type: "function",
+    stateMutability: "nonpayable",
     outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "bool",
-        name: "enable",
-        type: "bool",
-      },
-    ],
-    name: "setEnableAcceptedTokenIdFeature",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "_bonusEndBlock",
-        type: "uint256",
-      },
-    ],
-    name: "setEndBlock",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "newFee",
-        type: "uint256",
-      },
-    ],
-    name: "setFee",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "hashPowerStorage",
-        type: "address",
-      },
-    ],
     name: "setHashPowerStorage",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
     inputs: [
       {
-        internalType: "address",
-        name: "profileManager",
         type: "address",
+        name: "_storage",
+        internalType: "contract IHashPowerStorage",
       },
     ],
-    name: "setProfileManager",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
   },
   {
+    type: "function",
+    stateMutability: "nonpayable",
+    outputs: [],
+    name: "setMinerAddress",
+    inputs: [{ type: "address", name: "_miner", internalType: "address" }],
+  },
+  {
+    type: "function",
+    stateMutability: "nonpayable",
+    outputs: [],
+    name: "setRewardEndBlock",
     inputs: [
-      {
-        internalType: "uint256[]",
-        name: "tokenIds",
-        type: "uint256[]",
-      },
+      { type: "uint256", name: "_rewardEndBlock", internalType: "uint256" },
     ],
+  },
+  {
+    type: "function",
+    stateMutability: "nonpayable",
+    outputs: [],
+    name: "setRewardPerBlock",
+    inputs: [
+      { type: "uint256", name: "_rewardPerBlock", internalType: "uint256" },
+    ],
+  },
+  {
+    type: "function",
+    stateMutability: "nonpayable",
+    outputs: [],
+    name: "setStartBlock",
+    inputs: [{ type: "uint256", name: "_startBlock", internalType: "uint256" }],
+  },
+  {
+    type: "function",
+    stateMutability: "nonpayable",
+    outputs: [],
     name: "stake",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "stopReward",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
     inputs: [
-      {
-        internalType: "bytes4",
-        name: "interfaceId",
-        type: "bytes4",
-      },
+      { type: "uint256[]", name: "_tokenIds", internalType: "uint256[]" },
     ],
-    name: "supportsInterface",
-    outputs: [
-      {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
   },
   {
+    type: "function",
+    stateMutability: "nonpayable",
+    outputs: [],
+    name: "stopRewardDistribution",
     inputs: [],
-    name: "totalHashPowerSupply",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "uint256[]",
-        name: "tokenIds",
-        type: "uint256[]",
-      },
-    ],
+    type: "function",
+    stateMutability: "view",
+    outputs: [{ type: "uint256", name: "", internalType: "uint256" }],
+    name: "totalHashPower",
+    inputs: [],
+  },
+  {
+    type: "function",
+    stateMutability: "view",
+    outputs: [{ type: "uint256", name: "", internalType: "uint256" }],
+    name: "totalStakedTokens",
+    inputs: [],
+  },
+  {
+    type: "function",
+    stateMutability: "nonpayable",
+    outputs: [],
+    name: "transferOwnership",
+    inputs: [{ type: "address", name: "newOwner", internalType: "address" }],
+  },
+  {
+    type: "function",
+    stateMutability: "nonpayable",
+    outputs: [],
     name: "unstake",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "updatePool",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
     inputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
+      { type: "uint256[]", name: "_tokenIds", internalType: "uint256[]" },
     ],
-    name: "userInfos",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "stakedHashPowerAmount",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
   },
   {
-    inputs: [],
-    name: "withdrawReward",
-    outputs: [],
-    stateMutability: "nonpayable",
     type: "function",
+    stateMutability: "nonpayable",
+    outputs: [],
+    name: "updatePool",
+    inputs: [],
   },
+  {
+    type: "function",
+    stateMutability: "nonpayable",
+    outputs: [],
+    name: "withdrawReward",
+    inputs: [],
+  },
+  {
+    type: "event",
+    name: "EmergencyRewardWithDrawn",
+    inputs: [],
+    anonymous: false,
+  },
+  { type: "event", name: "EmergencyUnstaked", inputs: [], anonymous: false },
+  {
+    type: "event",
+    name: "HashPowerStorageChanged",
+    inputs: [{ type: "address", name: "newStorage", indexed: false }],
+    anonymous: false,
+  },
+  {
+    type: "event",
+    name: "NewRewardEndBlockSet",
+    inputs: [{ type: "uint256", name: "_newRewardBlock", indexed: false }],
+    anonymous: false,
+  },
+  {
+    type: "event",
+    name: "NewRewardPerBlockSet",
+    inputs: [{ type: "uint256", name: "_newRewardPerBlock", indexed: false }],
+    anonymous: false,
+  },
+  {
+    type: "event",
+    name: "NewStartBlockSet",
+    inputs: [{ type: "uint256", name: "_startBlock", indexed: false }],
+    anonymous: false,
+  },
+  {
+    type: "event",
+    name: "OwnershipTransferred",
+    inputs: [
+      { type: "address", name: "previousOwner", indexed: true },
+      { type: "address", name: "newOwner", indexed: true },
+    ],
+    anonymous: false,
+  },
+  {
+    type: "event",
+    name: "RewardDistributionStopped",
+    inputs: [{ type: "uint256", name: "stopBlock", indexed: false }],
+    anonymous: false,
+  },
+  {
+    type: "event",
+    name: "SetNewMiner",
+    inputs: [{ type: "address", name: "miner", indexed: false }],
+    anonymous: false,
+  },
+  {
+    type: "event",
+    name: "Staked",
+    inputs: [
+      { type: "address", name: "owner", indexed: true },
+      { type: "uint256[]", name: "tokenIds", indexed: false },
+    ],
+    anonymous: false,
+  },
+  {
+    type: "event",
+    name: "Unstaked",
+    inputs: [
+      { type: "address", name: "owner", indexed: true },
+      { type: "uint256[]", name: "tokenIds", indexed: false },
+    ],
+    anonymous: false,
+  },
+  { type: "error", name: "ZeroStakedHashPowerAmount", inputs: [] },
+  { type: "error", name: "ZeroStakedTokens", inputs: [] },
 ];
 
-export const mine1 = "0xD995B2cC01183268Ba124830E49963f3656f8e02";
-export const mine2 = "0x4c20E44387282A58Ef1DE05d821904b8Fb1F666d";
+export const address = "0xd05d744E726461f77fFA13eD4D4ecA78B0d7b129";
