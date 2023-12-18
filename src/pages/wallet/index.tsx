@@ -1,4 +1,5 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import Footer from "~/components/Shared/Footer";
@@ -39,8 +40,12 @@ const WalletPage = () => {
           <div className="flex w-full justify-center">
             <MyMine />
           </div>
-          <div className="py-5 text-center text-3xl font-bold text-white">
+          <div className="flex flex-col gap-2 py-5 text-center text-3xl font-bold text-white">
             Your NFTs
+            <Link className="btn btn-accent btn-sm" href="/wallet/mock">
+              Click here to mint mock nft <br />
+              (only whitelist)
+            </Link>
           </div>
           <div className="grid grid-cols-1 place-content-center place-items-center gap-3 px-3 py-6 md:grid-cols-2">
             {!nft.isLoading && isConnected ? (
