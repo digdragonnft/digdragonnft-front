@@ -4,6 +4,7 @@ import { viem } from "./viem.service";
 import { abi, address } from "~/blockchain/Mine/abi";
 import { MineType } from "sanity/schema/Mine";
 import { Address, formatUnits } from "viem";
+import { mine } from "viem/_types/actions/test/mine";
 
 export const getMineData = async () => {
   try {
@@ -76,5 +77,34 @@ export const getPendingReward = async (wallet: Address, mine: Address) => {
   } catch (error) {
     // console.log(error);
     return [];
+  }
+};
+
+export const getMineInfo = async () => {
+  try {
+    const info = (await viem.readContract({
+      address,
+      abi,
+      functionName: "getMineInfo",
+    })) as any[];
+
+    const parsedData = {
+      nft: info[0],
+      reward: info[1],
+      hashpower: info[2],
+      feeCollector: info[3],
+      fee: info[4],
+      startBlock: info[5],
+      endBlock: info[6],
+      accTokenPerShare: info[7],
+      rewardsForWithdrawal: info[8],
+      totolStaked: info[9],
+      totalHashPower: info[10],
+    };
+
+    return parsedData;
+  } catch (error) {
+    console.log(error);
+    return null;
   }
 };

@@ -36,6 +36,11 @@ const MyMine = () => {
       wallet: address as string,
     });
 
+  const { data: balance, isLoading: loadingBalance } =
+    api.reward.balanceOf.useQuery({
+      address: address as string,
+    });
+
   const { data: isApprovedForAll, refetch: getIsApprovalForAll } =
     api.nft.isApprovedForAll.useQuery({ wallet: address as string });
 
@@ -178,9 +183,15 @@ const MyMine = () => {
             </div>
 
             <div className="stat-title text-right">
-              total hash power :{" "}
+              your total hashpower :{" "}
               <span className="font-bold text-warning">
                 {data?.userInfo?.stakedHashPowerAmount.toString()}
+              </span>
+            </div>
+            <div className="stat-title text-right">
+              rewardInWallet :{" "}
+              <span className="font-bold text-warning">
+                {balance?.toString()}
               </span>
             </div>
           </div>

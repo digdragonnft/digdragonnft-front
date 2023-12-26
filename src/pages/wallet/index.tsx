@@ -5,6 +5,7 @@ import { useAccount } from "wagmi";
 import Footer from "~/components/Shared/Footer";
 import BaseLayout from "~/components/Shared/Layouts/BaseLayout";
 import BaseNavbar from "~/components/Shared/Navbar/BaseNavbar";
+import MineInfo from "~/components/Wallet/Card/MineInfo";
 import MyMine from "~/components/Wallet/Card/MyMine";
 import MyNFT from "~/components/Wallet/Card/MyNFT";
 import { api } from "~/utils/api";
@@ -37,7 +38,8 @@ const WalletPage = () => {
         </>
       ) : (
         <>
-          <div className="flex w-full justify-center">
+          <div className="flex w-full justify-center gap-2">
+            <MineInfo />
             <MyMine />
           </div>
           <div className="flex flex-col gap-2 py-5 text-center text-3xl font-bold text-white">
