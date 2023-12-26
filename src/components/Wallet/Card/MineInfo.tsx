@@ -15,7 +15,7 @@ const MineInfo = () => {
     });
 
   return (
-    <div className="stats stats-vertical h-full min-w-[320px] bg-base-100">
+    <div className="stats stats-vertical h-full min-w-[300px] bg-base-100">
       <div className="stat">
         <div className="stat-title text-xl font-bold">Mine Info</div>
       </div>

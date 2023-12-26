@@ -6,6 +6,7 @@ import ConnectWalletButton from "../Blockchain/Buttons/ConnectWallet";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Link from "next/link";
 import MineStat from "../Card/MineStat";
+import MineInfo from "~/components/Wallet/Card/MineInfo";
 
 const Drawer = () => {
   return (
@@ -27,7 +28,7 @@ const Drawer = () => {
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
-        <ul className="menu min-h-full w-80 bg-primary p-4 text-white">
+        <ul className="menu min-h-full w-96 bg-primary p-4 text-white">
           {/* Sidebar content here */}
           <Link href="/">
             <Image src="/images/logo.png" width={120} height={120} alt="logo" />
@@ -72,7 +73,7 @@ const Drawer = () => {
             </li>
           </div>
           <div className="divider">Mine Status</div>
-          <MineStat />
+          <MineInfo />
         </ul>
       </div>
     </div>
