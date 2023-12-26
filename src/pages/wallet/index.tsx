@@ -38,7 +38,7 @@ const WalletPage = () => {
         </>
       ) : (
         <>
-          <div className="flex w-full justify-center gap-2">
+          <div className="flex w-full flex-col justify-center gap-2 p-10 md:flex-row md:p-2">
             <MineInfo />
             <MyMine />
           </div>
