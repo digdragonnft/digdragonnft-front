@@ -15,9 +15,26 @@ const MineInfo = () => {
     });
 
   return (
-    <div className="stats stats-vertical h-full min-w-[300px] bg-base-100">
-      <div className="stat">
-        <div className="stat-title text-xl font-bold">Mine Info</div>
+    <div className="stats stats-vertical min-w-[300px] bg-base-100">
+      <div className="stat flex items-center justify-between">
+        <div className="">
+          <div className="stat-title text-xl font-bold">Mine Info</div>
+          {loadingMineInfo || !mineInfo ? (
+            <Loading />
+          ) : (
+            <>
+              {mineInfo.isActive ? (
+                <div className="text-sm font-bold text-info">Active</div>
+              ) : (
+                <div className="text-sm font-bold text-error">Not Active</div>
+              )}
+            </>
+          )}
+        </div>
+
+        <div className="font-semibold">
+          APR: {loadingMineInfo ? mineInfo?.apr.toString() : 0} %
+        </div>
       </div>
       <table className="table table-zebra table-sm">
         <tbody>
@@ -91,15 +108,13 @@ const MineInfo = () => {
               )}
             </td>
           </tr>
-        </tbody>
-        <tfoot>
           <tr>
             <th>Remaining Reward</th>
             <td className="font-bold text-error">
               {loadingBalance || !balance ? <Loading /> : balance!.toString()}
             </td>
           </tr>
-        </tfoot>
+        </tbody>
       </table>
     </div>
   );

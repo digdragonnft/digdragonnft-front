@@ -88,6 +88,8 @@ export const getMineInfo = async () => {
       functionName: "getMineInfo",
     })) as any[];
 
+    const currentBlock = await viem.getBlockNumber();
+
     const parsedData = {
       nft: info[0],
       reward: info[1],
@@ -96,11 +98,23 @@ export const getMineInfo = async () => {
       fee: info[4],
       startBlock: info[5],
       endBlock: info[6],
-      accTokenPerShare: info[7],
-      rewardsForWithdrawal: info[8],
-      totolStaked: info[9],
-      totalHashPower: info[10],
+      rewardPerBlock: info[7],
+      accTokenPerShare: info[8],
+      rewardsForWithdrawal: info[9],
+      totolStaked: info[10],
+      totalHashPower: info[11],
+      isActive: currentBlock > info[5],
     };
+
+    const tokenPerHashPower = +parsedData.accTokenPerShare.toString() / 1e12;
+    const apr =
+      (200 / tokenPerHashPower) *
+      +parsedData.totalHashPower.toString() *
+      12 *
+      100;
+    const actualApr = Number.isNaN(apr) ? 0 : apr;
+
+    console.log({ ...parsedData, apr: actualApr });
 
     return parsedData;
   } catch (error) {

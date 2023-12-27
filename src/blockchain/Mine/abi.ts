@@ -52,6 +52,7 @@ export const abi = [
           { type: "uint256" },
           { type: "uint256" },
           { type: "uint256" },
+          { type: "uint256" },
         ],
       },
     ],
@@ -332,4 +333,4 @@ export const abi = [
   { type: "error", name: "ZeroStakedTokens", inputs: [] },
 ];
 
-export const address = "0xd05d744E726461f77fFA13eD4D4ecA78B0d7b129";
+export const address = "0x6d2d548CB51D82bc9C850fc1F1315B8a4665666F";
