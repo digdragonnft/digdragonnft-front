@@ -3,8 +3,9 @@ import { client } from "../../../../sanity/lib/client";
 import { viem } from "./viem.service";
 import { abi, address } from "~/blockchain/Mine/abi";
 import { MineType } from "sanity/schema/Mine";
-import { Address, formatUnits } from "viem";
+import { Address, formatEther, formatUnits } from "viem";
 import { mine } from "viem/_types/actions/test/mine";
+import { contractAPRCalculator } from "../utils/contractAPR";
 
 export const getMineData = async () => {
   try {
@@ -106,17 +107,13 @@ export const getMineInfo = async () => {
       isActive: currentBlock > info[5],
     };
 
-    const tokenPerHashPower = +parsedData.accTokenPerShare.toString() / 1e12;
-    const apr =
-      (200 / tokenPerHashPower) *
-      +parsedData.totalHashPower.toString() *
-      12 *
-      100;
-    const actualApr = Number.isNaN(apr) ? 0 : apr;
+    const apr = contractAPRCalculator(
+      parsedData.rewardPerBlock,
+      parsedData.totalHashPower,
+      parsedData.accTokenPerShare,
+    );
 
-    console.log({ ...parsedData, apr: actualApr });
-
-    return parsedData;
+    return { ...parsedData, apr };
   } catch (error) {
     console.log(error);
     return null;

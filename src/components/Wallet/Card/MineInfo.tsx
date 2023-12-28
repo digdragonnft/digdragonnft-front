@@ -33,7 +33,7 @@ const MineInfo = () => {
         </div>
 
         <div className="font-semibold">
-          APR: {loadingMineInfo ? mineInfo?.apr.toString() : 0} %
+          APR: {loadingMineInfo ? <Loading /> : mineInfo?.apr.toString()} %
         </div>
       </div>
       <table className="table table-zebra table-sm">

@@ -1,6 +1,5 @@
 import { abi, address } from "./abi";
 import { useContractWrite } from "wagmi";
-import { toast } from "react-toastify";
 import { useState } from "react";
 import { viem } from "~/server/api/services/viem.service";
 
