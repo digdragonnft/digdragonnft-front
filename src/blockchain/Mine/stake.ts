@@ -19,6 +19,7 @@ export const useStake = () => {
     stake,
     staking: isLoading,
     staked: isSuccess,
+    stakingError: isError,
   };
 };
 

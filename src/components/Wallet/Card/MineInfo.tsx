@@ -1,18 +1,39 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Loading from "~/components/Shared/Inidcators/Loading";
 import { api } from "~/utils/api";
 import dayjs from "dayjs";
 import { address } from "~/blockchain/Mine/abi";
+import { useStakedEvent } from "~/blockchain/Mine/stake";
+import { useUnStakedEvent } from "~/blockchain/Mine/unstake";
 
 const MineInfo = () => {
-  const { data: currentBlockNumber, isLoading: loadingBlockNumber } =
-    api.blockchain.get.useQuery();
-  const { data: mineInfo, isLoading: loadingMineInfo } =
-    api.mine.getMineInfo.useQuery();
-  const { data: balance, isLoading: loadingBalance } =
-    api.reward.balanceOf.useQuery({
-      address,
-    });
+  const {
+    data: currentBlockNumber,
+    isLoading: loadingBlockNumber,
+    refetch: refetchBlockNumber,
+  } = api.blockchain.get.useQuery();
+  const {
+    data: mineInfo,
+    isLoading: loadingMineInfo,
+    refetch: refetchMineInfo,
+  } = api.mine.getMineInfo.useQuery();
+  const {
+    data: balance,
+    isLoading: loadingBalance,
+    refetch: refetchMineBalance,
+  } = api.reward.balanceOf.useQuery({
+    address,
+  });
+
+  const { stakedEvent, resetStaked } = useStakedEvent(address as string);
+  const { unStakedEvent, resetUnStaked } = useUnStakedEvent(address as string);
+
+  //update when staking or unstaking event occured
+  useEffect(() => {
+    refetchBlockNumber();
+    refetchMineBalance();
+    refetchMineInfo();
+  }, [stakedEvent, resetStaked, unStakedEvent, resetUnStaked]);
 
   return (
     <div className="stats stats-vertical min-w-[300px] bg-base-100">
@@ -44,7 +65,7 @@ const MineInfo = () => {
           </div>
         </div>
       </div>
-      <table className="table table-zebra table-sm">
+      <table className="table table-zebra table-xs">
         <tbody>
           <tr>
             <th>CurrentBlockNumber</th>
@@ -120,6 +141,16 @@ const MineInfo = () => {
             <th>Remaining Reward</th>
             <td className="font-bold text-error">
               {loadingBalance || !balance ? <Loading /> : balance!.toString()}
+            </td>
+          </tr>
+          <tr>
+            <th>Total Miner</th>
+            <td className="font-bold text-error">
+              {loadingMineInfo || !mineInfo ? (
+                <Loading />
+              ) : (
+                mineInfo.totolStaked.toString()
+              )}
             </td>
           </tr>
         </tbody>

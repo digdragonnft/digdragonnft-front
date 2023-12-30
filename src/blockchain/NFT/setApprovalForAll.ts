@@ -1,9 +1,8 @@
 import { abi, address } from "./abi";
 import { address as Mine } from "../Mine/abi";
-import { useContractEvent, useContractWrite } from "wagmi";
-import { useEffect, useState } from "react";
+import { useContractWrite } from "wagmi";
+import { useState } from "react";
 import { viem } from "~/server/api/services/viem.service";
-import { toast } from "react-toastify";
 
 export const useSetApprovalForAll = () => {
   const { write, isSuccess, isLoading, isError } = useContractWrite({

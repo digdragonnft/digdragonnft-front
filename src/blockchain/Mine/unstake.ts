@@ -19,6 +19,7 @@ export const useUnstake = () => {
     unstake,
     unstaking: isLoading,
     unstaked: isSuccess,
+    unstakingError: isError,
   };
 };
 

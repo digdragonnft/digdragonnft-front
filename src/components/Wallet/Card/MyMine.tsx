@@ -44,13 +44,14 @@ const MyMine = () => {
   const { data: isApprovedForAll, refetch: getIsApprovalForAll } =
     api.nft.isApprovedForAll.useQuery({ wallet: address as string });
 
-  const { stake, staking } = useStake();
+  const { stake, staking, stakingError } = useStake();
 
-  const { unstake, unstaking } = useUnstake();
+  const { unstake, unstaking, unstakingError } = useUnstake();
 
-  const { revoke, revoking } = useRevoke();
+  const { revoke, revoking, revokeError } = useRevoke();
 
-  const { setApprovalForAll, approving } = useSetApprovalForAll();
+  const { setApprovalForAll, approving, approvedError } =
+    useSetApprovalForAll();
 
   const handleApprovalForAll = () => {
     setApprovedLoading(true);
@@ -104,22 +105,22 @@ const MyMine = () => {
         : tokensOfOwner!.map((n) => +n.tokenId.toString()),
     );
 
-    if (approvedEvent) {
+    if (approvedEvent || approvedError) {
       setApprovedLoading(false);
       resetApproved();
     }
 
-    if (revokedEvent) {
+    if (revokedEvent || revokeError) {
       setApprovedLoading(false);
       resetRevoked();
     }
 
-    if (stakedEvent) {
+    if (stakedEvent || stakingError) {
       setStakeLoading(false);
       resetStaked();
     }
 
-    if (unStakedEvent) {
+    if (unStakedEvent || unstakingError) {
       setUnstakeLoading(false);
       resetUnStaked();
     }
@@ -129,6 +130,10 @@ const MyMine = () => {
     revokedEvent,
     stakedEvent,
     unStakedEvent,
+    stakingError,
+    unstakingError,
+    approvedError,
+    revokeError,
   ]);
 
   return (
