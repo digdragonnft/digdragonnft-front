@@ -14,6 +14,7 @@ import Link from "next/link";
 import { useStake, useStakedEvent } from "~/blockchain/Mine/stake";
 import { useAccount } from "wagmi";
 import Loading from "~/components/Shared/Inidcators/Loading";
+import { motion } from "framer-motion";
 
 const MyNFT = ({ data, isApprovedForAll }: MyNFTProps) => {
   const { address } = useAccount();
@@ -84,7 +85,15 @@ const MyNFT = ({ data, isApprovedForAll }: MyNFTProps) => {
 
   return (
     <>
-      <div className="card w-full max-w-[320px] bg-base-100 shadow-[rgba(50,_50,_105,_0.15)_0px_2px_5px_0px,_rgba(0,_0,_0,_0.05)_0px_1px_1px_0px]">
+      <motion.div
+        initial={{ y: 0 }}
+        transition={{
+          duration: 0.2,
+          ease: "easeInOut",
+        }}
+        whileHover={{ y: -5 }}
+        className="card w-full max-w-[320px] bg-base-100 shadow-[rgba(50,_50,_105,_0.15)_0px_2px_5px_0px,_rgba(0,_0,_0,_0.05)_0px_1px_1px_0px]"
+      >
         {/**Rarity Badge */}
         <div
           className={` absolute right-3 top-5 flex h-[45px] w-[45px] items-center  justify-center rounded-full ${rarity.color}  font-bold`}
@@ -178,7 +187,7 @@ const MyNFT = ({ data, isApprovedForAll }: MyNFTProps) => {
             <FaExternalLinkAlt /> on bkcscan
           </Link>
         </div>
-      </div>
+      </motion.div>
     </>
   );
 };
