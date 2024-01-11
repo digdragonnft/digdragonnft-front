@@ -1,0 +1,150 @@
+import { TbPick } from "react-icons/tb";
+import { LiaSlackHash } from "react-icons/lia";
+import { PiSwordFill, PiShieldFill } from "react-icons/pi";
+import { GiFluffyWing } from "react-icons/gi";
+import { FaStar } from "react-icons/fa";
+import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { useStake, useStakedEvent } from "~/blockchain/Mine/stake";
+import { useAccount } from "wagmi";
+
+const variants = {
+  hover: {
+    x: 0,
+  },
+  initial: {
+    x: 250,
+  },
+};
+
+interface NFTCardProps {
+  tokenId: string;
+  name: string;
+  image: string;
+  hash: string;
+  atk: string;
+  def: string;
+  spd: string;
+  rarity: string;
+}
+
+export default function NFTCard({
+  tokenId,
+  name,
+  image,
+  hash,
+  atk,
+  def,
+  spd,
+  rarity,
+}: NFTCardProps) {
+  const [isHover, setIsHovered] = useState<boolean>(false);
+
+  const { address } = useAccount();
+  const [loading, setLoading] = useState<boolean>(false);
+  const { stake, staking } = useStake();
+  const { stakedEvent, resetStaked } = useStakedEvent(address as string);
+
+  useEffect(() => {
+    if (stakedEvent) {
+      setLoading(false);
+      resetStaked();
+    }
+  }, [stakedEvent]);
+
+  const handleToMine = () => {
+    setLoading(true);
+    const selectedTokenId = +tokenId!.toString();
+    stake([selectedTokenId]);
+  };
+
+  function handleMouseEnter() {
+    setIsHovered(true);
+  }
+
+  function handleMouseLeave() {
+    setIsHovered(false);
+  }
+
+  return (
+    <div
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      className="relative z-[4] h-[225px] w-[225px] cursor-pointer overflow-hidden rounded-xl"
+    >
+      <video
+        className="absolute left-0 top-0"
+        width={286}
+        height={286}
+        // src={image}
+        loop
+        autoPlay
+        controls
+      >
+        <source src={image} type="video/mp4" />
+      </video>
+      <div className="absolute flex h-[30px] w-full justify-between px-4 py-2 font-semibold text-white">
+        <LiaSlackHash size={24} />
+        <h1 className="text-info">{hash}</h1>
+      </div>
+
+      <div className="absolute right-[5%] top-[15%] z-[1] flex gap-1">
+        <FaStar className="text-yellow-400" size={16} />
+        {rarity == "rare" ||
+        rarity == "super rare" ||
+        rarity == "super special rare" ? (
+          <FaStar className="text-yellow-400" size={16} />
+        ) : null}
+        {rarity == "super rare" || rarity == "super special rare" ? (
+          <FaStar className="text-yellow-400" size={16} />
+        ) : null}
+        {rarity == "super special rare" ? (
+          <FaStar className="text-yellow-400" size={16} />
+        ) : null}
+      </div>
+
+      <div className="absolute left-[3%] top-[20%] flex h-full w-[50px] flex-col text-white">
+        <div className="flex gap-1 text-[12px] font-bold">
+          <PiSwordFill size={16} /> {atk}
+        </div>
+        <div className="flex gap-1 text-[12px] font-bold">
+          <PiShieldFill size={16} /> {def}
+        </div>
+        <div className="flex gap-1 text-[12px] font-bold">
+          <GiFluffyWing size={16} /> {spd}
+        </div>
+      </div>
+
+      <div className="absolute bottom-0 left-0 z-[1] flex h-[80px] w-full items-center justify-center bg-white bg-opacity-30 px-2 py-3 font-bold text-black backdrop-blur-sm">
+        <motion.div
+          initial={{ rotate: "-10deg" }}
+          animate={{ rotate: ["-10deg", "90deg", "80deg", "-10deg"] }}
+          transition={{
+            duration: 2,
+            ease: "easeInOut",
+            repeat: Infinity,
+            repeatDelay: 1,
+          }}
+          className="absolute left-[40%] top-[-30%] flex h-[50px] w-[50px] translate-x-[-50%] items-center justify-center rounded-full bg-info"
+        >
+          <TbPick className="text-white" size={30} />
+        </motion.div>
+        <h1 className="mt-2 text-white">{name}</h1>
+      </div>
+      <motion.div
+        variants={variants}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
+        animate={isHover ? "hover" : "initial"}
+        className="absolute left-0 top-0 z-[4] flex h-full w-full items-center justify-center gap-2 overflow-hidden bg-slate-800 bg-opacity-80"
+      >
+        <button
+          onClick={() => handleToMine()}
+          className="btn btn-info text-white hover:bg-white hover:text-info"
+        >
+          Stake
+        </button>
+        {/* <button className="btn bg-white text-info">Unstake</button> */}
+      </motion.div>
+    </div>
+  );
+}
