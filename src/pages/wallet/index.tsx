@@ -1,5 +1,3 @@
-import { ConnectButton } from "@rainbow-me/rainbowkit";
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { useStake, useStakedEvent } from "~/blockchain/Mine/stake";
@@ -14,9 +12,13 @@ import BaseLayoutV2 from "~/components/Shared/v2/BaseLayoutV2";
 import NavBarV2 from "~/components/Shared/v2/NavBarV2";
 import NFTCard from "~/components/Wallet/v2/Card/NftCard";
 import { api } from "~/utils/api";
+import { useRouter } from "next/router";
+import FloatingButton from "~/components/Shared/v2/Button/FloatingButton";
 
 const WalletPage = () => {
   const { isConnected, address } = useAccount();
+  const { replace } = useRouter();
+
   const [nft, setNfts] = useState<number[]>([]);
   const [approvedLoading, setApprovedLoading] = useState<boolean>(false);
   const [stakeLoading, setStakeLoading] = useState<boolean>(false);
@@ -47,10 +49,15 @@ const WalletPage = () => {
   const {
     data: balance,
     isLoading: loadingBalance,
-    refetch: refetchMineBalance,
+    refetch: refetchMyBalance,
   } = api.reward.balanceOf.useQuery({
     address: address as string,
   });
+
+  const { data: stakedTokens, refetch: refetchStakedTokens } =
+    api.mine.getStakedTokenOf.useQuery({
+      wallet: address as string,
+    });
 
   const { data: isApprovedForAll, refetch: getIsApprovalForAll } =
     api.nft.isApprovedForAll.useQuery({ wallet: address as string });
@@ -89,12 +96,8 @@ const WalletPage = () => {
       setStakeLoading(false);
       return;
     }
-    stake(nft);
-  };
 
-  const handleUnstake = (tokenId: number) => {
-    setUnstakeLoading(true);
-    unstake([tokenId]);
+    stake(nft);
   };
 
   const handleUnStakeAll = () => {
@@ -110,6 +113,8 @@ const WalletPage = () => {
     getIsApprovalForAll();
     getUserInfo();
     getTokenOfOwner();
+    refetchStakedTokens();
+    refetchMyBalance();
     setNfts(
       tokensOfOwner == undefined
         ? []
@@ -135,6 +140,10 @@ const WalletPage = () => {
       setUnstakeLoading(false);
       resetUnStaked();
     }
+
+    if (!isConnected) {
+      replace("/");
+    }
   }, [
     isApprovedForAll,
     approvedEvent,
@@ -145,13 +154,8 @@ const WalletPage = () => {
     unstakingError,
     approvedError,
     revokeError,
+    isConnected,
   ]);
-
-  useEffect(() => {
-    if (isConnected && gotTokenOfOwner) {
-      void getTokenOfOwner();
-    }
-  }, [gotTokenOfOwner, isConnected]);
 
   const [ready, setReady] = useState<boolean>(false);
 
@@ -159,11 +163,11 @@ const WalletPage = () => {
     setReady(true);
   }, [ready, setReady]);
 
-  if (!ready) {
+  if (!ready || loadingBalance || userInfoLoading) {
     return (
       <BaseLayoutV2>
-        <div className="min-h-screen w-full">
-          <div className="loading loading-spinner"></div>
+        <div className="flex min-h-screen w-full items-center justify-center">
+          <div className="loading loading-spinner text-white"></div>
         </div>
       </BaseLayoutV2>
     );
@@ -248,34 +252,50 @@ const WalletPage = () => {
           </button>
         </div>
 
-        <div className="rounded-xl border-[1px] border-info p-2">
-          <div className="font-bold text-white">Your kBTC</div>
-          <div className="text-info">{balance}</div>
+        <div className="flex flex-col items-center gap-2 sm:flex-row">
+          <div className="min-w-[200px] rounded-xl border-[1px] border-info p-2">
+            <div className="font-bold text-white">Earned</div>
+            <div className="text-info">
+              {(+data?.pendingReward!).toFixed(4).toString()}
+            </div>
+          </div>
+
+          <div className="min-w-[200px] rounded-xl border-[1px] border-info p-2">
+            <div className="font-bold text-white">Your kBTC</div>
+            <div className="text-info">{balance}</div>
+          </div>
         </div>
       </div>
+
       <div className="max-w-[1440px] px-10 py-10">
-        <div className="flex flex-wrap justify-center gap-2">
-          {tokensOfOwner?.map((n) => (
-            <NFTCard
-              tokenId={n.tokenId.toString()}
-              key={n.tokenId.toString()}
-              image={n.animation_url}
-              name={n.name}
-              hash={n.attributes[5].value}
-              atk={n.attributes[2].value}
-              def={n.attributes[3].value}
-              spd={n.attributes[4].value}
-              rarity={n.attributes[0].value}
-            />
-          ))}
+        <div className="flex flex-wrap justify-center gap-2 md:justify-start">
+          {[...(tokensOfOwner ?? []), ...(stakedTokens ?? [])]
+            ?.sort((a, b) => +a.tokenId.toString() - +b.tokenId.toString())
+            .map((n) => (
+              <NFTCard
+                tokenId={n.tokenId.toString()}
+                staked={n.staked}
+                key={n.tokenId.toString()}
+                image={n.imageUrl}
+                video={n.animation_url}
+                name={n.name}
+                hash={n.attributes[5].value}
+                atk={n.attributes[2].value}
+                def={n.attributes[3].value}
+                spd={n.attributes[4].value}
+                rarity={n.attributes[0].value}
+              />
+            ))
+            .filter(onlyUnique)}
         </div>
       </div>
+      <FloatingButton />
     </BaseLayoutV2>
   );
 };
 
-// function onlyUnique(value: any, index: any, array: any[]) {
-//   return array.indexOf(value) === index;
-// }
+function onlyUnique(value: any, index: any, array: any[]) {
+  return array.indexOf(value) === index;
+}
 
 export default WalletPage;

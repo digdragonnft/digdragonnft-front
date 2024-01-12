@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useStake, useStakedEvent } from "~/blockchain/Mine/stake";
 import { useAccount } from "wagmi";
+import { useUnStakedEvent, useUnstake } from "~/blockchain/Mine/unstake";
 
 const variants = {
   hover: {
@@ -21,17 +22,21 @@ interface NFTCardProps {
   tokenId: string;
   name: string;
   image: string;
+  video: string;
   hash: string;
   atk: string;
   def: string;
   spd: string;
   rarity: string;
+  staked: boolean;
 }
 
 export default function NFTCard({
   tokenId,
+  staked,
   name,
   image,
+  video,
   hash,
   atk,
   def,
@@ -39,23 +44,37 @@ export default function NFTCard({
   rarity,
 }: NFTCardProps) {
   const [isHover, setIsHovered] = useState<boolean>(false);
-
   const { address } = useAccount();
-  const [loading, setLoading] = useState<boolean>(false);
-  const { stake, staking } = useStake();
+  const [UnstakingLoading, setUnstakingLoading] = useState<boolean>(false);
+  const [stakingLoading, setStakingLoading] = useState<boolean>(false);
+  const { stake, staking, staked: stakedDone, stakingError } = useStake();
+  const { unstake, unstaking, unstaked, unstakingError } = useUnstake();
   const { stakedEvent, resetStaked } = useStakedEvent(address as string);
+  const { unStakedEvent, resetUnStaked } = useUnStakedEvent(address as string);
 
   useEffect(() => {
-    if (stakedEvent) {
-      setLoading(false);
+    if (stakedEvent || unStakedEvent) {
+      setStakingLoading(false);
+      setUnstakingLoading(false);
       resetStaked();
+      resetUnStaked();
     }
-  }, [stakedEvent]);
+
+    if (stakingError || unstakingError) {
+      setStakingLoading(false);
+      setUnstakingLoading(false);
+    }
+  }, [stakedEvent, stakingError, unstakingError, stakedDone, unstaked]);
 
   const handleToMine = () => {
-    setLoading(true);
+    setStakingLoading(true);
     const selectedTokenId = +tokenId!.toString();
     stake([selectedTokenId]);
+  };
+  const handleUnstake = () => {
+    setUnstakingLoading(true);
+    const selectedTokenId = +tokenId!.toString();
+    unstake([selectedTokenId]);
   };
 
   function handleMouseEnter() {
@@ -72,17 +91,19 @@ export default function NFTCard({
       onMouseLeave={handleMouseLeave}
       className="relative z-[4] h-[225px] w-[225px] cursor-pointer overflow-hidden rounded-xl"
     >
-      <video
-        className="absolute left-0 top-0"
+      <motion.video
+        variants={variants}
+        animate={isHover ? { scale: 1.2, y: -5 } : []}
+        transition={{ duration: 0.3 }}
+        className="absolute left-0 top-0 object-contain"
         width={286}
         height={286}
-        // src={image}
+        placeholder={image}
         loop
         autoPlay
-        controls
       >
-        <source src={image} type="video/mp4" />
-      </video>
+        <source src={video} type="video/mp4" />
+      </motion.video>
       <div className="absolute flex h-[30px] w-full justify-between px-4 py-2 font-semibold text-white">
         <LiaSlackHash size={24} />
         <h1 className="text-info">{hash}</h1>
@@ -117,8 +138,23 @@ export default function NFTCard({
 
       <div className="absolute bottom-0 left-0 z-[1] flex h-[80px] w-full items-center justify-center bg-white bg-opacity-30 px-2 py-3 font-bold text-black backdrop-blur-sm">
         <motion.div
-          initial={{ rotate: "-10deg" }}
-          animate={{ rotate: ["-10deg", "90deg", "80deg", "-10deg"] }}
+          animate={
+            staked
+              ? {
+                  rotate: ["-10deg", "90deg", "90deg", "-10deg"],
+                  backgroundColor: [
+                    "#ffa300",
+                    "#ffa300",
+                    "#fff",
+                    "#ffa300",
+                    "#ffa300",
+                  ],
+                }
+              : {
+                  rotate: ["0deg"],
+                  backgroundColor: [""],
+                }
+          }
           transition={{
             duration: 2,
             ease: "easeInOut",
@@ -134,15 +170,28 @@ export default function NFTCard({
       <motion.div
         variants={variants}
         transition={{ duration: 0.3, ease: "easeInOut" }}
-        animate={isHover ? "hover" : "initial"}
+        animate={
+          isHover || stakingLoading || UnstakingLoading ? "hover" : "initial"
+        }
         className="absolute left-0 top-0 z-[4] flex h-full w-full items-center justify-center gap-2 overflow-hidden bg-slate-800 bg-opacity-80"
       >
-        <button
-          onClick={() => handleToMine()}
-          className="btn btn-info text-white hover:bg-white hover:text-info"
-        >
-          Stake
-        </button>
+        {!staked ? (
+          <button
+            disabled={stakingLoading}
+            onClick={() => handleToMine()}
+            className={`btn btn-info text-white hover:bg-white hover:text-info disabled:bg-white disabled:text-slate-900`}
+          >
+            {!stakingLoading ? "Stake" : "Staking.."}
+          </button>
+        ) : (
+          <button
+            disabled={UnstakingLoading}
+            onClick={() => handleUnstake()}
+            className="disbled:text-slate-900 btn btn-info text-white hover:bg-white hover:text-info disabled:bg-white"
+          >
+            {!UnstakingLoading ? "Unstake" : "Unstaking.."}
+          </button>
+        )}
         {/* <button className="btn bg-white text-info">Unstake</button> */}
       </motion.div>
     </div>

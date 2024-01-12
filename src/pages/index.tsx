@@ -16,6 +16,7 @@ import GridSpacer from "~/components/Shared/v2/GridSpacer";
 import NavBarV2 from "~/components/Shared/v2/NavBarV2";
 
 import { useEffect, useState } from "react";
+import FloatingButton from "~/components/Shared/v2/Button/FloatingButton";
 
 export default function Home() {
   const [ready, setReady] = useState<boolean>(false);
@@ -45,6 +46,7 @@ export default function Home() {
           <GridSpacer />
         </GridLayout>
       </div>
+      <FloatingButton />
     </BaseLayoutV2>
   );
 }

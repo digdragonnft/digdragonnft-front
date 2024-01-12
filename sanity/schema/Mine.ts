@@ -1,4 +1,3 @@
-import { Rule } from "postcss";
 import { defineField, defineType } from "sanity";
 
 export const MineType = defineType({
@@ -7,10 +6,21 @@ export const MineType = defineType({
   title: "Mine Data",
   fields: [
     defineField({
-      name: "mineNo",
-      title: "Mine Number",
+      name: "pair",
+      title: "Mine Pairs",
       type: "string",
-      validation: (Rule) => Rule.required(),
+    }),
+
+    defineField({
+      name: "rewardImage",
+      title: "Reward Image",
+      type: "image",
+    }),
+
+    defineField({
+      name: "nftImage",
+      title: "Nft Image",
+      type: "image",
     }),
 
     defineField({
@@ -21,27 +31,16 @@ export const MineType = defineType({
     }),
 
     defineField({
-      name: "startBlock",
-      title: "Start Block Number",
-      type: "number",
+      name: "nftAddress",
+      title: "NFT address",
+      type: "string",
+      validation: (Rule) => Rule.required(),
     }),
 
     defineField({
-      name: "endBlock",
-      title: "End Block Number",
-      type: "number",
-    }),
-
-    defineField({
-      name: "startTime",
-      title: "Start Time",
-      type: "datetime",
-    }),
-
-    defineField({
-      name: "endTime",
-      title: "End Time",
-      type: "datetime",
+      name: "mineDescription",
+      title: "Mine Description",
+      type: "string",
     }),
 
     defineField({
@@ -52,9 +51,12 @@ export const MineType = defineType({
     }),
 
     defineField({
-      name: "mineUrl",
-      title: "Freecity Mine Url",
-      type: "string",
+      name: "slug",
+      title: "Slug",
+      type: "slug",
+      options: {
+        source: "pair",
+      },
     }),
   ],
 });

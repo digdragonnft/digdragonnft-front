@@ -10,45 +10,16 @@ export default function NavBarV2() {
   const { isConnected } = useAccount();
 
   return (
-    <div className="navbar bg-slate-500 bg-opacity-30 px-6">
+    <div className="navbar z-[20] bg-slate-500 bg-opacity-30 px-6">
       <div className="navbar-start">
         {/* <h2 className="font-semibold text-white">DigDragon NFT</h2> */}
         <Link href="/">
           <img src="/images/logo.png" alt="logo" />
         </Link>
       </div>
-      <div className="navbar-center">
-        <div className="block flex items-center gap-6 md:hidden">
-          {isConnected ? (
-            <Link
-              className={`font-bold ${
-                pathname == "/wallet" ? "text-info" : "text-white"
-              } hover:text-info`}
-              href="/wallet"
-            >
-              <FaWallet
-                size={22}
-                className={`${pathname == "/wallet" ? "text-info" : null}`}
-              />
-              <span className="hidden md:block">My Collection</span>
-            </Link>
-          ) : null}
-          <Link
-            className={`font-bold ${
-              pathname == "/mine" ? "text-info" : "text-white"
-            } hover:text-info`}
-            href="/mine"
-          >
-            <GiMineWagon
-              size={24}
-              className={`${pathname == "/mine" ? "text-info" : null}`}
-            />
-            <span className="md:blockh hidden">Mine Zone</span>
-          </Link>
-        </div>
-      </div>
+      <div className="navbar-center"></div>
       <div className="navbar-end flex gap-6">
-        <div className="hidden gap-2 md:flex">
+        <div className="hidden gap-2 sm:flex">
           {isConnected ? (
             <Link
               className={`font-bold ${
@@ -60,7 +31,7 @@ export default function NavBarV2() {
                 size={22}
                 className={`${pathname == "/wallet" ? "text-info" : null}`}
               />
-              <span className="hidden md:block">My Collection</span>
+              <span className="hidden sm:block">My Collection</span>
             </Link>
           ) : null}
           <Link
@@ -73,7 +44,7 @@ export default function NavBarV2() {
               size={24}
               className={`${pathname == "/mine" ? "text-info" : null}`}
             />
-            <span className="hidden md:block">Mine Zone</span>
+            <span className="hidden sm:block ">Mine Zone</span>
           </Link>
         </div>
         <div className="block md:hidden">
@@ -88,6 +59,7 @@ export default function NavBarV2() {
             accountStatus="address"
             chainStatus="none"
             showBalance={false}
+            label="Connect Wallet"
           />
         </div>
       </div>

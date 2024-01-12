@@ -20,31 +20,37 @@ export const extractTokensMetadata = async (
   return responses;
 };
 
+export const getTokenURI = async (tokens: bigint[]) => {
+  const uris = (await Promise.all(
+    tokens.map(async (token) => {
+      const uri = await viem.readContract({
+        abi,
+        address,
+        functionName: "tokenURI",
+        args: [token],
+      });
+      return {
+        tokenId: token,
+        uri,
+      };
+    }),
+  )) as { tokenId: bigint; uri: string }[];
+
+  // console.log(uris);
+
+  if (uris.length > 0) {
+    const meta = await extractTokensMetadata(uris);
+    return meta;
+  }
+};
+
 export const getTokensURIOf = async (owner: Address) => {
   try {
     const tokens = await getTokensOfOwner(owner);
+    const tokenUris = await getTokenURI(tokens);
+    const unstakeUris = tokenUris?.map((uri) => ({ ...uri, staked: false }));
 
-    const uris = (await Promise.all(
-      tokens.map(async (token) => {
-        const uri = await viem.readContract({
-          abi,
-          address,
-          functionName: "tokenURI",
-          args: [token],
-        });
-        return {
-          tokenId: token,
-          uri,
-        };
-      }),
-    )) as { tokenId: bigint; uri: string }[];
-
-    // console.log(uris);
-
-    if (uris.length > 0) {
-      const meta = await extractTokensMetadata(uris);
-      return meta;
-    }
+    return unstakeUris;
   } catch (error) {
     console.log(error);
     return [];

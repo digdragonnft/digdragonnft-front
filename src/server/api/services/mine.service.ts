@@ -6,6 +6,7 @@ import { MineType } from "sanity/schema/Mine";
 import { Address, formatEther, formatUnits } from "viem";
 import { mine } from "viem/_types/actions/test/mine";
 import { contractAPRCalculator } from "../utils/contractAPR";
+import { getTokenURI, getTokensURIOf } from "./nft.service";
 
 export const getMineData = async () => {
   try {
@@ -117,5 +118,30 @@ export const getMineInfo = async () => {
   } catch (error) {
     console.log(error);
     return null;
+  }
+};
+
+export const getStakedTokenMetadataOf = async (wallet: string) => {
+  try {
+    const user = await getUserInfo(wallet as Address);
+
+    if (!user) {
+      console.log("user not found");
+      return [];
+    }
+
+    const stakedTokenIds = user.userInfo.stakedTokenIds as bigint[];
+    const tokenUris = await getTokenURI(stakedTokenIds);
+
+    if (!tokenUris) {
+      return [];
+    }
+
+    const stakedUris = tokenUris.map((uri) => ({ ...uri, staked: true }));
+
+    return stakedUris;
+  } catch (error) {
+    console.log(error);
+    return [];
   }
 };

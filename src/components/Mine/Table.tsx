@@ -5,6 +5,7 @@ import { address as mineAddress } from "~/blockchain/Mine/abi";
 import { useEffect } from "react";
 import { useStakedEvent } from "~/blockchain/Mine/stake";
 import { useUnStakedEvent } from "~/blockchain/Mine/unstake";
+import CardElement from "./CardElement";
 
 export default function Table() {
   const { address } = useAccount();
@@ -47,8 +48,37 @@ export default function Table() {
   }, [stakedEvent, resetStaked, unStakedEvent, resetUnStaked]);
 
   return (
-    <table className="table max-w-[1024px]">
-      <tbody>
+    <table className="table">
+      <tbody className="sm:hidden">
+        <CardElement
+          active={true}
+          earned={data?.pendingReward.toString()!}
+          name="kBTC/OG #1"
+          apr={mineInfo?.apr.toFixed(2).toString()!}
+          liquidity={balance!}
+          totalStaked={mineInfo?.totolStaked.toString()}
+          end={`${
+            mineInfo
+              ? Math.floor(
+                  ((+mineInfo?.endBlock.toString() -
+                    +currentBlockNumber!.toString()) *
+                    5) /
+                    86400,
+                ).toString()
+              : null
+          }days`}
+        />
+        <CardElement
+          active={false}
+          earned={"N/A"}
+          name="KBTC/OG #2"
+          apr={"N/A"}
+          liquidity={"N/A"}
+          totalStaked={"N/A"}
+          end={"N/A"}
+        />
+      </tbody>
+      <tbody className="hidden sm:table">
         <TableElement
           active={true}
           earned={data?.pendingReward.toString()!}

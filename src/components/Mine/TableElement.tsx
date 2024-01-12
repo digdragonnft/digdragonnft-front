@@ -33,23 +33,25 @@ export default function TableElement({
         <div className="font-bold">{name}</div>
       </td>
       <td>
-        <div className="font-bold">Earned</div>
-        <div className="font-bold text-info">{earned}</div>
+        <div className="text-sm">Earned</div>
+        <div className="font-bold text-info">
+          {(+earned).toFixed(4).toString() ?? 0}
+        </div>
       </td>
       <td>
-        <div className="font-bold">APR</div>
+        <div className="text-sm">APR</div>
         <div className="font-bold text-info">{apr}</div>
       </td>
       <td>
-        <div className="font-bold">Liquidity</div>
+        <div className="text-sm">Liquidity</div>
         <div className="font-bold text-info">{liquidity}</div>
       </td>
       <td>
-        <div className="font-bold">Total Staked</div>
+        <div className="text-sm">Total Staked</div>
         <div className="font-bold text-info">{totalStaked}</div>
       </td>
       <td>
-        <div className="font-bold">End In</div>
+        <div className="text-sm">End In</div>
         <div className="font-bold text-info">{end}</div>
       </td>
       <td>

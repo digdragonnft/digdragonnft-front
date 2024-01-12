@@ -4,7 +4,7 @@ const texts: string[] = ["NFT", "Mining", "Privilege"];
 
 export default function BoxLeft() {
   return (
-    <div className="order-1 col-span-12 flex flex-col justify-center gap-6 p-4 md:order-none md:col-span-4">
+    <div className="order-1 col-span-12 flex flex-col justify-center gap-6  p-4 md:order-none md:col-span-4">
       <div>
         <div className="text-[50px] font-bold leading-[120%] text-white">
           More Than Profession
