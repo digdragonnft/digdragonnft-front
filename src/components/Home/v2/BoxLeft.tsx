@@ -1,3 +1,4 @@
+import Link from "next/link";
 import TypingText from "~/components/Shared/Typepography/TypingText/Text";
 
 const texts: string[] = ["NFT", "Mining", "Privilege"];
@@ -17,9 +18,12 @@ export default function BoxLeft() {
         Therefore the holders can join many of our activities
       </p>
 
-      <button className="btn btn-info text-white hover:bg-opacity-80">
+      <Link
+        href="/mine"
+        className="btn btn-info text-white hover:bg-opacity-80"
+      >
         Start Mining
-      </button>
+      </Link>
     </div>
   );
 }
