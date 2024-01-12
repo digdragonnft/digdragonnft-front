@@ -1,9 +1,9 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import Table from "~/components/Mine/Table";
-import BaseLayoutV2 from "~/components/Shared/v2/BaseLayoutV2";
-import FloatingButton from "~/components/Shared/v2/Button/FloatingButton";
-import NavBarV2 from "~/components/Shared/v2/NavBarV2";
+import BaseLayoutV2 from "~/components/Shared/Layout/BaseLayoutV2";
+import FloatingButton from "~/components/Shared/Button/FloatingButton";
+import NavBarV2 from "~/components/Shared/Nav/NavBarV2";
 
 const Mine = () => {
   const [ready, setReady] = useState<boolean>(false);

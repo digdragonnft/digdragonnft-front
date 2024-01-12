@@ -1,3 +1,5 @@
+import Loading from "../Inidcators/Loading";
+
 interface StatCard2Props {
   title: string;
   content: string;
@@ -15,9 +17,11 @@ export default function StatCard2({
         <div className="stat-title text-xl font-semibold text-slate-900">
           {title}
         </div>
-        <div className="stat-value text-right text-slate-900">{content}</div>
+        <div className="stat-value text-right text-slate-900">
+          {content == "N/A" ? <Loading /> : content}
+        </div>
         <div className="text-right text-xl font-semibold text-slate-900">
-          {subContent}
+          {subContent == "N/A" ? <Loading /> : subContent}
         </div>
       </div>
     </div>

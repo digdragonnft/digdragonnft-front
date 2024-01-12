@@ -8,12 +8,12 @@ import {
   useSetApprovalForAll,
 } from "~/blockchain/NFT/setApprovalForAll";
 import Loading from "~/components/Shared/Inidcators/Loading";
-import BaseLayoutV2 from "~/components/Shared/v2/BaseLayoutV2";
-import NavBarV2 from "~/components/Shared/v2/NavBarV2";
-import NFTCard from "~/components/Wallet/v2/Card/NftCard";
+import BaseLayoutV2 from "~/components/Shared/Layout/BaseLayoutV2";
+import NavBarV2 from "~/components/Shared/Nav/NavBarV2";
+import NFTCard from "~/components/Wallet/Card/NftCard";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
-import FloatingButton from "~/components/Shared/v2/Button/FloatingButton";
+import FloatingButton from "~/components/Shared/Button/FloatingButton";
 
 const WalletPage = () => {
   const { isConnected, address } = useAccount();

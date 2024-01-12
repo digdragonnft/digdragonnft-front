@@ -1,3 +1,5 @@
+import Loading from "../Inidcators/Loading";
+
 interface StateCard1Props {
   title: string;
   value: string;
@@ -11,7 +13,9 @@ export default function StatCard1({ title, value }: StateCard1Props) {
         <div className="stat-title text-xl font-semibold text-slate-900">
           {title}
         </div>
-        <div className="stat-value text-white">{value}</div>
+        <div className="stat-value text-white">
+          {value == "N/A" ? <Loading /> : value}
+        </div>
       </div>
     </div>
   );

@@ -4,10 +4,10 @@ import { useUnStakedEvent } from "~/blockchain/Mine/unstake";
 import Loading from "~/components/Shared/Inidcators/Loading";
 import { api } from "~/utils/api";
 import { address } from "~/blockchain/Mine/abi";
-import GridLayout from "~/components/Shared/v2/GridLayout";
-import GridSpacer from "~/components/Shared/v2/GridSpacer";
-import StatCard1 from "~/components/Shared/v2/Card/StatCard1";
-import StatCard2 from "~/components/Shared/v2/Card/StatCard2";
+import GridLayout from "~/components/Shared/Layout/GridLayout";
+import GridSpacer from "~/components/Shared/Layout/GridSpacer";
+import StatCard1 from "~/components/Shared/Card/StatCard1";
+import StatCard2 from "~/components/Shared/Card/StatCard2";
 
 export default function BoxRight() {
   const {
