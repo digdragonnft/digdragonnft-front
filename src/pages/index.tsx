@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React from "react";
 import BoxLeft from "~/components/Home/BoxLeft";
 import BoxRight from "~/components/Home/BoxRight";
 import BaseLayoutV2 from "~/components/Shared/Layout/BaseLayoutV2";
@@ -8,6 +8,7 @@ import NavBarV2 from "~/components/Shared/Nav/NavBarV2";
 
 import { useEffect, useState } from "react";
 import FloatingButton from "~/components/Shared/Button/FloatingButton";
+import LoadingScreen from "~/components/Shared/LoadingScreen";
 
 export default function Home() {
   const [ready, setReady] = useState<boolean>(false);
@@ -17,13 +18,7 @@ export default function Home() {
   }, [ready, setReady]);
 
   if (!ready) {
-    return (
-      <BaseLayoutV2>
-        <div className="min-h-screen w-full">
-          <div className="loading loading-spinner"></div>
-        </div>
-      </BaseLayoutV2>
-    );
+    return <LoadingScreen />;
   }
 
   return (

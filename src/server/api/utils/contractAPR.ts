@@ -3,6 +3,7 @@ export function contractAPRCalculator(
   totalHashPower: bigint,
   accTokenPerShare: bigint,
 ) {
+  if (!rewardPerBlock || !totalHashPower || !accTokenPerShare) return 0;
   const blockPerYear = 6307200;
   const rewardPerYear = parseFloat(rewardPerBlock.toString()) * blockPerYear;
   const totalValue =

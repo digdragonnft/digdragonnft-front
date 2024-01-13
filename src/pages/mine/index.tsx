@@ -1,9 +1,9 @@
-import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import Table from "~/components/Mine/Table";
 import BaseLayoutV2 from "~/components/Shared/Layout/BaseLayoutV2";
 import FloatingButton from "~/components/Shared/Button/FloatingButton";
 import NavBarV2 from "~/components/Shared/Nav/NavBarV2";
+import LoadingScreen from "~/components/Shared/LoadingScreen";
 
 const Mine = () => {
   const [ready, setReady] = useState<boolean>(false);
@@ -13,13 +13,7 @@ const Mine = () => {
   }, [ready, setReady]);
 
   if (!ready) {
-    return (
-      <BaseLayoutV2>
-        <div className="min-h-screen w-full">
-          <div className="loading loading-spinner"></div>
-        </div>
-      </BaseLayoutV2>
-    );
+    return <LoadingScreen />;
   }
   return (
     <BaseLayoutV2>

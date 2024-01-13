@@ -1,337 +1,744 @@
 export const abi = [
   {
-    type: "constructor",
     inputs: [
-      { type: "address", name: "_digdragon", internalType: "contract IERC721" },
-      { type: "address", name: "_reward", internalType: "contract IERC20" },
       {
+        internalType: "address",
+        name: "_token",
         type: "address",
-        name: "_hashPowerStorage",
-        internalType: "contract IHashPowerStorage",
       },
-      { type: "address", name: "_feeCollector", internalType: "address" },
-      { type: "uint256", name: "_startBlock", internalType: "uint256" },
-      { type: "uint256", name: "_rewardPerBlock", internalType: "uint256" },
-      { type: "uint256", name: "_rewardEndBlock", internalType: "uint256" },
+      {
+        internalType: "uint256",
+        name: "_amount",
+        type: "uint256",
+      },
     ],
-  },
-  {
-    type: "function",
-    stateMutability: "nonpayable",
-    outputs: [],
     name: "emergencyRewardTokenWithdraw",
-    inputs: [
-      { type: "address", name: "_token", internalType: "address" },
-      { type: "uint256", name: "_amount", internalType: "uint256" },
-    ],
-  },
-  {
-    type: "function",
-    stateMutability: "nonpayable",
     outputs: [],
-    name: "emergencyUnstake",
-    inputs: [{ type: "address", name: "_owner", internalType: "address" }],
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
-    type: "function",
-    stateMutability: "view",
-    outputs: [
+    inputs: [
       {
-        type: "tuple",
-        name: "info",
-        internalType: "struct DigDragonMine.MineInfo",
-        components: [
-          { type: "address" },
-          { type: "address" },
-          { type: "address" },
-          { type: "address" },
-          { type: "uint256" },
-          { type: "uint256" },
-          { type: "uint256" },
-          { type: "uint256" },
-          { type: "uint256" },
-          { type: "uint256" },
-          { type: "uint256" },
-          { type: "uint256" },
-        ],
+        internalType: "contract IERC721",
+        name: "_digdragon",
+        type: "address",
+      },
+      {
+        internalType: "contract IERC20",
+        name: "_reward",
+        type: "address",
+      },
+      {
+        internalType: "contract IHashPowerStorage",
+        name: "_hashPowerStorage",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "_feeCollector",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "_startBlock",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "_rewardPerBlock",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "_rewardEndBlock",
+        type: "uint256",
       },
     ],
-    name: "getMineInfo",
+    stateMutability: "nonpayable",
+    type: "constructor",
+  },
+  {
     inputs: [],
+    name: "ZeroStakedHashPowerAmount",
+    type: "error",
   },
   {
-    type: "function",
-    stateMutability: "view",
-    outputs: [{ type: "uint256", name: "", internalType: "uint256" }],
-    name: "getMultiplier",
+    inputs: [],
+    name: "ZeroStakedTokens",
+    type: "error",
+  },
+  {
+    anonymous: false,
+    inputs: [],
+    name: "EmergencyRewardWithDrawn",
+    type: "event",
+  },
+  {
     inputs: [
-      { type: "uint256", name: "_from", internalType: "uint256" },
-      { type: "uint256", name: "_to", internalType: "uint256" },
+      {
+        internalType: "address",
+        name: "_owner",
+        type: "address",
+      },
     ],
+    name: "emergencyUnstake",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
-    type: "function",
-    stateMutability: "view",
-    outputs: [{ type: "uint256", name: "amount", internalType: "uint256" }],
-    name: "getRewardDebt",
-    inputs: [{ type: "address", name: "_miner", internalType: "address" }],
+    anonymous: false,
+    inputs: [],
+    name: "EmergencyUnstaked",
+    type: "event",
   },
   {
-    type: "function",
-    stateMutability: "view",
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "newStorage",
+        type: "address",
+      },
+    ],
+    name: "HashPowerStorageChanged",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [],
+    name: "MinePaused",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "_newRewardBlock",
+        type: "uint256",
+      },
+    ],
+    name: "NewRewardEndBlockSet",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "_newRewardPerBlock",
+        type: "uint256",
+      },
+    ],
+    name: "NewRewardPerBlockSet",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "_startBlock",
+        type: "uint256",
+      },
+    ],
+    name: "NewStartBlockSet",
+    type: "event",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+      {
+        internalType: "bytes",
+        name: "",
+        type: "bytes",
+      },
+    ],
+    name: "onERC721Received",
     outputs: [
       {
+        internalType: "bytes4",
+        name: "",
+        type: "bytes4",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "previousOwner",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "newOwner",
+        type: "address",
+      },
+    ],
+    name: "OwnershipTransferred",
+    type: "event",
+  },
+  {
+    inputs: [],
+    name: "renounceOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "stopBlock",
+        type: "uint256",
+      },
+    ],
+    name: "RewardDistributionStopped",
+    type: "event",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_collector",
+        type: "address",
+      },
+    ],
+    name: "setFeeCollector",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "contract IHashPowerStorage",
+        name: "_storage",
+        type: "address",
+      },
+    ],
+    name: "setHashPowerStorage",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_miner",
+        type: "address",
+      },
+    ],
+    name: "setMinerAddress",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "miner",
+        type: "address",
+      },
+    ],
+    name: "SetNewMiner",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "newReward",
+        type: "address",
+      },
+    ],
+    name: "SetNewReward",
+    type: "event",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bool",
+        name: "_value",
+        type: "bool",
+      },
+    ],
+    name: "setPause",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "contract IERC20",
+        name: "_newReward",
+        type: "address",
+      },
+    ],
+    name: "setRewardAddress",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_rewardEndBlock",
+        type: "uint256",
+      },
+    ],
+    name: "setRewardEndBlock",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_rewardPerBlock",
+        type: "uint256",
+      },
+    ],
+    name: "setRewardPerBlock",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_startBlock",
+        type: "uint256",
+      },
+    ],
+    name: "setStartBlock",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256[]",
+        name: "_tokenIds",
+        type: "uint256[]",
+      },
+    ],
+    name: "stake",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "owner",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256[]",
+        name: "tokenIds",
+        type: "uint256[]",
+      },
+    ],
+    name: "Staked",
+    type: "event",
+  },
+  {
+    inputs: [],
+    name: "stopRewardDistribution",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "newOwner",
+        type: "address",
+      },
+    ],
+    name: "transferOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256[]",
+        name: "_tokenIds",
+        type: "uint256[]",
+      },
+    ],
+    name: "unstake",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "owner",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256[]",
+        name: "tokenIds",
+        type: "uint256[]",
+      },
+    ],
+    name: "Unstaked",
+    type: "event",
+  },
+  {
+    inputs: [],
+    name: "updatePool",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "withdrawReward",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getMineInfo",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "address",
+            name: "digdragon",
+            type: "address",
+          },
+          {
+            internalType: "address",
+            name: "reward",
+            type: "address",
+          },
+          {
+            internalType: "address",
+            name: "hashStorage",
+            type: "address",
+          },
+          {
+            internalType: "address",
+            name: "feeCollector",
+            type: "address",
+          },
+          {
+            internalType: "uint256",
+            name: "fee",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "startBlock",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "rewardEndBlock",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "rewardPerBlock",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "accTokenPerShare",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "rewardsForWithdrawal",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "totalStakedTokens",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "totalHashPower",
+            type: "uint256",
+          },
+        ],
+        internalType: "struct DigDragonMine.MineInfo",
+        name: "info",
         type: "tuple",
-        name: "userInfo",
-        internalType: "struct DigDragonMine.Miner",
-        components: [{ type: "uint256[]" }, { type: "uint256" }],
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_from",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "_to",
+        type: "uint256",
+      },
+    ],
+    name: "getMultiplier",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_miner",
+        type: "address",
+      },
+    ],
+    name: "getRewardDebt",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_miner",
+        type: "address",
       },
     ],
     name: "getUserInfo",
-    inputs: [{ type: "address", name: "_miner", internalType: "address" }],
-  },
-  {
-    type: "function",
-    stateMutability: "view",
-    outputs: [{ type: "uint256[]", name: "", internalType: "uint256[]" }],
-    name: "getUserStakedTokens",
-    inputs: [{ type: "address", name: "_miner", internalType: "address" }],
-  },
-  {
-    type: "function",
-    stateMutability: "view",
-    outputs: [{ type: "uint256", name: "", internalType: "uint256" }],
-    name: "getuserStakedHashPowerAmount",
-    inputs: [{ type: "address", name: "_miner", internalType: "address" }],
-  },
-  {
-    type: "function",
-    stateMutability: "view",
-    outputs: [{ type: "uint256", name: "", internalType: "uint256" }],
-    name: "lastRewardBlock",
-    inputs: [],
-  },
-  {
-    type: "function",
-    stateMutability: "nonpayable",
-    outputs: [{ type: "bytes4", name: "", internalType: "bytes4" }],
-    name: "onERC721Received",
-    inputs: [
-      { type: "address", name: "", internalType: "address" },
-      { type: "address", name: "", internalType: "address" },
-      { type: "uint256", name: "", internalType: "uint256" },
-      { type: "bytes", name: "", internalType: "bytes" },
-    ],
-  },
-  {
-    type: "function",
-    stateMutability: "view",
-    outputs: [{ type: "address", name: "", internalType: "address" }],
-    name: "owner",
-    inputs: [],
-  },
-  {
-    type: "function",
-    stateMutability: "view",
     outputs: [
-      { type: "address", name: "", internalType: "contract IERC20" },
-      { type: "uint256", name: "", internalType: "uint256" },
-    ],
-    name: "pendingReward",
-    inputs: [{ type: "address", name: "_miner", internalType: "address" }],
-  },
-  {
-    type: "function",
-    stateMutability: "nonpayable",
-    outputs: [],
-    name: "renounceOwnership",
-    inputs: [],
-  },
-  {
-    type: "function",
-    stateMutability: "nonpayable",
-    outputs: [],
-    name: "setFeeCollector",
-    inputs: [{ type: "address", name: "_collector", internalType: "address" }],
-  },
-  {
-    type: "function",
-    stateMutability: "nonpayable",
-    outputs: [],
-    name: "setHashPowerStorage",
-    inputs: [
       {
-        type: "address",
-        name: "_storage",
-        internalType: "contract IHashPowerStorage",
+        components: [
+          {
+            internalType: "uint256[]",
+            name: "stakedTokenIds",
+            type: "uint256[]",
+          },
+          {
+            internalType: "uint256",
+            name: "stakedHashPowerAmount",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "lastIn",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "lastOut",
+            type: "uint256",
+          },
+        ],
+        internalType: "struct DigDragonMine.Miner",
+        name: "userInfo",
+        type: "tuple",
       },
     ],
-  },
-  {
-    type: "function",
-    stateMutability: "nonpayable",
-    outputs: [],
-    name: "setMinerAddress",
-    inputs: [{ type: "address", name: "_miner", internalType: "address" }],
-  },
-  {
-    type: "function",
-    stateMutability: "nonpayable",
-    outputs: [],
-    name: "setRewardEndBlock",
-    inputs: [
-      { type: "uint256", name: "_rewardEndBlock", internalType: "uint256" },
-    ],
-  },
-  {
-    type: "function",
-    stateMutability: "nonpayable",
-    outputs: [],
-    name: "setRewardPerBlock",
-    inputs: [
-      { type: "uint256", name: "_rewardPerBlock", internalType: "uint256" },
-    ],
-  },
-  {
-    type: "function",
-    stateMutability: "nonpayable",
-    outputs: [],
-    name: "setStartBlock",
-    inputs: [{ type: "uint256", name: "_startBlock", internalType: "uint256" }],
-  },
-  {
-    type: "function",
-    stateMutability: "nonpayable",
-    outputs: [],
-    name: "stake",
-    inputs: [
-      { type: "uint256[]", name: "_tokenIds", internalType: "uint256[]" },
-    ],
-  },
-  {
-    type: "function",
-    stateMutability: "nonpayable",
-    outputs: [],
-    name: "stopRewardDistribution",
-    inputs: [],
-  },
-  {
-    type: "function",
     stateMutability: "view",
-    outputs: [{ type: "uint256", name: "", internalType: "uint256" }],
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_miner",
+        type: "address",
+      },
+    ],
+    name: "getUserStakedHashPowerAmount",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_miner",
+        type: "address",
+      },
+    ],
+    name: "getUserStakedTokens",
+    outputs: [
+      {
+        internalType: "uint256[]",
+        name: "",
+        type: "uint256[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "isPaused",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "lastRewardBlock",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "owner",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_miner",
+        type: "address",
+      },
+    ],
+    name: "pendingReward",
+    outputs: [
+      {
+        internalType: "contract IERC20",
+        name: "",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
     name: "totalHashPower",
-    inputs: [],
-  },
-  {
-    type: "function",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
     stateMutability: "view",
-    outputs: [{ type: "uint256", name: "", internalType: "uint256" }],
+    type: "function",
+  },
+  {
+    inputs: [],
     name: "totalStakedTokens",
-    inputs: [],
-  },
-  {
-    type: "function",
-    stateMutability: "nonpayable",
-    outputs: [],
-    name: "transferOwnership",
-    inputs: [{ type: "address", name: "newOwner", internalType: "address" }],
-  },
-  {
-    type: "function",
-    stateMutability: "nonpayable",
-    outputs: [],
-    name: "unstake",
-    inputs: [
-      { type: "uint256[]", name: "_tokenIds", internalType: "uint256[]" },
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
     ],
-  },
-  {
+    stateMutability: "view",
     type: "function",
-    stateMutability: "nonpayable",
-    outputs: [],
-    name: "updatePool",
-    inputs: [],
   },
-  {
-    type: "function",
-    stateMutability: "nonpayable",
-    outputs: [],
-    name: "withdrawReward",
-    inputs: [],
-  },
-  {
-    type: "event",
-    name: "EmergencyRewardWithDrawn",
-    inputs: [],
-    anonymous: false,
-  },
-  { type: "event", name: "EmergencyUnstaked", inputs: [], anonymous: false },
-  {
-    type: "event",
-    name: "HashPowerStorageChanged",
-    inputs: [{ type: "address", name: "newStorage", indexed: false }],
-    anonymous: false,
-  },
-  {
-    type: "event",
-    name: "NewRewardEndBlockSet",
-    inputs: [{ type: "uint256", name: "_newRewardBlock", indexed: false }],
-    anonymous: false,
-  },
-  {
-    type: "event",
-    name: "NewRewardPerBlockSet",
-    inputs: [{ type: "uint256", name: "_newRewardPerBlock", indexed: false }],
-    anonymous: false,
-  },
-  {
-    type: "event",
-    name: "NewStartBlockSet",
-    inputs: [{ type: "uint256", name: "_startBlock", indexed: false }],
-    anonymous: false,
-  },
-  {
-    type: "event",
-    name: "OwnershipTransferred",
-    inputs: [
-      { type: "address", name: "previousOwner", indexed: true },
-      { type: "address", name: "newOwner", indexed: true },
-    ],
-    anonymous: false,
-  },
-  {
-    type: "event",
-    name: "RewardDistributionStopped",
-    inputs: [{ type: "uint256", name: "stopBlock", indexed: false }],
-    anonymous: false,
-  },
-  {
-    type: "event",
-    name: "SetNewMiner",
-    inputs: [{ type: "address", name: "miner", indexed: false }],
-    anonymous: false,
-  },
-  {
-    type: "event",
-    name: "Staked",
-    inputs: [
-      { type: "address", name: "owner", indexed: true },
-      { type: "uint256[]", name: "tokenIds", indexed: false },
-    ],
-    anonymous: false,
-  },
-  {
-    type: "event",
-    name: "Unstaked",
-    inputs: [
-      { type: "address", name: "owner", indexed: true },
-      { type: "uint256[]", name: "tokenIds", indexed: false },
-    ],
-    anonymous: false,
-  },
-  { type: "error", name: "ZeroStakedHashPowerAmount", inputs: [] },
-  { type: "error", name: "ZeroStakedTokens", inputs: [] },
 ];
 
-export const address = "0x6d2d548CB51D82bc9C850fc1F1315B8a4665666F";
-// export const address = "0xf02E47910648Ff8aD82d2faF39F0918f8D369dF7";
+// export const address = "0x6d2d548CB51D82bc9C850fc1F1315B8a4665666F";
+export const address = "0x41d45dF6FBEEC5DC70D53Fbbe92F3ccBA9C45250";

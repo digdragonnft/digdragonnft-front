@@ -51,7 +51,7 @@ export default function Table() {
     <table className="table">
       <tbody className="sm:hidden">
         <CardElement
-          active={true}
+          active={mineInfo?.isActive!}
           earned={data?.pendingReward.toString()!}
           name="kBTC/OG #1"
           apr={mineInfo?.apr.toFixed(2).toString()!}
@@ -94,7 +94,7 @@ export default function Table() {
                     5) /
                     86400,
                 ).toString()
-              : null
+              : 0
           }days`}
         />
         <TableElement

@@ -14,6 +14,7 @@ import NFTCard from "~/components/Wallet/Card/NftCard";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import FloatingButton from "~/components/Shared/Button/FloatingButton";
+import LoadingScreen from "~/components/Shared/LoadingScreen";
 
 const WalletPage = () => {
   const { isConnected, address } = useAccount();
@@ -29,6 +30,12 @@ const WalletPage = () => {
     useApprovalForAllEvent(address as string);
   const { stakedEvent, resetStaked } = useStakedEvent(address as string);
   const { unStakedEvent, resetUnStaked } = useUnStakedEvent(address as string);
+
+  const {
+    data: mineInfo,
+    isLoading: loadingMineInfo,
+    refetch: refetchMineInfo,
+  } = api.mine.getMineInfo.useQuery();
 
   const {
     data,
@@ -164,13 +171,7 @@ const WalletPage = () => {
   }, [ready, setReady]);
 
   if (!ready || loadingBalance || userInfoLoading) {
-    return (
-      <BaseLayoutV2>
-        <div className="flex min-h-screen w-full items-center justify-center">
-          <div className="loading loading-spinner text-white"></div>
-        </div>
-      </BaseLayoutV2>
-    );
+    return <LoadingScreen />;
   }
 
   return (
@@ -219,7 +220,8 @@ const WalletPage = () => {
               staking ||
               stakeLoading ||
               unstaking ||
-              revoking
+              revoking ||
+              !mineInfo?.isActive
             }
             onClick={() => handleSendAll()}
           >
@@ -235,7 +237,7 @@ const WalletPage = () => {
           <button
             className="btn btn-info text-white hover:bg-white hover:text-info"
             disabled={
-              data?.userInfo.stakedTokenIds.length <= 0 ||
+              (data && data?.userInfo.stakedTokenIds.length <= 0) ||
               unstaking ||
               unstakeLoading
             }
@@ -273,10 +275,11 @@ const WalletPage = () => {
             ?.sort((a, b) => +a.tokenId.toString() - +b.tokenId.toString())
             .map((n) => (
               <NFTCard
+                canStake={mineInfo?.isActive!}
                 tokenId={n.tokenId.toString()}
                 staked={n.staked}
                 key={n.tokenId.toString()}
-                image={n.imageUrl}
+                image={n.image}
                 video={n.animation_url}
                 name={n.name}
                 hash={n.attributes[5].value}

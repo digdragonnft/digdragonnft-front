@@ -42,7 +42,10 @@ export default function BoxRight() {
       <GridLayout>
         <GridSpacer />
         <div className="col-span-12 md:col-span-4">
-          <StatCard1 title="Sale Status" value="Sold out" />
+          <StatCard1
+            title="kBTC/OG #1"
+            value={mineInfo?.isActive ? "Active" : "Inactive"}
+          />
         </div>
         <div className="col-span-12 md:col-span-6">
           <StatCard1

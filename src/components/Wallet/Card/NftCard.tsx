@@ -29,6 +29,7 @@ interface NFTCardProps {
   spd: string;
   rarity: string;
   staked: boolean;
+  canStake: boolean;
 }
 
 export default function NFTCard({
@@ -42,6 +43,7 @@ export default function NFTCard({
   def,
   spd,
   rarity,
+  canStake,
 }: NFTCardProps) {
   const [isHover, setIsHovered] = useState<boolean>(false);
   const { address } = useAccount();
@@ -91,7 +93,18 @@ export default function NFTCard({
       onMouseLeave={handleMouseLeave}
       className="relative z-[4] h-[225px] w-[225px] cursor-pointer overflow-hidden rounded-xl"
     >
-      <motion.video
+      <motion.img
+        variants={variants}
+        animate={isHover ? { scale: 1.2, y: -5 } : []}
+        transition={{ duration: 0.3 }}
+        className="absolute left-0 top-0 object-contain"
+        src={image}
+        width={286}
+        height={286}
+      ></motion.img>
+      {/* <source src={video} type="video/mp4" /> */}
+      {/* </motion.img> */}
+      {/* <motion.video
         variants={variants}
         animate={isHover ? { scale: 1.2, y: -5 } : []}
         transition={{ duration: 0.3 }}
@@ -103,7 +116,7 @@ export default function NFTCard({
         autoPlay
       >
         <source src={video} type="video/mp4" />
-      </motion.video>
+      </motion.video> */}
       <div className="absolute flex h-[30px] w-full justify-between px-4 py-2 font-semibold text-white">
         <LiaSlackHash size={24} />
         <h1 className="text-info">{hash}</h1>
@@ -177,17 +190,17 @@ export default function NFTCard({
       >
         {!staked ? (
           <button
-            disabled={stakingLoading}
+            disabled={stakingLoading || !canStake}
             onClick={() => handleToMine()}
-            className={`btn btn-info text-white hover:bg-white hover:text-info disabled:bg-white disabled:text-slate-900`}
+            className={`btn btn-info text-white hover:bg-white hover:text-info  disabled:text-white`}
           >
             {!stakingLoading ? "Stake" : "Staking.."}
           </button>
         ) : (
           <button
-            disabled={UnstakingLoading}
+            disabled={UnstakingLoading || !canStake}
             onClick={() => handleUnstake()}
-            className="disbled:text-slate-900 btn btn-info text-white hover:bg-white hover:text-info disabled:bg-white"
+            className="disbled:text-slate-900 btn btn-info text-white hover:bg-white hover:text-info disabled:text-white"
           >
             {!UnstakingLoading ? "Unstake" : "Unstaking.."}
           </button>

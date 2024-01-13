@@ -56,11 +56,11 @@ export const getUserInfo = async (wallet: Address) => {
     return {
       userInfo: {
         //@ts-ignore
-        stakedTokenIds: userInfo[0],
+        stakedTokenIds: userInfo[0] ?? [],
         //@ts-ignore
-        stakedHashPowerAmount: userInfo[1],
+        stakedHashPowerAmount: userInfo[1] ?? 0,
       },
-      pendingReward: formatUnits(pendingReward[1], 18),
+      pendingReward: formatUnits(pendingReward[1], 18) ?? 0,
     };
   } catch (error) {
     console.log(error);
@@ -88,24 +88,24 @@ export const getMineInfo = async () => {
       address,
       abi,
       functionName: "getMineInfo",
-    })) as any[];
+    })) as any;
 
     const currentBlock = await viem.getBlockNumber();
 
     const parsedData = {
-      nft: info[0],
-      reward: info[1],
-      hashpower: info[2],
-      feeCollector: info[3],
-      fee: info[4],
-      startBlock: info[5],
-      endBlock: info[6],
-      rewardPerBlock: info[7],
-      accTokenPerShare: info[8],
-      rewardsForWithdrawal: info[9],
-      totolStaked: info[10],
-      totalHashPower: info[11],
-      isActive: currentBlock > info[5],
+      nft: info.digdragon ?? "0x00",
+      reward: info.reward ?? "0x00",
+      hashpower: info.hashStorage ?? "0x00",
+      feeCollector: info.feeCollector ?? "0x00",
+      fee: info.fee ?? "0x00",
+      startBlock: info.startBlock ?? 0,
+      endBlock: info.rewardEndBlock ?? 0,
+      rewardPerBlock: info.rewardPerBlock ?? 0,
+      accTokenPerShare: info.accTokenPerShare ?? 0,
+      rewardsForWithdrawal: info.rewardsForWithdrawal ?? 0,
+      totolStaked: info.totalStakedTokens ?? 0,
+      totalHashPower: info.totalHashPower ?? 0,
+      isActive: currentBlock > info.startBlock,
     };
 
     const apr = contractAPRCalculator(
