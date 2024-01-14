@@ -1,26 +1,54 @@
-import { useAccount } from "wagmi";
-import About from "~/components/Home/About";
-import Hero from "~/components/Home/Hero";
-import OurNFT from "~/components/Home/OurNFT";
-import Project from "~/components/Home/Project";
-import Team from "~/components/Home/Team";
-import BaseContainer from "~/components/Shared/Container/BaseContainer";
-import Footer from "~/components/Shared/Footer";
-import BaseLayout from "~/components/Shared/Layouts/BaseLayout";
-import BaseNavbar from "~/components/Shared/Navbar/BaseNavbar";
+import React from "react";
+import BoxLeft from "~/components/Home/BoxLeft";
+import BoxRight from "~/components/Home/BoxRight";
+import BaseLayoutV2 from "~/components/Shared/Layout/BaseLayoutV2";
+import GridLayout from "~/components/Shared/Layout/GridLayout";
+import GridSpacer from "~/components/Shared/Layout/GridSpacer";
+import NavBarV2 from "~/components/Shared/Nav/NavBarV2";
+
+import { useEffect, useState } from "react";
+import FloatingButton from "~/components/Shared/Button/FloatingButton";
+import LoadingScreen from "~/components/Shared/LoadingScreen";
 
 export default function Home() {
+  const [ready, setReady] = useState<boolean>(false);
+
+  useEffect(() => {
+    setReady(true);
+  }, [ready, setReady]);
+
+  if (!ready) {
+    return <LoadingScreen />;
+  }
+
   return (
-    <BaseLayout>
-      <BaseNavbar />
-      <BaseContainer>
-        <Hero />
-        <About />
-        <OurNFT />
-        <Project />
-        <Team />
-      </BaseContainer>
-      <Footer />
-    </BaseLayout>
+    <BaseLayoutV2>
+      <NavBarV2 />
+      <div className="mt-10 flex h-[80vh] items-center justify-center">
+        <GridLayout className="h-full">
+          <GridSpacer />
+          <BoxLeft />
+          <BoxRight />
+          <GridSpacer />
+        </GridLayout>
+      </div>
+      <FloatingButton />
+    </BaseLayoutV2>
   );
 }
+
+// export default function Home() {
+//   return (
+//     <BaseLayout>
+//       <BaseNavbar />
+//       <BaseContainer>
+//         <Hero />
+//         <About />
+//         <OurNFT />
+//         <Project />
+//         <Team />
+//       </BaseContainer>
+//       <Footer />
+//     </BaseLayout>
+//   );
+// }

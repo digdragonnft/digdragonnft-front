@@ -41,5 +41,5 @@ export const bitkub_testnet = {
   blockExplorers: {
     default: { name: "SnowTrace", url: "https://testnet.bkcscan.com" },
   },
-  testnet: false,
+  testnet: true,
 } as const satisfies Chain;

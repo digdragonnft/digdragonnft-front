@@ -21,7 +21,7 @@ const { connectors } = getDefaultWallets({
 });
 
 const config = createConfig({
-  autoConnect: false,
+  autoConnect: true,
   connectors,
   publicClient,
   webSocketPublicClient,
