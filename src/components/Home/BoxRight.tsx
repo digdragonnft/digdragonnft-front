@@ -1,13 +1,14 @@
 import { useEffect } from "react";
 import { useStakedEvent } from "~/blockchain/Mine/stake";
 import { useUnStakedEvent } from "~/blockchain/Mine/unstake";
-import Loading from "~/components/Shared/Inidcators/Loading";
 import { api } from "~/utils/api";
 import { address } from "~/blockchain/Mine/abi";
 import GridLayout from "~/components/Shared/Layout/GridLayout";
 import GridSpacer from "~/components/Shared/Layout/GridSpacer";
 import StatCard1 from "~/components/Shared/Card/StatCard1";
 import StatCard2 from "~/components/Shared/Card/StatCard2";
+
+import { motion } from "framer-motion";
 
 export default function BoxRight() {
   const {
@@ -37,17 +38,31 @@ export default function BoxRight() {
     refetchMineInfo();
   }, [stakedEvent, resetStaked, unStakedEvent, resetUnStaked]);
 
+  const boxSlider = (delay: number) => {
+    return {
+      initial: { y: 20, opacity: 0 },
+      animate: { y: 0, opacity: 1 },
+      transition: {
+        duration: 0.6,
+        ease: "easeInOut",
+        type: "spring",
+        stiffness: 25,
+        delay: delay,
+      },
+    };
+  };
+
   return (
     <div className="col-span-12 flex flex-col justify-center md:col-span-7">
       <GridLayout>
         <GridSpacer />
-        <div className="col-span-12 md:col-span-4">
+        <motion.div {...boxSlider(0.4)} className="col-span-12 md:col-span-4">
           <StatCard1
             title="kBTC/OG #1"
             value={mineInfo?.isActive ? "Active" : "Inactive"}
           />
-        </div>
-        <div className="col-span-12 md:col-span-6">
+        </motion.div>
+        <motion.div {...boxSlider(0.5)} className="col-span-12 md:col-span-6">
           <StatCard1
             title="APR"
             value={
@@ -56,26 +71,26 @@ export default function BoxRight() {
                 : `${mineInfo?.apr.toFixed(2).toString()} %`
             }
           />
-        </div>
+        </motion.div>
         <GridSpacer />
         <GridSpacer />
-        <div className="col-span-12 md:col-span-6">
+        <motion.div {...boxSlider(0.6)} className="col-span-12 md:col-span-6">
           <StatCard1
             title="Total Hash Power"
             value={
               loadingMineInfo ? "N/A" : mineInfo?.totalHashPower.toString()
             }
           />
-        </div>
-        <div className="col-span-12 md:col-span-4">
+        </motion.div>
+        <motion.div {...boxSlider(0.7)} className="col-span-12 md:col-span-4">
           <StatCard1
             title="TotalMiner"
             value={loadingMineInfo ? "N/A" : mineInfo?.totolStaked.toString()}
           />
-        </div>
+        </motion.div>
         <GridSpacer />
         <GridSpacer />
-        <div className="col-span-12 md:col-span-10">
+        <motion.div {...boxSlider(0.8)} className="col-span-12 md:col-span-10">
           <StatCard2
             title="Mining Period"
             content={`${
@@ -89,13 +104,11 @@ export default function BoxRight() {
                   ).toString()
             }days`}
             subContent={`from block ${
-              loadingBlockNumber || !currentBlockNumber
-                ? "N/A"
-                : currentBlockNumber!.toString()
+              loadingMineInfo ? "N/A" : mineInfo?.startBlock.toString()
             }
             to ${loadingMineInfo ? "N/A" : mineInfo?.endBlock.toString()}`}
           />
-        </div>
+        </motion.div>
         <GridSpacer />
       </GridLayout>
     </div>
