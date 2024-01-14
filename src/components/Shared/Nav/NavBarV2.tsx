@@ -5,6 +5,8 @@ import { useAccount } from "wagmi";
 import { FaWallet } from "react-icons/fa";
 import { GiMineWagon } from "react-icons/gi";
 
+import { motion } from "framer-motion";
+
 export default function NavBarV2() {
   const { pathname } = useRouter();
   const { isConnected } = useAccount();
@@ -13,9 +15,15 @@ export default function NavBarV2() {
     <div className="navbar z-[20] bg-slate-500 bg-opacity-30 px-6">
       <div className="navbar-start">
         {/* <h2 className="font-semibold text-white">DigDragon NFT</h2> */}
-        <Link href="/">
-          <img src="/images/logo.png" alt="logo" />
-        </Link>
+        <motion.div
+          initial={{ x: -100, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.3, delay: 1, type: "spring", damping: 10 }}
+        >
+          <Link href="/">
+            <img src="/images/logo.png" alt="logo" />
+          </Link>
+        </motion.div>
       </div>
       <div className="navbar-center"></div>
       <div className="navbar-end flex gap-6">

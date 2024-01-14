@@ -10,6 +10,8 @@ import { useEffect, useState } from "react";
 import FloatingButton from "~/components/Shared/Button/FloatingButton";
 import LoadingScreen from "~/components/Shared/LoadingScreen";
 
+import { AnimatePresence, motion } from "framer-motion";
+
 export default function Home() {
   const [ready, setReady] = useState<boolean>(false);
 
@@ -24,14 +26,24 @@ export default function Home() {
   return (
     <BaseLayoutV2>
       <NavBarV2 />
-      <div className="mt-10 flex h-[80vh] items-center justify-center">
+      <motion.div
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{
+          duration: 0.6,
+          ease: "easeInOut",
+          type: "spring",
+          stiffness: 25,
+        }}
+        className="mt-10 flex h-[80vh] items-center justify-center"
+      >
         <GridLayout className="h-full">
           <GridSpacer />
           <BoxLeft />
           <BoxRight />
           <GridSpacer />
         </GridLayout>
-      </div>
+      </motion.div>
       <FloatingButton />
     </BaseLayoutV2>
   );
