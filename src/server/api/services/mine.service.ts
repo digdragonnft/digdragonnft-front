@@ -7,6 +7,7 @@ import { Address, formatEther, formatUnits } from "viem";
 import { mine } from "viem/_types/actions/test/mine";
 import { contractAPRCalculator } from "../utils/contractAPR";
 import { getTokenURI, getTokensURIOf } from "./nft.service";
+import { calculateRewardTimeParameters } from "../utils/RewardCalculation";
 
 export const getMineData = async () => {
   try {
@@ -114,7 +115,12 @@ export const getMineInfo = async () => {
       parsedData.accTokenPerShare,
     );
 
-    return { ...parsedData, apr };
+    const { startTime, endTime } = await calculateRewardTimeParameters(
+      parsedData.startBlock,
+      parsedData.endBlock,
+    );
+
+    return { ...parsedData, apr, startTime, endTime };
   } catch (error) {
     console.log(error);
     return null;

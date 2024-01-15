@@ -10,6 +10,9 @@ export default function BaseLayoutV2({ children }: { children: ReactNode }) {
           name="description"
           content="the group of people who admired NFT technology and Crypto mining. Therefore the holders can join many of our activities"
         />
+        <meta property="og:title" content="DigDragon NFT Official" />
+        <meta property="og:url" content="https://digdragonnft.com" />
+        <meta property="og:image" content="/images/ournfthero.png" />
       </Head>
       <img
         className="absolute bottom-0 right-0 z-[-1]"
