@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import FloatingButton from "~/components/Shared/Button/FloatingButton";
 import LoadingScreen from "~/components/Shared/LoadingScreen";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 
 export default function Home() {
   const [ready, setReady] = useState<boolean>(false);
@@ -35,6 +35,7 @@ export default function Home() {
           type: "spring",
           stiffness: 25,
         }}
+        exit={{ opacity: 0 }}
         className="mt-10 flex h-[80vh] items-center justify-center"
       >
         <GridLayout className="h-full">

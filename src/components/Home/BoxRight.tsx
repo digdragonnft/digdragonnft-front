@@ -9,6 +9,7 @@ import StatCard1 from "~/components/Shared/Card/StatCard1";
 import StatCard2 from "~/components/Shared/Card/StatCard2";
 
 import { motion } from "framer-motion";
+import StatCard3 from "../Shared/Card/StatCard3";
 
 export default function BoxRight() {
   const {
@@ -91,23 +92,28 @@ export default function BoxRight() {
         <GridSpacer />
         <GridSpacer />
         <motion.div {...boxSlider(0.8)} className="col-span-12 md:col-span-10">
-          <StatCard2
-            title="Mining Period"
-            content={`${
-              loadingBlockNumber
-                ? "N/A"
-                : Math.floor(
-                    ((+mineInfo?.endBlock.toString() -
-                      +currentBlockNumber!.toString()) *
-                      5) /
-                      86400,
-                  ).toString()
-            }days`}
-            subContent={`from block ${
-              loadingMineInfo ? "N/A" : mineInfo?.startBlock.toString()
-            }
-            to ${loadingMineInfo ? "N/A" : mineInfo?.endBlock.toString()}`}
-          />
+          <StatCard3 title="Mining Period">
+            <div className="flex flex-col items-end  leading-tight">
+              <div className="text-[36px] font-bold text-white">
+                {`${
+                  loadingBlockNumber
+                    ? "N/A"
+                    : Math.floor(
+                        ((+mineInfo?.endBlock.toString() -
+                          +currentBlockNumber!.toString()) *
+                          5) /
+                          86400,
+                      ).toString()
+                }days`}
+              </div>
+              <div className="flex flex-col text-[12px] font-semibold leading-tight text-gray-200">
+                <div>
+                  {`from ~${mineInfo?.startTime} to ~${mineInfo?.endTime}`}
+                </div>
+                <div>{`from ~block ${mineInfo?.startBlock} to ~block ${mineInfo?.endBlock}`}</div>
+              </div>
+            </div>
+          </StatCard3>
         </motion.div>
         <GridSpacer />
       </GridLayout>
