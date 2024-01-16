@@ -109,11 +109,17 @@ const WalletPage = () => {
 
   const handleUnStakeAll = () => {
     setUnstakeLoading(true);
-    if (data?.userInfo.stakedTokenIds.length <= 0) {
+    if (data?.userInfo.stakedTokenIds.length! <= 0) {
       setUnstakeLoading(false);
       return;
     }
-    unstake(data?.userInfo.stakedTokenIds);
+    const tokenIds =
+      data?.userInfo.stakedTokenIds.map((tokenId) =>
+        parseInt(tokenId.toString()),
+      ) ?? [];
+
+    if (tokenIds.length <= 0) return;
+    unstake(tokenIds);
   };
 
   useEffect(() => {

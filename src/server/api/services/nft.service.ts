@@ -58,21 +58,30 @@ export const getTokensURIOf = async (owner: Address) => {
 };
 
 export const getTokensOfOwner = async (owner: Address) => {
-  const balance = (await getBalanceOf(owner)) as bigint;
-  const tokens = new Array(balance);
+  try {
+    const balance = (await getBalanceOf(owner)) as bigint;
+    let tokens = new Array(balance);
 
-  for (let i = 0; i < balance; i++) {
-    tokens[i] = (await viem.readContract({
-      abi,
-      address,
-      functionName: "tokenOfOwnerByIndex",
-      args: [owner, i],
-    })) as bigint;
+    if (tokens.toString() == "0") {
+      return [];
+    }
+
+    for (let i = 0; i < balance; i++) {
+      tokens[i] = (await viem.readContract({
+        abi,
+        address,
+        functionName: "tokenOfOwnerByIndex",
+        args: [owner, i],
+      })) as bigint;
+    }
+
+    console.log("tokens: ", tokens);
+
+    return tokens;
+  } catch (error) {
+    console.log(error);
+    return [];
   }
-
-  // console.log("tokens: ", tokens);
-
-  return tokens;
 };
 
 export const getBalanceOf = async (owner: Address) => {
@@ -94,8 +103,6 @@ export const isApprovedForAll = async (owner: Address) => {
     functionName: "isApprovedForAll",
     args: [owner, Mine],
   });
-
-  // console.log("isApprovedForAll: ", result);
 
   return result;
 };
