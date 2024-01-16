@@ -40,7 +40,12 @@ export const getUserInfo = async (wallet: Address) => {
       // address: mine[0].mineAddress,
       functionName: "getUserInfo",
       args: [wallet],
-    })) as { stakedTokenIds: bigint[]; stakedHashPowerAmount: bigint };
+    })) as {
+      stakedTokenIds: bigint[];
+      stakedHashPowerAmount: bigint;
+      lastIn: bigint;
+      lastOut: bigint;
+    };
     //@ts-ignore
     // const pendingReward = await getPendingReward(wallet, mine[0].mineAddress);
     const pendingReward = await getPendingReward(wallet, address);
@@ -48,20 +53,24 @@ export const getUserInfo = async (wallet: Address) => {
     // console.log({
     //   userInfo: {
     //     //@ts-ignore
-    //     stakedTokenIds: userInfo[0],
+    //     stakedTokenIds: userInfo.stakedTokenIds,
     //     //@ts-ignore
-    //     stakedHashPowerAmount: userInfo[1],
+    //     stakedHashPowerAmount: userInfo.stakedHashPowerAmount,
+    //     lastIn: userInfo.lastIn,
+    //     lastOut: userInfo.lastOut,
     //   },
     //   pendingReward: formatUnits(pendingReward[1], 18),
     // });
     return {
       userInfo: {
         //@ts-ignore
-        stakedTokenIds: userInfo[0] ?? [],
+        stakedTokenIds: userInfo.stakedTokenIds,
         //@ts-ignore
-        stakedHashPowerAmount: userInfo[1] ?? 0,
+        stakedHashPowerAmount: userInfo.stakedHashPowerAmount,
+        lastIn: userInfo.lastIn,
+        lastOut: userInfo.lastOut,
       },
-      pendingReward: formatUnits(pendingReward[1], 18) ?? 0,
+      pendingReward: formatUnits(pendingReward[1], 18),
     };
   } catch (error) {
     console.log(error);
@@ -148,7 +157,7 @@ export const getStakedTokenMetadataOf = async (wallet: string) => {
 
     return stakedUris;
   } catch (error) {
-    console.log(error);
+    console.log("getStakedTokenMetadataOf", error);
     return [];
   }
 };
