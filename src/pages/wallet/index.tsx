@@ -269,6 +269,13 @@ const WalletPage = () => {
           </div>
 
           <div className="min-w-[200px] rounded-xl border-[1px] border-info p-2">
+            <div className="font-bold text-white">Total Hash Power</div>
+            <div className="text-info">
+              {+data?.userInfo?.stakedHashPowerAmount?.toString()!}
+            </div>
+          </div>
+
+          <div className="min-w-[200px] rounded-xl border-[1px] border-info p-2">
             <div className="font-bold text-white">Your kBTC</div>
             <div className="text-info">{balance}</div>
           </div>

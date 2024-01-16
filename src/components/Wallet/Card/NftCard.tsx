@@ -132,7 +132,7 @@ export default function NFTCard({
         {rarity == "super rare" || rarity == "super special rare" ? (
           <FaStar className="text-yellow-400" size={16} />
         ) : null}
-        {rarity == "super special rare" ? (
+        {rarity == "Super special rare" ? (
           <FaStar className="text-yellow-400" size={16} />
         ) : null}
       </div>

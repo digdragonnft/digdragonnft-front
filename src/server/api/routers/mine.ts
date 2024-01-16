@@ -7,6 +7,7 @@ import {
 } from "../services/mine.service";
 import { z } from "zod";
 import Address from "~/components/Shared/Typepography/Address";
+import { scrapeViaBTC } from "../services/via-btc.service";
 
 export const mineRouter = createTRPCRouter({
   getAll: publicProcedure.query(async () => {
