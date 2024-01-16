@@ -106,7 +106,8 @@ export const getMineInfo = async () => {
       rewardsForWithdrawal: info.rewardsForWithdrawal ?? 0,
       totolStaked: info.totalStakedTokens ?? 0,
       totalHashPower: info.totalHashPower ?? 0,
-      isActive: currentBlock > info.startBlock,
+      // isActive: currentBlock > info.startBlock,
+      isActive: true,
     };
 
     const apr = contractAPRCalculator(

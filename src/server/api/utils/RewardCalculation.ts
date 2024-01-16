@@ -13,7 +13,6 @@ async function calculateTimeFromBlock(block: bigint) {
   const blockDiff = block - currentBlock;
   const totalBlocksTimeInHour =
     parseInt(blockDiff.toString()) / (3600 / blockTime);
-  console.log(totalBlocksTimeInHour);
   const estimateBlockTimestamp = currentBlockTime
     .add(totalBlocksTimeInHour, "h")
     .format("YYYY-MM-DD | HH:mm");
