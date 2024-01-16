@@ -67,8 +67,8 @@ export const getUserInfo = async (wallet: Address) => {
         stakedTokenIds: userInfo.stakedTokenIds,
         //@ts-ignore
         stakedHashPowerAmount: userInfo.stakedHashPowerAmount,
-        lastIn: userInfo.lastIn,
-        lastOut: userInfo.lastOut,
+        lastIn: userInfo.lastIn.toString(),
+        lastOut: userInfo.lastOut.toString(),
       },
       pendingReward: formatUnits(pendingReward[1], 18),
     };
