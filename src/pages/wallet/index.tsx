@@ -264,13 +264,19 @@ const WalletPage = () => {
         <div className="flex flex-col items-center gap-2 sm:flex-row">
           <StatCardOutline
             title="Earned"
-            value={(+data?.pendingReward!).toFixed(8).toString()}
+            value={(+data?.pendingReward!).toFixed(10).toString()}
+            count={true}
           />
           <StatCardOutline
             title="Staked Hashpower"
             value={data?.userInfo?.stakedHashPowerAmount?.toString()!}
+            count={false}
           />
-          <StatCardOutline title="Your kBTC" value={balance?.toString()!} />
+          <StatCardOutline
+            title="Your kBTC"
+            value={balance?.toString()!}
+            count={false}
+          />
         </div>
       </div>
 

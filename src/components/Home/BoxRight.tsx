@@ -6,7 +6,6 @@ import { address } from "~/blockchain/Mine/abi";
 import GridLayout from "~/components/Shared/Layout/GridLayout";
 import GridSpacer from "~/components/Shared/Layout/GridSpacer";
 import StatCard1 from "~/components/Shared/Card/StatCard1";
-import StatCard2 from "~/components/Shared/Card/StatCard2";
 
 import { motion } from "framer-motion";
 import StatCard3 from "../Shared/Card/StatCard3";
@@ -61,6 +60,7 @@ export default function BoxRight() {
           <StatCard1
             title="kBTC/OG #1"
             value={mineInfo?.isActive ? "Active" : "Inactive"}
+            count={false}
           />
         </motion.div>
         <motion.div {...boxSlider(0.5)} className="col-span-12 md:col-span-6">
@@ -71,6 +71,7 @@ export default function BoxRight() {
                 ? "N/A"
                 : `${mineInfo?.apr.toFixed(2).toString()} %`
             }
+            count={false}
           />
         </motion.div>
         <GridSpacer />
@@ -81,12 +82,14 @@ export default function BoxRight() {
             value={
               loadingMineInfo ? "N/A" : mineInfo?.totalHashPower.toString()
             }
+            count={true}
           />
         </motion.div>
         <motion.div {...boxSlider(0.7)} className="col-span-12 md:col-span-4">
           <StatCard1
             title="TotalMiner"
             value={loadingMineInfo ? "N/A" : mineInfo?.totolStaked.toString()}
+            count={true}
           />
         </motion.div>
         <GridSpacer />
