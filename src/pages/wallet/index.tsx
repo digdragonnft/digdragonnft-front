@@ -15,6 +15,7 @@ import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import FloatingButton from "~/components/Shared/Button/FloatingButton";
 import LoadingScreen from "~/components/Shared/LoadingScreen";
+import StatCardOutline from "~/components/Shared/Card/StatCardOutline";
 
 const WalletPage = () => {
   const { isConnected, address } = useAccount();
@@ -261,24 +262,15 @@ const WalletPage = () => {
         </div>
 
         <div className="flex flex-col items-center gap-2 sm:flex-row">
-          <div className="min-w-[200px] rounded-xl border-[1px] border-info p-2">
-            <div className="font-bold text-white">Earned</div>
-            <div className="text-info">
-              {(+data?.pendingReward!).toFixed(4).toString()}
-            </div>
-          </div>
-
-          <div className="min-w-[200px] rounded-xl border-[1px] border-info p-2">
-            <div className="font-bold text-white">Total Hash Power</div>
-            <div className="text-info">
-              {+data?.userInfo?.stakedHashPowerAmount?.toString()!}
-            </div>
-          </div>
-
-          <div className="min-w-[200px] rounded-xl border-[1px] border-info p-2">
-            <div className="font-bold text-white">Your kBTC</div>
-            <div className="text-info">{balance}</div>
-          </div>
+          <StatCardOutline
+            title="Earned"
+            value={(+data?.pendingReward!).toFixed(8).toString()}
+          />
+          <StatCardOutline
+            title="Staked Hashpower"
+            value={data?.userInfo?.stakedHashPowerAmount?.toString()!}
+          />
+          <StatCardOutline title="Your kBTC" value={balance?.toString()!} />
         </div>
       </div>
 
