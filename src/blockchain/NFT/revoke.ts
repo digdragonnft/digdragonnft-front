@@ -1,14 +1,14 @@
 import { abi, address } from "./abi";
 import { address as Mine } from "../Mine/abi";
-import { useContractWrite } from "wagmi";
+import { Address, useContractWrite } from "wagmi";
 import { toast } from "react-toastify";
 
-export const useRevoke = () => {
+export const useRevoke = (mine: string) => {
   const { write, isSuccess, isLoading, isError } = useContractWrite({
     abi,
     address,
     functionName: "setApprovalForAll",
-    args: [Mine, false],
+    args: [mine, false],
   });
 
   return {

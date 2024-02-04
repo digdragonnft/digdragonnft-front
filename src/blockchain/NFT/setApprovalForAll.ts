@@ -1,15 +1,15 @@
 import { abi, address } from "./abi";
 import { address as Mine } from "../Mine/abi";
-import { useContractWrite } from "wagmi";
+import { Address, useContractWrite } from "wagmi";
 import { useState } from "react";
 import { viem } from "~/server/api/services/viem.service";
 
-export const useSetApprovalForAll = () => {
+export const useSetApprovalForAll = (mine: string) => {
   const { write, isSuccess, isLoading, isError } = useContractWrite({
     abi,
     address,
     functionName: "setApprovalForAll",
-    args: [Mine, true],
+    args: [mine, true],
   });
 
   return {
@@ -20,12 +20,12 @@ export const useSetApprovalForAll = () => {
   };
 };
 
-export const useApprovalForAllEvent = (owner: string) => {
+export const useApprovalForAllEvent = (owner: string, mineAddress: Address) => {
   const [approved, setApproved] = useState<boolean>(false);
   const [revoked, setRevoked] = useState<boolean>(false);
 
   viem.watchContractEvent({
-    address,
+    address: mineAddress,
     abi,
     eventName: "ApprovalForAll",
     onLogs: (log: any[]) => {

@@ -1,46 +1,53 @@
 import { defineField, defineType } from "sanity";
 
 export const MineType = defineType({
-  name: "minedata",
+  name: "mine",
   type: "document",
   title: "Mine Data",
   fields: [
     defineField({
-      name: "pair",
+      name: "name",
       title: "Mine Pairs",
       type: "string",
     }),
 
     defineField({
-      name: "rewardImage",
-      title: "Reward Image",
+      name: "address",
+      title: "Mine Contract Address",
+      type: "string",
+    }),
+
+    defineField({
+      name: "image",
+      title: "Thumbnail Image or Logo Image or Avatar Image",
       type: "image",
     }),
 
     defineField({
-      name: "nftImage",
-      title: "Nft Image",
-      type: "image",
+      name: "description",
+      title: "Description",
+      type: "string",
     }),
 
     defineField({
-      name: "mineAddress",
-      title: "Mine Address",
-      type: "string",
-      validation: (Rule) => Rule.required(),
+      name: "specialFunctions",
+      title: "Sepecial Functons List",
+      type: "array",
+      of: [{ type: "string" }],
     }),
 
     defineField({
-      name: "nftAddress",
-      title: "NFT address",
-      type: "string",
-      validation: (Rule) => Rule.required(),
+      name: "nfts",
+      title: "Available NFT of this mine",
+      type: "array",
+      of: [{ type: "reference", to: [{ type: "collection" }] }],
     }),
 
     defineField({
-      name: "mineDescription",
-      title: "Mine Description",
-      type: "string",
+      name: "rewards",
+      title: "Rewards Tokens",
+      type: "array",
+      of: [{ type: "reference", to: [{ type: "reward" }] }],
     }),
 
     defineField({
@@ -48,15 +55,6 @@ export const MineType = defineType({
       title: "Is Mining Open ?",
       type: "boolean",
       validation: (Rule) => Rule.required(),
-    }),
-
-    defineField({
-      name: "slug",
-      title: "Slug",
-      type: "slug",
-      options: {
-        source: "pair",
-      },
     }),
   ],
 });

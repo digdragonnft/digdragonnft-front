@@ -3,6 +3,7 @@ import { abi, address } from "~/blockchain/NFT/abi";
 import { abi as MineAbi, address as Mine } from "~/blockchain/Mine/abi";
 import axios from "axios";
 import { viem } from "./viem.service";
+import { getCollections } from "../../../../sanity/lib/nft";
 
 export const extractTokensMetadata = async (
   tokens: { uri: string; tokenId: bigint }[],
@@ -20,12 +21,13 @@ export const extractTokensMetadata = async (
   return responses;
 };
 
-export const getTokenURI = async (tokens: bigint[]) => {
+export const getTokenURI = async (tokens: bigint[], nftAddress: Address) => {
+  if (!nftAddress) return;
   const uris = (await Promise.all(
     tokens.map(async (token) => {
       const uri = await viem.readContract({
         abi,
-        address,
+        address: nftAddress,
         functionName: "tokenURI",
         args: [token],
       });
@@ -46,8 +48,8 @@ export const getTokenURI = async (tokens: bigint[]) => {
 
 export const getTokensURIOf = async (owner: Address) => {
   try {
-    const tokens = await getTokensOfOwner(owner);
-    const tokenUris = await getTokenURI(tokens);
+    const tokens = await getTokensOfOwner(owner, address);
+    const tokenUris = await getTokenURI(tokens, address);
     const unstakeUris = tokenUris?.map((uri) => ({ ...uri, staked: false }));
 
     return unstakeUris;
@@ -57,9 +59,9 @@ export const getTokensURIOf = async (owner: Address) => {
   }
 };
 
-export const getTokensOfOwner = async (owner: Address) => {
+export const getTokensOfOwner = async (owner: Address, nftAddress: Address) => {
   try {
-    const balance = (await getBalanceOf(owner)) as bigint;
+    const balance = (await getBalanceOf(owner, nftAddress)) as bigint;
     let tokens = new Array(balance);
 
     if (tokens.toString() == "0") {
@@ -69,13 +71,13 @@ export const getTokensOfOwner = async (owner: Address) => {
     for (let i = 0; i < balance; i++) {
       tokens[i] = (await viem.readContract({
         abi,
-        address,
+        address: nftAddress,
         functionName: "tokenOfOwnerByIndex",
         args: [owner, i],
       })) as bigint;
     }
 
-    console.log("tokens: ", tokens);
+    // console.log("tokens: ", tokens);
 
     return tokens;
   } catch (error) {
@@ -84,10 +86,10 @@ export const getTokensOfOwner = async (owner: Address) => {
   }
 };
 
-export const getBalanceOf = async (owner: Address) => {
+export const getBalanceOf = async (owner: Address, nftAddress: Address) => {
   const balance = await viem.readContract({
     abi,
-    address,
+    address: nftAddress,
     functionName: "balanceOf",
     args: [owner],
   });
@@ -96,13 +98,64 @@ export const getBalanceOf = async (owner: Address) => {
   return balance;
 };
 
-export const isApprovedForAll = async (owner: Address) => {
+export const isApprovedForAll = async (
+  owner: Address,
+  mineAddress: Address,
+) => {
   const result = await viem.readContract({
     abi,
     address,
     functionName: "isApprovedForAll",
-    args: [owner, Mine],
+    args: [owner, mineAddress],
   });
 
   return result;
+};
+
+export const totalSupply = async (nftAddress: Address) => {
+  const result = await viem.readContract({
+    abi,
+    address: nftAddress,
+    functionName: "totalSupply",
+  });
+
+  return result;
+};
+
+export const getCollectionOf = async (owner: Address) => {
+  try {
+    const collections = await getCollections();
+    const data = await Promise.all(
+      collections.map(async (col) => {
+        const balance = (await getBalanceOf(owner, col.address)) as bigint;
+        const supply = await totalSupply(col.address);
+        if (balance > 0) {
+          const tokens = await getTokensOfOwner(owner, col.address);
+          const metadata = await getTokenURI(tokens, col.address);
+
+          return {
+            collection: col.collectionName,
+            btn: col.button,
+            slug: col.slug,
+            balance,
+            totalSupply: supply,
+            metadata: metadata!,
+          };
+        }
+
+        return {
+          collection: col.collectionName,
+          btn: col.button,
+          slug: col.slug,
+          balance,
+          totalSupply: supply,
+          metadata: [],
+        };
+      }),
+    );
+
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
 };

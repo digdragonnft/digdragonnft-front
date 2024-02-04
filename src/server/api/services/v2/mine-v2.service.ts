@@ -1,13 +1,28 @@
 import { groq } from "next-sanity";
-import { client } from "../../../../sanity/lib/client";
-import { viem } from "./viem.service";
+import { client } from "../../../../../sanity/lib/client";
+import { viem } from "../viem.service";
 import { abi, address } from "~/blockchain/Mine/abi";
+import { abi as abi2, address2 } from "~/blockchain/Mine/abi2";
 import { address as NFT } from "~/blockchain/NFT/abi";
 import { MineType } from "sanity/schema/Mine";
 import { Address, formatEther, formatUnits } from "viem";
-import { contractAPRCalculator } from "../utils/contractAPR";
-import { getTokenURI, getTokensURIOf } from "./nft.service";
-import { calculateRewardTimeParameters } from "../utils/RewardCalculation";
+import { contractAPRCalculator } from "../../utils/contractAPR";
+import { getTokenURI, getTokensURIOf } from "../nft.service";
+import { calculateRewardTimeParameters } from "../../utils/RewardCalculation";
+import { getBalanceOf } from "../reward.service";
+
+const mines = [
+  {
+    mineNo: 1,
+    abi: abi,
+    address: address,
+  },
+  {
+    mineNp: 2,
+    abi: abi2,
+    address: address2,
+  },
+];
 
 export const getMineData = async () => {
   try {
@@ -31,12 +46,12 @@ export const getActiveMineData = async () => {
   }
 };
 
-export const getUserInfo = async (wallet: Address) => {
+export const getUserInfo = async (wallet: Address, mineeAddress: Address) => {
   try {
     const userInfo = (await viem.readContract({
       abi,
       //@ts-ignore
-      address: address,
+      address: mineeAddress,
       // address: mine[0].mineAddress,
       functionName: "getUserInfo",
       args: [wallet],
@@ -74,6 +89,7 @@ export const getUserInfo = async (wallet: Address) => {
     };
   } catch (error) {
     console.log(error);
+    return undefined;
   }
 };
 
@@ -92,17 +108,35 @@ export const getPendingReward = async (wallet: Address, mine: Address) => {
   }
 };
 
-export const getMineInfo = async () => {
+export const getAllMineInfo = async (owner: Address) => {
+  const data = await Promise.all(
+    mines.map(async (mine) => {
+      const mineInfo = await getMineInfo(mine.abi, mine.address as Address);
+      const userInfo = await getPendingReward(owner, mine.address as Address);
+      return {
+        ...mineInfo,
+        pendingReward: userInfo[1] ?? 0,
+      };
+    }),
+  );
+
+  return data;
+};
+
+export const getMineInfo = async (abi: any, address: Address) => {
   try {
     const info = (await viem.readContract({
-      address,
-      abi,
+      address: address,
+      abi: abi as string[],
       functionName: "getMineInfo",
     })) as any;
 
     const currentBlock = await viem.getBlockNumber();
 
+    const balance = await getBalanceOf(address);
+
     const parsedData = {
+      mine: address,
       nft: info.digdragon ?? "0x00",
       reward: info.reward ?? "0x00",
       hashpower: info.hashStorage ?? "0x00",
@@ -115,23 +149,25 @@ export const getMineInfo = async () => {
       rewardsForWithdrawal: info.rewardsForWithdrawal ?? 0,
       totolStaked: info.totalStakedTokens ?? 0,
       totalHashPower: info.totalHashPower ?? 0,
-      isActive:
-        currentBlock > info.startBlock && info.rewardEndBlock > currentBlock,
+      isActive: info.rewardEndBlock > currentBlock,
       // isActive: true,
     };
 
-    const apr = contractAPRCalculator(
-      parsedData.rewardPerBlock,
-      parsedData.totalHashPower,
-      parsedData.accTokenPerShare,
-    );
+    // console.log("info", info);
+
+    const apr =
+      contractAPRCalculator(
+        parsedData.rewardPerBlock,
+        parsedData.totalHashPower,
+        parsedData.accTokenPerShare,
+      ) ?? 0;
 
     const { startTime, endTime } = await calculateRewardTimeParameters(
       parsedData.startBlock,
       parsedData.endBlock,
     );
 
-    return { ...parsedData, apr, startTime, endTime };
+    return { ...parsedData, apr, startTime, endTime, balance };
   } catch (error) {
     console.log(error);
     return null;
@@ -141,9 +177,10 @@ export const getMineInfo = async () => {
 export const getStakedTokenMetadataOf = async (
   wallet: string,
   nftAddress: string,
+  mineAddress: Address,
 ) => {
   try {
-    const user = await getUserInfo(wallet as Address);
+    const user = await getUserInfo(wallet as Address, mineAddress);
 
     if (!user) {
       console.log("user not found");
@@ -160,8 +197,8 @@ export const getStakedTokenMetadataOf = async (
     const stakedUris = tokenUris.map((uri) => ({ ...uri, staked: true }));
 
     return stakedUris;
-  } catch (error) {
-    console.log("getStakedTokenMetadataOf", error);
+  } catch (error: any) {
+    console.log("getStakedTokenMetadataOf", error.message);
     return [];
   }
 };

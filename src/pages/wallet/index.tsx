@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useAccount } from "wagmi";
+import { Address, useAccount } from "wagmi";
 import { useStake, useStakedEvent } from "~/blockchain/Mine/stake";
 import { useUnStakedEvent, useUnstake } from "~/blockchain/Mine/unstake";
 import { useRevoke } from "~/blockchain/NFT/revoke";
@@ -19,7 +19,8 @@ import StatCardOutline from "~/components/Shared/Card/StatCardOutline";
 
 const WalletPage = () => {
   const { isConnected, address } = useAccount();
-  const { replace } = useRouter();
+  const { replace, query } = useRouter();
+  const { mine: mineAddress } = query;
 
   const [nft, setNfts] = useState<number[]>([]);
   const [approvedLoading, setApprovedLoading] = useState<boolean>(false);
@@ -28,15 +29,21 @@ const WalletPage = () => {
 
   //events
   const { approvedEvent, revokedEvent, resetApproved, resetRevoked } =
-    useApprovalForAllEvent(address as string);
-  const { stakedEvent, resetStaked } = useStakedEvent(address as string);
-  const { unStakedEvent, resetUnStaked } = useUnStakedEvent(address as string);
+    useApprovalForAllEvent(address as string, mineAddress as Address);
+  const { stakedEvent, resetStaked } = useStakedEvent(
+    address as string,
+    mineAddress as Address,
+  );
+  const { unStakedEvent, resetUnStaked } = useUnStakedEvent(
+    address as string,
+    mineAddress as Address,
+  );
 
   const {
     data: mineInfo,
     isLoading: loadingMineInfo,
     refetch: refetchMineInfo,
-  } = api.mine.getMineInfo.useQuery();
+  } = api.mine.getMineInfo.useQuery({ mine: mineAddress as string });
 
   const {
     data,
@@ -44,6 +51,7 @@ const WalletPage = () => {
     refetch: getUserInfo,
   } = api.mine.getUserInfo.useQuery({
     wallet: address as string,
+    mineAddress: mineAddress as Address,
   });
 
   const {
@@ -65,19 +73,26 @@ const WalletPage = () => {
   const { data: stakedTokens, refetch: refetchStakedTokens } =
     api.mine.getStakedTokenOf.useQuery({
       wallet: address as string,
+      mineAddress: mineAddress as Address,
     });
 
   const { data: isApprovedForAll, refetch: getIsApprovalForAll } =
-    api.nft.isApprovedForAll.useQuery({ wallet: address as string });
+    api.nft.isApprovedForAll.useQuery({
+      wallet: address as string,
+      mineAddress: mineAddress as Address,
+    });
 
-  const { stake, staking, stakingError } = useStake();
+  const { stake, staking, stakingError } = useStake(mineAddress as string);
 
-  const { unstake, unstaking, unstakingError } = useUnstake();
+  const { unstake, unstaking, unstakingError } = useUnstake(
+    mineAddress as string,
+  );
 
-  const { revoke, revoking, revokeError } = useRevoke();
+  const { revoke, revoking, revokeError } = useRevoke(mineAddress as string);
 
-  const { setApprovalForAll, approving, approvedError } =
-    useSetApprovalForAll();
+  const { setApprovalForAll, approving, approvedError } = useSetApprovalForAll(
+    mineAddress as string,
+  );
 
   const handleApprovalForAll = () => {
     setApprovedLoading(true);
@@ -184,8 +199,9 @@ const WalletPage = () => {
   return (
     <BaseLayoutV2>
       <NavBarV2 />
-      <div className="flex w-full px-10 py-10">
+      <div className="flex w-full flex-col px-10 py-10">
         <h1 className="font-bold text-white">My Collection</h1>
+        <h2 className="text-sm font-semibold text-slate-400">@{mineAddress}</h2>
       </div>
       <div className="flex w-full flex-col items-center justify-between gap-2 bg-white bg-opacity-20 px-3 py-4 backdrop-blur-sm md:flex-row md:px-10 md:py-6">
         <div className="flex gap-2">
@@ -286,6 +302,7 @@ const WalletPage = () => {
             ?.sort((a, b) => +a.tokenId.toString() - +b.tokenId.toString())
             .map((n) => (
               <NFTCard
+                mineAddress={mineAddress as string}
                 canStake={mineInfo?.isActive!}
                 tokenId={n.tokenId.toString()}
                 staked={n.staked}

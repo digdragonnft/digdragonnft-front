@@ -6,7 +6,7 @@ import { FaStar } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useStake, useStakedEvent } from "~/blockchain/Mine/stake";
-import { useAccount } from "wagmi";
+import { Address, useAccount } from "wagmi";
 import { useUnStakedEvent, useUnstake } from "~/blockchain/Mine/unstake";
 
 const variants = {
@@ -30,6 +30,7 @@ interface NFTCardProps {
   rarity: string;
   staked: boolean;
   canStake: boolean;
+  mineAddress: string;
 }
 
 export default function NFTCard({
@@ -44,15 +45,28 @@ export default function NFTCard({
   spd,
   rarity,
   canStake,
+  mineAddress,
 }: NFTCardProps) {
   const [isHover, setIsHovered] = useState<boolean>(false);
   const { address } = useAccount();
   const [UnstakingLoading, setUnstakingLoading] = useState<boolean>(false);
   const [stakingLoading, setStakingLoading] = useState<boolean>(false);
-  const { stake, staking, staked: stakedDone, stakingError } = useStake();
-  const { unstake, unstaking, unstaked, unstakingError } = useUnstake();
-  const { stakedEvent, resetStaked } = useStakedEvent(address as string);
-  const { unStakedEvent, resetUnStaked } = useUnStakedEvent(address as string);
+  const {
+    stake,
+    staking,
+    staked: stakedDone,
+    stakingError,
+  } = useStake(mineAddress);
+  const { unstake, unstaking, unstaked, unstakingError } =
+    useUnstake(mineAddress);
+  const { stakedEvent, resetStaked } = useStakedEvent(
+    address as string,
+    mineAddress as Address,
+  );
+  const { unStakedEvent, resetUnStaked } = useUnStakedEvent(
+    address as string,
+    mineAddress as Address,
+  );
 
   useEffect(() => {
     if (stakedEvent || unStakedEvent) {

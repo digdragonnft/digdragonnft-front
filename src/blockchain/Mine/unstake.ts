@@ -1,12 +1,12 @@
 import { abi, address } from "./abi";
-import { useContractEvent, useContractWrite } from "wagmi";
+import { Address, useContractEvent, useContractWrite } from "wagmi";
 import { toast } from "react-toastify";
 import { viem } from "~/server/api/services/viem.service";
 import { useState } from "react";
 
-export const useUnstake = () => {
+export const useUnstake = (mine: string) => {
   const { isLoading, isError, isSuccess, write } = useContractWrite({
-    address,
+    address: mine as Address,
     abi,
     functionName: "unstake",
   });
@@ -23,11 +23,11 @@ export const useUnstake = () => {
   };
 };
 
-export const useUnStakedEvent = (owner: string) => {
+export const useUnStakedEvent = (owner: string, mineAddress: Address) => {
   const [unStaked, setUnStaked] = useState<boolean>(false);
 
   viem.watchContractEvent({
-    address,
+    address: mineAddress,
     abi,
     eventName: "Unstaked",
     onLogs: (log: any[]) => {

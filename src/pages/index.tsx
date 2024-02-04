@@ -11,9 +11,17 @@ import FloatingButton from "~/components/Shared/Button/FloatingButton";
 import LoadingScreen from "~/components/Shared/LoadingScreen";
 
 import { motion } from "framer-motion";
+import { useAccount } from "wagmi";
+import { api } from "~/utils/api";
+import Loading from "~/components/Shared/Inidcators/Loading";
 
 export default function Home() {
   const [ready, setReady] = useState<boolean>(false);
+  const { address } = useAccount();
+  const { data: allMines, isLoading: allMineLoading } =
+    api.mine.getAllMinesInfo.useQuery({
+      owner: address!,
+    });
 
   useEffect(() => {
     setReady(true);
@@ -41,7 +49,22 @@ export default function Home() {
         <GridLayout className="h-full">
           <GridSpacer />
           <BoxLeft />
-          <BoxRight />
+          {allMineLoading ? (
+            <Loading />
+          ) : (
+            <div className="col-span-12 h-[700px] overflow-y-scroll md:col-span-6">
+              {allMines?.map((mine, index) => (
+                <>
+                  <BoxRight
+                    mineName={`#kBTC/OG`}
+                    //@ts-ignore
+                    mineInfo={mine}
+                  />
+                  <div className="divider text-white">_</div>
+                </>
+              ))}
+            </div>
+          )}
           <GridSpacer />
         </GridLayout>
       </motion.div>

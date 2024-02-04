@@ -1,18 +1,7 @@
 export const abi = [
   {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_token",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "_amount",
-        type: "uint256",
-      },
-    ],
-    name: "emergencyRewardTokenWithdraw",
+    inputs: [],
+    name: "earnReward",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -67,6 +56,43 @@ export const abi = [
     inputs: [],
     name: "ZeroStakedTokens",
     type: "error",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "miner",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "earned",
+        type: "uint256",
+      },
+    ],
+    name: "Earned",
+    type: "event",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_token",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "_amount",
+        type: "uint256",
+      },
+    ],
+    name: "emergencyRewardTokenWithdraw",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
     anonymous: false,
@@ -439,17 +465,22 @@ export const abi = [
     type: "event",
   },
   {
-    inputs: [],
-    name: "updatePool",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "withdrawReward",
-    outputs: [],
-    stateMutability: "nonpayable",
+    inputs: [
+      {
+        internalType: "address",
+        name: "_miner",
+        type: "address",
+      },
+    ],
+    name: "calculateReward",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
     type: "function",
   },
   {
@@ -500,12 +531,7 @@ export const abi = [
           },
           {
             internalType: "uint256",
-            name: "accTokenPerShare",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "rewardsForWithdrawal",
+            name: "currentRewardPerHashPowere",
             type: "uint256",
           },
           {
@@ -519,33 +545,9 @@ export const abi = [
             type: "uint256",
           },
         ],
-        internalType: "struct DigDragonMine.MineInfo",
+        internalType: "struct DigDragonMineV2.MineInfo",
         name: "info",
         type: "tuple",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "_from",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "_to",
-        type: "uint256",
-      },
-    ],
-    name: "getMultiplier",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
       },
     ],
     stateMutability: "view",
@@ -603,7 +605,7 @@ export const abi = [
             type: "uint256",
           },
         ],
-        internalType: "struct DigDragonMine.Miner",
+        internalType: "struct DigDragonMineV2.Miner",
         name: "userInfo",
         type: "tuple",
       },
@@ -664,19 +666,6 @@ export const abi = [
   },
   {
     inputs: [],
-    name: "lastRewardBlock",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
     name: "owner",
     outputs: [
       {
@@ -689,20 +678,9 @@ export const abi = [
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_miner",
-        type: "address",
-      },
-    ],
-    name: "pendingReward",
+    inputs: [],
+    name: "rewardPerHashPower",
     outputs: [
-      {
-        internalType: "contract IERC20",
-        name: "",
-        type: "address",
-      },
       {
         internalType: "uint256",
         name: "",
@@ -740,10 +718,4 @@ export const abi = [
   },
 ];
 
-// export const address = "0x6d2d548CB51D82bc9C850fc1F1315B8a4665666F";
-export const address = "0x41d45dF6FBEEC5DC70D53Fbbe92F3ccBA9C45250"; //Mine 1 (BUG)
-
-// export const mineAddress = {
-//   mine1: "0x41d45dF6FBEEC5DC70D53Fbbe92F3ccBA9C45250",
-//   mine2: "0x0FED565a2f8166DBa6Ff75698e1056e284eD4f7D",
-// }; //Mine 2 (v2)
+export const address2 = "0xC1F2AD8960f01E8700ba1ee52A9D0729F2beACd2";
