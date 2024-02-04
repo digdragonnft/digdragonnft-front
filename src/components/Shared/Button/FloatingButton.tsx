@@ -18,13 +18,13 @@ export default function FloatingButton() {
           tabIndex={0}
           className="menu dropdown-content rounded-box z-[1] w-52  bg-info p-2 text-center text-white shadow-xl"
         >
-          <li>
+          {/* <li>
             {isConnected ? (
               <Link href="/wallet">Wallet</Link>
             ) : (
               <ConnectButton />
             )}
-          </li>
+          </li> */}
           <li>
             <Link href="/mine">Mine Zone</Link>
           </li>
