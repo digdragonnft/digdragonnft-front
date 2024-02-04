@@ -1,21 +1,24 @@
 import { useEffect, useRef } from "react";
-import { useCountUp } from "react-countup";
+import CountUp, { useCountUp } from "react-countup";
 
 interface StatCardOutlineProps {
   title: string;
   value: string;
   count: boolean;
+  decimal: boolean;
 }
 
 export default function StatCardOutline({
   title,
   value,
   count,
+  decimal,
 }: StatCardOutlineProps) {
   const countRef = useRef<HTMLDivElement>(null);
   const { update } = useCountUp({
+    decimals: decimal ? 10 : 0,
     ref: countRef,
-    start: +value - +value * 0.0001,
+    start: +value - +value * 0.001,
     end: +value,
     duration: 3,
     onUpdate: () => {

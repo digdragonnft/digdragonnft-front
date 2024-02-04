@@ -48,7 +48,7 @@ export default function CardElement({
             <li className="flex justify-between">
               <div className="">Earned</div>
               <div className="font-bold text-info">
-                {(+earned).toFixed(4).toString()}
+                {(+earned).toFixed(10).toString()}
               </div>
             </li>
             <li className="flex justify-between">

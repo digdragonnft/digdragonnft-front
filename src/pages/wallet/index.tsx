@@ -244,7 +244,8 @@ const WalletPage = () => {
               stakeLoading ||
               unstaking ||
               revoking ||
-              !mineInfo?.isActive
+              !mineInfo?.isActive ||
+              tokensOfOwner == undefined
             }
             onClick={() => handleSendAll()}
           >
@@ -280,18 +281,21 @@ const WalletPage = () => {
         <div className="flex flex-col items-center gap-2 sm:flex-row">
           <StatCardOutline
             title="Earned"
-            value={(+data?.pendingReward!).toFixed(10).toString()}
+            value={(+data?.pendingReward!).toFixed(10).toString()!}
             count={true}
+            decimal={true}
           />
           <StatCardOutline
             title="Staked Hashpower"
             value={data?.userInfo?.stakedHashPowerAmount?.toString()!}
-            count={false}
+            count={true}
+            decimal={false}
           />
           <StatCardOutline
             title="Your kBTC"
             value={balance?.toString()!}
-            count={false}
+            count={true}
+            decimal={true}
           />
         </div>
       </div>
