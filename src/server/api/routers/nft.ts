@@ -2,10 +2,12 @@ import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import {
   getBalanceOf,
+  getCollectionOf,
   getTokensURIOf,
   isApprovedForAll,
 } from "../services/nft.service";
 import { Address } from "viem";
+import { address } from "~/blockchain/NFT/abi";
 
 export const nftRouter = createTRPCRouter({
   tokensOfOwner: publicProcedure
@@ -14,9 +16,12 @@ export const nftRouter = createTRPCRouter({
       return await getTokensURIOf(input.wallet as Address);
     }),
   isApprovedForAll: publicProcedure
-    .input(z.object({ wallet: z.string() }))
+    .input(z.object({ wallet: z.string(), mineAddress: z.string() }))
     .query(async ({ input }) => {
-      return await isApprovedForAll(input.wallet as Address);
+      return await isApprovedForAll(
+        input.wallet as Address,
+        input.mineAddress as Address,
+      );
     }),
   balanceOf: publicProcedure
     .input(
@@ -25,6 +30,15 @@ export const nftRouter = createTRPCRouter({
       }),
     )
     .query(async ({ input }) => {
-      return await getBalanceOf(input.address as Address);
+      return await getBalanceOf(input.address as Address, address);
+    }),
+  getCollectionOf: publicProcedure
+    .input(
+      z.object({
+        address: z.string(),
+      }),
+    )
+    .query(async ({ input }) => {
+      return await getCollectionOf(input.address as Address);
     }),
 });

@@ -1,11 +1,11 @@
 import { abi, address } from "./abi";
-import { useContractWrite } from "wagmi";
+import { Address, useContractWrite } from "wagmi";
 import { useState } from "react";
 import { viem } from "~/server/api/services/viem.service";
 
-export const useStake = () => {
+export const useStake = (mine: string) => {
   const { isLoading, isError, isSuccess, write } = useContractWrite({
-    address,
+    address: mine as Address,
     abi,
     functionName: "stake",
   });
@@ -23,11 +23,11 @@ export const useStake = () => {
   };
 };
 
-export const useStakedEvent = (owner: string) => {
+export const useStakedEvent = (owner: string, mineAddress: Address) => {
   const [staked, setStaked] = useState<boolean>(false);
 
   viem.watchContractEvent({
-    address,
+    address: mineAddress,
     abi,
     eventName: "Staked",
     onLogs: (log: any[]) => {

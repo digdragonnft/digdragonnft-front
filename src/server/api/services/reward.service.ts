@@ -10,5 +10,5 @@ export const getBalanceOf = async (owner: Address) => {
     args: [owner],
   })) as bigint;
 
-  return (+formatEther(balance)).toFixed(4);
+  return (+formatEther(balance)).toFixed(10);
 };
