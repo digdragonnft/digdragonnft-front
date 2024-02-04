@@ -718,4 +718,4 @@ export const abi = [
   },
 ];
 
-export const address2 = "0xC1F2AD8960f01E8700ba1ee52A9D0729F2beACd2";
+export const address2 = "0x70241e08CC1735B9b0B3568C42EE8Ce10aD49339";
