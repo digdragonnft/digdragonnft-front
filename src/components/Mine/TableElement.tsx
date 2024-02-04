@@ -37,7 +37,7 @@ export default function TableElement({
       <td>
         <div className="text-sm">Earned</div>
         <div className="font-bold text-info">
-          {(+earned).toFixed(4).toString() ?? 0}
+          {(+earned).toFixed(10).toString() ?? 0}
         </div>
       </td>
       <td>

@@ -63,7 +63,7 @@ export const getUserInfo = async (wallet: Address, mineeAddress: Address) => {
     };
     //@ts-ignore
     // const pendingReward = await getPendingReward(wallet, mine[0].mineAddress);
-    const pendingReward = await getPendingReward(wallet, address);
+    const pendingReward = await getPendingReward(wallet, mineeAddress);
 
     // console.log({
     //   userInfo: {
@@ -74,7 +74,8 @@ export const getUserInfo = async (wallet: Address, mineeAddress: Address) => {
     //     lastIn: userInfo.lastIn,
     //     lastOut: userInfo.lastOut,
     //   },
-    //   pendingReward: formatUnits(pendingReward[1], 18),
+    //   // pendingReward,
+    //   pendingReward: formatUnits(pendingReward[0] as bigint, 18),
     // });
     return {
       userInfo: {
@@ -85,7 +86,8 @@ export const getUserInfo = async (wallet: Address, mineeAddress: Address) => {
         lastIn: userInfo.lastIn.toString(),
         lastOut: userInfo.lastOut.toString(),
       },
-      pendingReward: formatUnits(pendingReward[1], 18),
+      // pendingReward,
+      pendingReward: formatUnits(pendingReward[0] as bigint, 18),
     };
   } catch (error) {
     console.log(error);
@@ -95,13 +97,35 @@ export const getUserInfo = async (wallet: Address, mineeAddress: Address) => {
 
 export const getPendingReward = async (wallet: Address, mine: Address) => {
   try {
-    const pendingReward = (await viem.readContract({
-      address: mine,
-      abi,
-      functionName: "pendingReward",
-      args: [wallet],
-    })) as [string, bigint];
-    return pendingReward;
+    // const pendingReward = (await viem.readContract({
+    //   address: mine,
+    //   abi,
+    //   functionName: "pendingReward",
+    //   args: [wallet],
+    // })) as [string, bigint];
+    if (mine == mines[0]?.address) {
+      const pendingReward = (await viem.readContract({
+        address: address,
+        abi: abi,
+        functionName: "pendingReward",
+        args: [wallet],
+      })) as [string, bigint];
+
+      return [pendingReward[1]];
+    }
+
+    if (mine == mines[1]?.address) {
+      const pendingReward = await viem.readContract({
+        address: address2,
+        abi: abi2,
+        functionName: "pendingReward",
+        args: [wallet],
+      });
+
+      return [pendingReward];
+    }
+
+    return [0];
   } catch (error) {
     // console.log(error);
     return [];
@@ -115,7 +139,7 @@ export const getAllMineInfo = async (owner: Address) => {
       const userInfo = await getPendingReward(owner, mine.address as Address);
       return {
         ...mineInfo,
-        pendingReward: userInfo[1] ?? 0,
+        pendingReward: formatUnits(userInfo[0] as bigint, 18) ?? 0,
       };
     }),
   );
@@ -132,8 +156,9 @@ export const getMineInfo = async (abi: any, address: Address) => {
     })) as any;
 
     const currentBlock = await viem.getBlockNumber();
-
     const balance = await getBalanceOf(address);
+    const totalStaked = await getTotalStakedTokens(address);
+    const totalHash = await getTotalHashPower(address);
 
     const parsedData = {
       mine: address,
@@ -147,13 +172,13 @@ export const getMineInfo = async (abi: any, address: Address) => {
       rewardPerBlock: info.rewardPerBlock ?? 0,
       accTokenPerShare: info.accTokenPerShare ?? 0,
       rewardsForWithdrawal: info.rewardsForWithdrawal ?? 0,
-      totolStaked: info.totalStakedTokens ?? 0,
-      totalHashPower: info.totalHashPower ?? 0,
+      // totolStaked: info.totalStakedTokens ?? 0,
+      totolStaked: totalStaked ?? 0,
+      // totalHashPower: info.totalHashPower ?? 0,
+      totalHashPower: totalHash ?? 0,
       isActive: info.rewardEndBlock > currentBlock,
       // isActive: true,
     };
-
-    // console.log("info", info);
 
     const apr =
       contractAPRCalculator(
@@ -201,4 +226,23 @@ export const getStakedTokenMetadataOf = async (
     console.log("getStakedTokenMetadataOf", error.message);
     return [];
   }
+};
+
+export const getTotalStakedTokens = async (address: Address) => {
+  const totalStakedTokens = (await viem.readContract({
+    address: address,
+    abi,
+    functionName: "totalStakedTokens",
+  })) as any;
+  return totalStakedTokens;
+};
+
+export const getTotalHashPower = async (address: Address) => {
+  const hashPower = (await viem.readContract({
+    address: address,
+    abi,
+    functionName: "totalHashPower",
+  })) as any;
+
+  return hashPower;
 };

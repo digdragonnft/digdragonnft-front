@@ -25,10 +25,6 @@ export async function calculateRewardTimeParameters(
 ) {
   const startTime = await calculateTimeFromBlock(startBlock);
   const endTime = await calculateTimeFromBlock(endBlock);
-  // console.log({
-  //   startTime,
-  //   endTime,
-  // });
 
   return { startTime, endTime };
 }
