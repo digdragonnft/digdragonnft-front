@@ -2,7 +2,7 @@ import { groq } from "next-sanity";
 import { client } from "../../../../../sanity/lib/client";
 import { viem } from "../viem.service";
 import { abi, address } from "~/blockchain/Mine/abi";
-import { abi as abi2, address2 } from "~/blockchain/Mine/abi2";
+import { abi as abi2, address2, address1 } from "~/blockchain/Mine/abi2";
 import { address as NFT } from "~/blockchain/NFT/abi";
 import { MineType } from "sanity/schema/Mine";
 import { Address, formatEther, formatUnits } from "viem";
@@ -14,8 +14,8 @@ import { getBalanceOf } from "../reward.service";
 const mines = [
   {
     mineNo: 1,
-    abi: abi,
-    address: address,
+    abi: abi2,
+    address: address1,
   },
   {
     mineNp: 2,
