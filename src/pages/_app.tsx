@@ -8,9 +8,10 @@ import { publicProvider } from "wagmi/providers/public";
 import { bitkub, bitkub_testnet } from "~/blockchain/constants/bitkub";
 
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import { jbc } from "~/blockchain/constants/jbc";
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [bitkub, bitkub_testnet],
+  [bitkub, jbc],
   [publicProvider()],
 );
 
