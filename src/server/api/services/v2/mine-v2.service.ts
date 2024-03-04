@@ -102,7 +102,7 @@ export const getPendingReward = async (wallet: Address, mine: Address) => {
       abi: abi2,
       functionName: "pendingReward",
       args: [wallet],
-    })) as [string, bigint];
+    })) as bigint;
 
     return [pendingReward];
 
