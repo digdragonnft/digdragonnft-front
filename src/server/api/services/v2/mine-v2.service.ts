@@ -97,35 +97,38 @@ export const getUserInfo = async (wallet: Address, mineeAddress: Address) => {
 
 export const getPendingReward = async (wallet: Address, mine: Address) => {
   try {
-    // const pendingReward = (await viem.readContract({
-    //   address: mine,
-    //   abi,
-    //   functionName: "pendingReward",
-    //   args: [wallet],
-    // })) as [string, bigint];
-    if (mine == mines[0]?.address) {
-      const pendingReward = (await viem.readContract({
-        address: address,
-        abi: abi,
-        functionName: "pendingReward",
-        args: [wallet],
-      })) as [string, bigint];
+    const pendingReward = (await viem.readContract({
+      address: mine,
+      abi: abi2,
+      functionName: "pendingReward",
+      args: [wallet],
+    })) as bigint;
 
-      return [pendingReward[1]];
-    }
+    return [pendingReward];
 
-    if (mine == mines[1]?.address) {
-      const pendingReward = await viem.readContract({
-        address: address2,
-        abi: abi2,
-        functionName: "pendingReward",
-        args: [wallet],
-      });
+    // if (mine == mines[0]?.address) {
+    //   const pendingReward = (await viem.readContract({
+    //     address: address,
+    //     abi: abi,
+    //     functionName: "pendingReward",
+    //     args: [wallet],
+    //   })) as [string, bigint];
 
-      return [pendingReward];
-    }
+    //   return [pendingReward[1]];
+    // }
 
-    return [0];
+    // if (mine == mines[1]?.address) {
+    //   const pendingReward = await viem.readContract({
+    //     address: address2,
+    //     abi: abi2,
+    //     functionName: "pendingReward",
+    //     args: [wallet],
+    //   });
+
+    //   return [pendingReward];
+    // }
+
+    // return [0];
   } catch (error) {
     // console.log(error);
     return [];

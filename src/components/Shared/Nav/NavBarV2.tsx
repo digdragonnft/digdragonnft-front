@@ -58,14 +58,14 @@ export default function NavBarV2() {
         <div className="block md:hidden">
           <ConnectButton
             accountStatus="avatar"
-            chainStatus="none"
+            chainStatus="name"
             showBalance={false}
           />
         </div>
         <div className="hidden md:block">
           <ConnectButton
             accountStatus="address"
-            chainStatus="none"
+            chainStatus="name"
             showBalance={false}
             label="Connect Wallet"
           />
