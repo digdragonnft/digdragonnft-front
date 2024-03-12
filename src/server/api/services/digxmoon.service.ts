@@ -60,11 +60,7 @@ export const getTokensURIOf = async (owner: Address) => {
 
 export const getTokensOfOwner = async (owner: Address, nftAddress: Address) => {
   try {
-    // const balance = (await getBalanceOf(owner, nftAddress)) as bigint;
-    const balance = (await getBalanceOf(
-      "0xc58aFf5b2159958900Ec8224b7ae915843015F93",
-      nftAddress,
-    )) as bigint;
+    const balance = (await getBalanceOf(owner, nftAddress)) as bigint;
     let tokens = new Array(balance);
 
     if (tokens.toString() == "0") {
@@ -76,8 +72,7 @@ export const getTokensOfOwner = async (owner: Address, nftAddress: Address) => {
         abi,
         address: nftAddress,
         functionName: "tokenOfOwnerByIndex",
-        // args: [owner, i],
-        args: ["0xc58aFf5b2159958900Ec8224b7ae915843015F93", i],
+        args: [owner, i],
       })) as bigint;
     }
 
