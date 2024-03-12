@@ -31,15 +31,15 @@ export default function NavBarV2() {
           {/* {isConnected ? (
             <Link
               className={`font-bold ${
-                pathname == "/wallet" ? "text-info" : "text-white"
+                pathname == "/privilege" ? "text-info" : "text-white"
               } flex items-center gap-2 hover:text-info`}
-              href="/wallet"
+              href="/privilege"
             >
               <FaWallet
                 size={22}
-                className={`${pathname == "/wallet" ? "text-info" : null}`}
+                className={`${pathname == "/privilege" ? "text-info" : null}`}
               />
-              <span className="hidden sm:block">My Collection</span>
+              <span className="hidden sm:block">Privilege</span>
             </Link>
           ) : null} */}
           <Link

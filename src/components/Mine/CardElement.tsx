@@ -11,6 +11,7 @@ interface CardElementProps {
   active: boolean;
   end: string;
   mineAddress: string;
+  link: string;
 }
 export default function CardElement({
   name,
@@ -22,6 +23,7 @@ export default function CardElement({
   active,
   end,
   mineAddress,
+  link,
 }: CardElementProps) {
   const { isConnected } = useAccount();
 
@@ -70,7 +72,7 @@ export default function CardElement({
             <li className="flex justify-center">
               {isConnected ? (
                 <Link
-                  href={`/wallet?mine=${mineAddress}`}
+                  href={`/${link}?mine=${mineAddress}`}
                   className="font-bold"
                 >
                   <span className="btn btn-info font-bold text-white">
