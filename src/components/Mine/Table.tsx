@@ -42,11 +42,12 @@ export default function Table() {
           <>
             {allMines.map((mine, index) => (
               <CardElement
+                link={mine?.link}
                 mineAddress={mine.mine!}
                 key={index}
                 active={mine?.isActive!}
                 earned={mine?.pendingReward.toString()!}
-                name={`kBTC/OG #${index + 1}`}
+                name={mine?.name}
                 //@ts-ignore
                 apr={mine?.apr.toFixed(2).toString()!}
                 liquidity={mine?.balance!}
@@ -80,11 +81,12 @@ export default function Table() {
           <>
             {allMines.map((mine, index) => (
               <TableElement
+                link={mine?.link}
                 mineAddress={mine.mine!}
                 key={index}
                 active={mine?.isActive!}
                 earned={mine?.pendingReward.toString()!}
-                name={`kBTC/OG #${index}`}
+                name={mine?.name}
                 //@ts-ignore
                 apr={mine?.apr.toFixed(2).toString()!}
                 liquidity={mine?.balance!}

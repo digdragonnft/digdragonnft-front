@@ -11,18 +11,25 @@ import {
   getStakedTokenMetadataOf,
 } from "../services/v2/mine-v2.service";
 import { abi, address } from "~/blockchain/NFT/abi";
-import { abi as abi2, address2, address1 } from "~/blockchain/Mine/abi2";
+import {
+  abi as abi2,
+  address2,
+  address1,
+  address3,
+} from "~/blockchain/Mine/abi2";
 
 const mines = [
   {
-    mineNo: 1,
     abi: abi2,
     address: address1,
   },
   {
-    mineNp: 2,
     abi: abi2,
     address: address2,
+  },
+  {
+    abi: abi2,
+    address: address3,
   },
 ];
 

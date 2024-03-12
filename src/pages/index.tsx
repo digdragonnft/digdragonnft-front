@@ -56,7 +56,7 @@ export default function Home() {
               {allMines?.map((mine, index) => (
                 <>
                   <BoxRight
-                    mineName={`#kBTC/OG`}
+                    mineName={mine.name}
                     //@ts-ignore
                     mineInfo={mine}
                   />

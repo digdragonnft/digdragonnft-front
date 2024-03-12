@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { abi, address } from "~/blockchain/NFT/abi";
+import { abi, address2 } from "~/blockchain/NFT/abi";
 import axios from "axios";
 import { viem } from "./viem.service";
 import { getCollections } from "../../../../sanity/lib/nft";
@@ -47,8 +47,8 @@ export const getTokenURI = async (tokens: bigint[], nftAddress: Address) => {
 
 export const getTokensURIOf = async (owner: Address) => {
   try {
-    const tokens = await getTokensOfOwner(owner, address);
-    const tokenUris = await getTokenURI(tokens, address);
+    const tokens = await getTokensOfOwner(owner, address2);
+    const tokenUris = await getTokenURI(tokens, address2);
     const unstakeUris = tokenUris?.map((uri) => ({ ...uri, staked: false }));
 
     return unstakeUris;
@@ -60,7 +60,11 @@ export const getTokensURIOf = async (owner: Address) => {
 
 export const getTokensOfOwner = async (owner: Address, nftAddress: Address) => {
   try {
-    const balance = (await getBalanceOf(owner, nftAddress)) as bigint;
+    // const balance = (await getBalanceOf(owner, nftAddress)) as bigint;
+    const balance = (await getBalanceOf(
+      "0xc58aFf5b2159958900Ec8224b7ae915843015F93",
+      nftAddress,
+    )) as bigint;
     let tokens = new Array(balance);
 
     if (tokens.toString() == "0") {
@@ -72,7 +76,8 @@ export const getTokensOfOwner = async (owner: Address, nftAddress: Address) => {
         abi,
         address: nftAddress,
         functionName: "tokenOfOwnerByIndex",
-        args: [owner, i],
+        // args: [owner, i],
+        args: ["0xc58aFf5b2159958900Ec8224b7ae915843015F93", i],
       })) as bigint;
     }
 
@@ -103,7 +108,7 @@ export const isApprovedForAll = async (
 ) => {
   const result = await viem.readContract({
     abi,
-    address,
+    address: address2,
     functionName: "isApprovedForAll",
     args: [owner, mineAddress],
   });

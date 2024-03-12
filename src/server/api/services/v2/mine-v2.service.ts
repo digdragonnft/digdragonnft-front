@@ -2,25 +2,39 @@ import { groq } from "next-sanity";
 import { client } from "../../../../../sanity/lib/client";
 import { viem } from "../viem.service";
 import { abi, address } from "~/blockchain/Mine/abi";
-import { abi as abi2, address2, address1 } from "~/blockchain/Mine/abi2";
-import { address as NFT } from "~/blockchain/NFT/abi";
+import {
+  abi as abi2,
+  address2,
+  address1,
+  address3,
+} from "~/blockchain/Mine/abi2";
 import { MineType } from "sanity/schema/Mine";
 import { Address, formatEther, formatUnits } from "viem";
 import { contractAPRCalculator } from "../../utils/contractAPR";
 import { getTokenURI, getTokensURIOf } from "../nft.service";
 import { calculateRewardTimeParameters } from "../../utils/RewardCalculation";
 import { getBalanceOf } from "../reward.service";
+import { getJibJibBalance } from "./jbc/jbc.distributor.service";
+import { address as jibDistributor } from "~/blockchain/JBC/Distributor/abi";
 
 const mines = [
   {
-    mineNo: 1,
+    mineName: "kBTC/OG #1",
     abi: abi2,
     address: address1,
+    link: "wallet",
   },
   {
-    mineNp: 2,
+    mineName: "kBTC/OG #2",
     abi: abi2,
     address: address2,
+    link: "wallet",
+  },
+  {
+    mineName: "JIBJIB/DigXMoon",
+    abi: abi2,
+    address: address3,
+    link: "wallet/dig-x-moon",
   },
 ];
 
@@ -142,6 +156,12 @@ export const getAllMineInfo = async (owner: Address) => {
       const userInfo = await getPendingReward(owner, mine.address as Address);
       return {
         ...mineInfo,
+        balance:
+          mine.address === address3
+            ? (await getJibJibBalance(jibDistributor)).toString()
+            : mineInfo?.balance,
+        name: mine.mineName,
+        link: mine.link,
         pendingReward: formatUnits(userInfo[0] as bigint, 18) ?? 0,
       };
     }),

@@ -11,6 +11,7 @@ interface TableElementProps {
   active: boolean;
   end: string;
   mineAddress: string;
+  link: string;
 }
 export default function TableElement({
   name,
@@ -22,6 +23,7 @@ export default function TableElement({
   active,
   end,
   mineAddress,
+  link,
 }: TableElementProps) {
   const { isConnected } = useAccount();
 
@@ -58,7 +60,7 @@ export default function TableElement({
       </td>
       <td>
         {isConnected ? (
-          <Link href={`/wallet?mine=${mineAddress}`} className="font-bold">
+          <Link href={`/${link}?mine=${mineAddress}`} className="font-bold">
             <span className="btn btn-info font-bold text-white">Manage</span>
           </Link>
         ) : null}

@@ -440,3 +440,4 @@ export const abi = [
 
 // export const address = "0x584D164cD421cf26C70Fa9926F658803F362C355";
 export const address = "0x726613C4494C60B7dCdeA5BE2846180C1DAfBE8B";
+export const jibjibAddress = "0xebe937eE67E3219D176965CC08110A258f925e01";
