@@ -6,6 +6,11 @@ export const abi = [
         name: "_rewardToken",
         type: "address",
       },
+      {
+        internalType: "address",
+        name: "_feeCollector",
+        type: "address",
+      },
     ],
     stateMutability: "nonpayable",
     type: "constructor",
@@ -47,6 +52,30 @@ export const abi = [
     ],
     name: "OwnershipTransferred",
     type: "event",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_amount",
+        type: "uint256",
+      },
+    ],
+    name: "calculateFee",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "feeRate",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "payout",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
   },
   {
     inputs: [],
@@ -163,6 +192,19 @@ export const abi = [
       },
     ],
     stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_fee",
+        type: "uint256",
+      },
+    ],
+    name: "setFee",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
