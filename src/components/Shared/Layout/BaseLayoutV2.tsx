@@ -1,5 +1,7 @@
 import Head from "next/head";
 import { ReactNode } from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function BaseLayoutV2({ children }: { children: ReactNode }) {
   return (
@@ -20,6 +22,7 @@ export default function BaseLayoutV2({ children }: { children: ReactNode }) {
         alt="hero image"
       />
       {children}
+      <ToastContainer />
     </div>
   );
 }

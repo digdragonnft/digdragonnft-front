@@ -5,6 +5,7 @@ import { blockChainRouter } from "./routers/blockchain";
 import { rewardRouter } from "./routers/reward";
 import { jbcRouter } from "./routers/jib-distributor";
 import { digXMoonRouter } from "./routers/digxmoon";
+import { jbcWLRouter } from "./routers/jib-distributor-whitelist";
 
 /**
  * This is the primary router for your server.
@@ -17,6 +18,7 @@ export const appRouter = createTRPCRouter({
   blockchain: blockChainRouter,
   reward: rewardRouter,
   jbc: jbcRouter,
+  jbcWL: jbcWLRouter,
   digxmoon: digXMoonRouter,
 });
 

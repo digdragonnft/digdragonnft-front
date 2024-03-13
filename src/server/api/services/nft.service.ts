@@ -76,8 +76,6 @@ export const getTokensOfOwner = async (owner: Address, nftAddress: Address) => {
       })) as bigint;
     }
 
-    // console.log("tokens: ", tokens);
-
     return tokens;
   } catch (error) {
     console.log(error);
