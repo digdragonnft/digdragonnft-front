@@ -8,9 +8,15 @@ export default function PrivilegeList() {
         <h1 className="font-bold text-white">Privilege</h1>
       </div>
       <div className="grid w-full grid-cols-1 justify-evenly gap-2 px-10 md:grid-cols-2 xl:grid-cols-4">
-        <PrivilegeCard />
-        <PrivilegeCard />
-        <PrivilegeCard />
+        <PrivilegeCard
+          hero="/images/jibjibcoin.jpeg"
+          title="JIBJIB Coin Airdrop"
+          avatar="/images/jibjibcoin2.png"
+          content="JIBJIB Coin Airdrop for digdragon holder
+          claiming on JBC Chain"
+          link="/privilege/jibjib?title=JIBJIB Coin Airdrop&content=JIBJIB Coin Airdrop for digdragon holder
+          claiming on JBC Chain&avatar=/images/jibjibcoin2.png"
+        />
       </div>
       <FloatingButton />
     </div>
