@@ -35,6 +35,11 @@ export default function PrivilegePage() {
     address: address!,
   });
 
+  const { data: isClaimable, isLoading: claimableLoading } =
+    api.jbcWL.isClaimable.useQuery({
+      address: address!,
+    });
+
   const { updateRewardEvent, resetUpdateReward } = useUpdateRewardEvent(
     address!,
   );
@@ -129,15 +134,23 @@ export default function PrivilegePage() {
             <tfoot className="text-white">
               <tr>
                 <td className="flex flex-col gap-2">
-                  <div className="font-bold">Total: {claimable}</div>
+                  <div className="font-bold">
+                    Claimable Amounts: {claimable}
+                  </div>
                   {parseInt(claimable!) <= 0 ? (
-                    <button
-                      disabled={approving}
-                      onClick={() => handleApproving()}
-                      className="btn btn-info text-white hover:bg-white hover:text-info disabled:text-white"
-                    >
-                      {approving ? "Approving.." : "Approve Digdragon"}
-                    </button>
+                    <>
+                      {isClaimable ? (
+                        <button
+                          disabled={approving}
+                          onClick={() => handleApproving()}
+                          className="btn btn-info text-white hover:bg-white hover:text-info disabled:text-white"
+                        >
+                          {approving ? "Approving.." : "Approve Digdragon"}
+                        </button>
+                      ) : (
+                        <p>You are already claimed!</p>
+                      )}
+                    </>
                   ) : (
                     <>
                       {chainId !== 8899 ? (
