@@ -41,6 +41,7 @@ export async function updateReward(owner: string) {
     address: address,
     functionName: "updateReward",
     args: [owner, parsedReward, tokenOfOwner],
+    gasPrice: parseEther("5", "gwei"),
   });
 
   console.log(result);
