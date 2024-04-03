@@ -90,7 +90,7 @@ export default function PrivilegePage() {
 
   return (
     <BaseLayoutV2>
-      <NavBarV2 />
+      {/* <NavBarV2 />
       <div className="flex  w-full flex-col gap-2 px-10 py-10">
         <div className="flex items-center gap-2">
           <img src={query.avatar as string} className="w-12" />
@@ -178,7 +178,8 @@ export default function PrivilegePage() {
             </tfoot>
           ) : null}
         </table>
-      </div>
+      </div> */}
+      <div>Empty</div>
       <FloatingButton />
     </BaseLayoutV2>
   );
