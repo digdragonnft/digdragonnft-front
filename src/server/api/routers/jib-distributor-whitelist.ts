@@ -1,5 +1,6 @@
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import {
+  checkApproveable,
   getClaimableOf,
   getJibJibBalance,
   getPreClaimable,
@@ -46,5 +47,14 @@ export const jbcWLRouter = createTRPCRouter({
     )
     .query(async ({ input }) => {
       return await isClaimable(input.address);
+    }),
+  isApprovable: publicProcedure
+    .input(
+      z.object({
+        address: z.string(),
+      }),
+    )
+    .query(async ({ input }) => {
+      return await checkApproveable(input.address);
     }),
 });

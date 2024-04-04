@@ -34,7 +34,12 @@ export default function TableElement({
       } backdrop-blur-sm`}
     >
       <td>
-        <div className="font-bold">{name}</div>
+        <div className="font-bold">
+          {name}{" "}
+          {active ? (
+            <div className="badge badge-primary text-green-400">active</div>
+          ) : null}
+        </div>
       </td>
       <td>
         <div className="text-sm">Earned</div>
@@ -48,7 +53,13 @@ export default function TableElement({
       </td>
       <td>
         <div className="text-sm">Liquidity</div>
-        <div className="font-bold text-info">{liquidity}</div>
+        <div className="font-bold text-info">
+          {+liquidity > 0 ? (
+            liquidity
+          ) : (
+            <span className="badge badge-primary">Pending</span>
+          )}
+        </div>
       </td>
       <td>
         <div className="text-sm">Total Staked</div>
@@ -60,7 +71,10 @@ export default function TableElement({
       </td>
       <td>
         {isConnected ? (
-          <Link href={`/${link}?mine=${mineAddress}`} className="font-bold">
+          <Link
+            href={`/${link}?mine=${mineAddress}&title=${name}&isActive=${active}`}
+            className="font-bold"
+          >
             <span className="btn btn-info font-bold text-white">Manage</span>
           </Link>
         ) : null}

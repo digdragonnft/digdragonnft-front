@@ -38,7 +38,10 @@ export default function CardElement({
               active ? "text-white" : "text-slate-500"
             }`}
           >
-            <div>{name}</div>
+            {name}{" "}
+            {active ? (
+              <div className="badge badge-primary text-green-400">active</div>
+            ) : null}
             {/* <div>#1</div> */}
           </div>
 
@@ -59,7 +62,13 @@ export default function CardElement({
             </li>
             <li className="flex justify-between">
               <div className="">Liquidity</div>
-              <div className="font-bold text-info">{liquidity}</div>
+              <div className="font-bold text-info">
+                {+liquidity > 0 ? (
+                  liquidity
+                ) : (
+                  <span className="badge badge-primary">Pending</span>
+                )}
+              </div>
             </li>
             <li className="flex justify-between">
               <div className="">Total Staked</div>
@@ -72,7 +81,7 @@ export default function CardElement({
             <li className="flex justify-center">
               {isConnected ? (
                 <Link
-                  href={`/${link}?mine=${mineAddress}`}
+                  href={`/${link}?mine=${mineAddress}&title=${name}&isActive=${active}`}
                   className="font-bold"
                 >
                   <span className="btn btn-info font-bold text-white">
