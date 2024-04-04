@@ -16,11 +16,14 @@ import { useRouter } from "next/router";
 import FloatingButton from "~/components/Shared/Button/FloatingButton";
 import LoadingScreen from "~/components/Shared/LoadingScreen";
 import StatCardOutline from "~/components/Shared/Card/StatCardOutline";
+import Link from "next/link";
 
 const WalletPage = () => {
   const { isConnected, address } = useAccount();
   const { replace, query } = useRouter();
-  const { mine: mineAddress } = query;
+  const { mine: mineAddress, title, isActive } = query;
+
+  console.log(query);
 
   const [nft, setNfts] = useState<number[]>([]);
   const [approvedLoading, setApprovedLoading] = useState<boolean>(false);
@@ -145,7 +148,7 @@ const WalletPage = () => {
     refetchStakedTokens();
     refetchMyBalance();
     setNfts(
-      tokensOfOwner == undefined
+      tokensOfOwner === undefined || tokensOfOwner.length <= 0
         ? []
         : tokensOfOwner!.map((n) => +n.tokenId.toString()),
     );
@@ -184,6 +187,7 @@ const WalletPage = () => {
     approvedError,
     revokeError,
     isConnected,
+    tokensOfOwner,
   ]);
 
   const [ready, setReady] = useState<boolean>(false);
@@ -200,8 +204,25 @@ const WalletPage = () => {
     <BaseLayoutV2>
       <NavBarV2 />
       <div className="flex w-full flex-col px-10 py-10">
-        <h1 className="font-bold text-white">My Collection</h1>
-        <h2 className="text-sm font-semibold text-slate-400">@{mineAddress}</h2>
+        <h1 className="flex items-center gap-3 font-bold text-white">
+          Mine: {title}{" "}
+          <div
+            className={`badge ${
+              isActive == "true"
+                ? "badge-primary text-green-400"
+                : "text-accent"
+            }`}
+          >
+            {isActive == "true" ? "Active" : "Closed"}
+          </div>
+        </h1>
+        <Link
+          href={`https://www.bkcscan.com/address/${mineAddress}`}
+          target="_blank"
+          className="text-sm font-semibold text-slate-400"
+        >
+          @{mineAddress}
+        </Link>
       </div>
       <div className="flex w-full flex-col items-center justify-between gap-2 bg-white bg-opacity-20 px-3 py-4 backdrop-blur-sm md:flex-row md:px-10 md:py-6">
         <div className="flex gap-2">

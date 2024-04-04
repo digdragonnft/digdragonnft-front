@@ -26,6 +26,9 @@ export default function PrivilegePage() {
   const { isConnected, address } = useAccount();
   const { claim } = useClaimWhitelist();
 
+  const { data: approvable } = api.jbcWL.isApprovable.useQuery({
+    address: address!,
+  });
   const {
     mutate: updateReward,
     isSuccess: rewardUpdated,
@@ -90,8 +93,8 @@ export default function PrivilegePage() {
 
   return (
     <BaseLayoutV2>
-      {/* <NavBarV2 />
-      <div className="flex  w-full flex-col gap-2 px-10 py-10">
+      <NavBarV2 />
+      {/* <div className="flex  w-full flex-col gap-2 px-10 py-10">
         <div className="flex items-center gap-2">
           <img src={query.avatar as string} className="w-12" />
           <h1 className="font-bold text-white">{query.title ?? "N/A"}</h1>

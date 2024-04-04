@@ -9,6 +9,76 @@ import { address as nftAddress } from "~/blockchain/NFT/abi";
 import { Address, formatEther, parseEther, parseUnits } from "viem";
 import { getTokensOfOwner } from "../../nft.service";
 
+import { client } from "../../../../../../sanity/lib/client";
+import { groq } from "next-sanity";
+
+export async function checkApproveable(wallet: string) {
+  const claimable = await isClaimable(wallet);
+  const tokens = await getTokensOfOwner(wallet as Address, nftAddress);
+  console.log("tokens ", tokens.toString());
+  console.log("claimable ", claimable);
+  const query = groq`*[_type == "jibjib" && wallet == "${wallet}"]{ wallet, tokenIds, approved}`;
+  const result = (await client.fetch(query)) as {
+    wallet: string;
+    tokenIds: string;
+    approved: boolean;
+  }[];
+  if (claimable) {
+    if (result.length <= 0) {
+      //has no data before
+      await client.create({
+        _type: "jibjib",
+        wallet,
+        tokenIds: tokens.toString(),
+        approved: true,
+      });
+      return true;
+    }
+
+    const found = result.find((w) => w.wallet == wallet);
+
+    if (!found) {
+      await client.create({
+        _type: "jibjib",
+        wallet,
+        tokenIds: tokens.toString(),
+        approved: true,
+      });
+      return true;
+    }
+
+    if (found.approved) {
+      return false;
+    }
+  } else {
+    if (result.length <= 0) {
+      await client.create({
+        _type: "jibjib",
+        wallet,
+        tokenIds: tokens.toString(),
+        approved: true,
+      });
+      return false;
+    }
+
+    const found = result.find((w) => w.wallet == wallet);
+
+    if (!found) {
+      await client.create({
+        _type: "jibjib",
+        wallet,
+        tokenIds: tokens.toString(),
+        approved: true,
+      });
+      return false;
+    }
+
+    if (found.approved) {
+      return false;
+    }
+  }
+}
+
 export async function getJibJibBalance(owner: string) {
   const balance = (await viemJBC.readContract({
     abi: jbcAbi,
@@ -43,8 +113,6 @@ export async function updateReward(owner: string) {
     args: [owner, parsedReward, tokenOfOwner],
     gasPrice: parseEther("5", "gwei"),
   });
-
-  console.log(result);
 
   return result;
 }

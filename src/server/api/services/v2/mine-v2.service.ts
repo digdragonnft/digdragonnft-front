@@ -7,6 +7,7 @@ import {
   address2,
   address1,
   address3,
+  address4,
 } from "~/blockchain/Mine/abi2";
 import { MineType } from "sanity/schema/Mine";
 import { Address, formatEther, formatUnits } from "viem";
@@ -19,15 +20,21 @@ import { address as jibDistributor } from "~/blockchain/JBC/Distributor/abi";
 
 const mines = [
   {
-    mineName: "kBTC/OG #1",
+    mineName: "OG/JAN",
     abi: abi2,
     address: address1,
     link: "wallet",
   },
   {
-    mineName: "kBTC/OG #2",
+    mineName: "OG/FEB",
     abi: abi2,
     address: address2,
+    link: "wallet",
+  },
+  {
+    mineName: "OG/APR",
+    abi: abi2,
+    address: address4,
     link: "wallet",
   },
   {

@@ -470,3 +470,4 @@ export const abi = [
 export const address1 = "0x55448C24DB10822DF8736661FbEaC0f30e182b85";
 export const address2 = "0x70241e08CC1735B9b0B3568C42EE8Ce10aD49339";
 export const address3 = "0x278067Fa98664648D45806705D00782a1fcb8e85";
+export const address4 = "0x245E1B0207D9A2eb323766722a38FbDD129fF772";
