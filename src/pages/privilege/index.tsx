@@ -26,10 +26,10 @@ export default function PrivilegePage() {
   return (
     <BaseLayoutV2>
       <NavBarV2 />
-      {/* <PrivilegeList /> */}
-      <div className="p-10 text-xl font-bold text-white">
+      <PrivilegeList />
+      {/* <div className="p-10 text-xl font-bold text-white">
         Under Maintainance
-      </div>
+      </div> */}
       <FloatingButton />
     </BaseLayoutV2>
   );
