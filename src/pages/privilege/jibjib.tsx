@@ -29,6 +29,7 @@ export default function PrivilegePage() {
   const { data: approvable } = api.jbcWL.isApprovable.useQuery({
     address: address!,
   });
+
   const {
     mutate: updateReward,
     isSuccess: rewardUpdated,
@@ -37,11 +38,6 @@ export default function PrivilegePage() {
   const { data: claimable } = api.jbcWL.getClaimableOf.useQuery({
     address: address!,
   });
-
-  const { data: isClaimable, isLoading: claimableLoading } =
-    api.jbcWL.isClaimable.useQuery({
-      address: address!,
-    });
 
   const { updateRewardEvent, resetUpdateReward } = useUpdateRewardEvent(
     address!,
@@ -110,7 +106,6 @@ export default function PrivilegePage() {
           <thead className="text-white">
             <th>Image</th>
             <th>TokenId</th>
-            <th>Reward</th>
           </thead>
           <tbody>
             {tokenOfOwner ? (
@@ -125,7 +120,6 @@ export default function PrivilegePage() {
                       </div>
                     </td>
                     <td className="font-bold text-white">{token.name}</td>
-                    <td className="text-info">250000</td>
                   </tr>
                 ))}
               </>
@@ -142,7 +136,7 @@ export default function PrivilegePage() {
                   </div>
                   {parseInt(claimable!) <= 0 ? (
                     <>
-                      {isClaimable ? (
+                      {approvable ? (
                         <button
                           disabled={approving}
                           onClick={() => handleApproving()}

@@ -14,6 +14,7 @@ import { motion } from "framer-motion";
 import { useAccount } from "wagmi";
 import { api } from "~/utils/api";
 import Loading from "~/components/Shared/Inidcators/Loading";
+import BoxRightV2 from "~/components/Home/BoxRightV2";
 
 export default function Home() {
   const [ready, setReady] = useState<boolean>(false);
@@ -49,7 +50,8 @@ export default function Home() {
         <GridLayout className="h-full">
           <GridSpacer />
           <BoxLeft />
-          {allMineLoading ? (
+          <BoxRightV2 />
+          {/* {allMineLoading ? (
             <Loading />
           ) : (
             <div className="col-span-12 h-[700px] overflow-y-scroll md:col-span-6">
@@ -64,7 +66,7 @@ export default function Home() {
                 </>
               ))}
             </div>
-          )}
+          )} */}
           <GridSpacer />
         </GridLayout>
       </motion.div>
