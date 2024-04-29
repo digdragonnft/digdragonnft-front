@@ -43,7 +43,7 @@ export default function TypingText({ texts }: TypingTextProps) {
 
   return (
     <span className="">
-      <motion.span className="text-[50px] font-semibold text-info">
+      <motion.span className="bg-gradient-to-br from-info to-purple-400 bg-clip-text text-[60px] font-semibold text-transparent">
         {displayText}
       </motion.span>
       <Cursor />

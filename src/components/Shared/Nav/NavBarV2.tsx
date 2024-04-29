@@ -16,8 +16,8 @@ export default function NavBarV2() {
       <div className="navbar-start">
         {/* <h2 className="font-semibold text-white">DigDragon NFT</h2> */}
         <motion.div
-          initial={{ x: -100, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
+          initial={{ y: -100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.3, delay: 1, type: "spring", damping: 10 }}
         >
           <Link href="/">

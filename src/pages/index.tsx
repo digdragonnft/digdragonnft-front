@@ -50,8 +50,8 @@ export default function Home() {
         <GridLayout className="h-full">
           <GridSpacer />
           <BoxLeft />
-          {/* <BoxRightV2 /> */}
-          {allMineLoading ? (
+          <BoxRightV2 />
+          {/* {allMineLoading ? (
             <Loading />
           ) : (
             <div className="col-span-12 h-[700px] overflow-y-scroll md:col-span-6">
@@ -66,7 +66,7 @@ export default function Home() {
                 </>
               ))}
             </div>
-          )}
+          )} */}
           <GridSpacer />
         </GridLayout>
       </motion.div>
