@@ -27,8 +27,8 @@ export default function NavBarV2() {
       </div>
       <div className="navbar-center"></div>
       <div className="navbar-end flex gap-6">
-        <div className="hidden gap-2 sm:flex">
-          {isConnected ? (
+        {isConnected ? (
+          <div className="hidden gap-2 sm:flex">
             <Link
               className={`font-bold ${
                 pathname == "/privilege" ? "text-info" : "text-white"
@@ -41,20 +41,20 @@ export default function NavBarV2() {
               />
               <span className="hidden sm:block">Privilege</span>
             </Link>
-          ) : null}
-          <Link
-            className={`font-bold ${
-              pathname == "/mine" ? "text-info" : "text-white"
-            } flex items-center gap-2 hover:text-info`}
-            href="/mine"
-          >
-            <GiMineWagon
-              size={24}
-              className={`${pathname == "/mine" ? "text-info" : null}`}
-            />
-            <span className="hidden sm:block ">Mine Zone</span>
-          </Link>
-        </div>
+            <Link
+              className={`font-bold ${
+                pathname == "/mine" ? "text-info" : "text-white"
+              } flex items-center gap-2 hover:text-info`}
+              href="/mine"
+            >
+              <GiMineWagon
+                size={24}
+                className={`${pathname == "/mine" ? "text-info" : null}`}
+              />
+              <span className="hidden sm:block ">Mine Zone</span>
+            </Link>
+          </div>
+        ) : null}
         <div className="block md:hidden">
           <ConnectButton
             accountStatus="avatar"

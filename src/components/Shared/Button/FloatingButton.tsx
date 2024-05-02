@@ -8,7 +8,7 @@ export default function FloatingButton() {
   const { pathname } = useRouter();
   return (
     <div className="fixed bottom-5 right-5 z-[20] sm:hidden">
-      <div className="dropdown dropdown-end dropdown-top">
+      <div className="dropdown-end dropdown-top dropdown">
         <div
           tabIndex={0}
           role="button"
@@ -16,11 +16,11 @@ export default function FloatingButton() {
         >
           <TiThMenu size={24} className="text-white" />
         </div>
-        <ul
-          tabIndex={0}
-          className="menu dropdown-content rounded-box z-[1] w-52  bg-info p-2 text-center text-white shadow-xl"
-        >
-          {isConnected ? (
+        {isConnected ? (
+          <ul
+            tabIndex={0}
+            className="menu dropdown-content rounded-box z-[1] w-52  bg-info p-2 text-center text-white shadow-xl"
+          >
             <li>
               <Link
                 className={`${
@@ -31,18 +31,20 @@ export default function FloatingButton() {
                 Privilege
               </Link>
             </li>
-          ) : null}
-          {/* <li>
-            {isConnected ? (
-              <Link href="/wallet">Wallet</Link>
-            ) : (
+            <li>
+              <Link href="/mine">Mine Zone</Link>
+            </li>
+          </ul>
+        ) : (
+          <ul
+            className="w-42 menu dropdown-content rounded-box z-[1]  bg-info p-2 text-center text-white shadow-xl"
+            tabIndex={0}
+          >
+            <li className="flex w-full items-center justify-center">
               <ConnectButton />
-            )}
-          </li> */}
-          <li>
-            <Link href="/mine">Mine Zone</Link>
-          </li>
-        </ul>
+            </li>
+          </ul>
+        )}
       </div>
     </div>
   );

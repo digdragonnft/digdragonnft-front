@@ -13,14 +13,14 @@ export default function BoxLeft() {
         <TypingText texts={texts} />
       </div>
 
-      <p className="hidden text-slate-300 md:block">
+      <p className="text-slate-300">
         the group of people who admired NFT technology and Crypto mining.
         Therefore the holders can join many of our activities
       </p>
 
       <Link
         href="/mine"
-        className="btn btn-info text-white hover:bg-opacity-80"
+        className="btn btn-info hidden text-white hover:bg-opacity-80 md:flex"
       >
         Start Mining
       </Link>

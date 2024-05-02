@@ -19,7 +19,7 @@ export default function PrivilegePage() {
     setReady(true);
   }, [ready, setReady, isConnected]);
 
-  if (!ready) {
+  if (!ready || !isConnected) {
     return <LoadingScreen />;
   }
 
