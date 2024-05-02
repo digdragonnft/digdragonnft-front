@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { useAccount } from "wagmi";
+import Image from "next/image";
 
 interface CardElementProps {
   name: string;
@@ -12,6 +13,8 @@ interface CardElementProps {
   end: string;
   mineAddress: string;
   link: string;
+  rewardToken: string;
+  image: string;
 }
 export default function CardElement({
   name,
@@ -24,75 +27,56 @@ export default function CardElement({
   end,
   mineAddress,
   link,
+  rewardToken,
+  image,
 }: CardElementProps) {
   const { isConnected } = useAccount();
 
   return (
-    <tr className="flex justify-center">
-      <td>
-        <div
-          className={`min-w-[300px] max-w-md overflow-hidden rounded-xl bg-white bg-opacity-30 shadow backdrop-blur-sm`}
-        >
-          <div
-            className={`flex w-full justify-between border-b-[1px] border-b-white border-opacity-20 px-2 py-3 font-bold text-info shadow ${
-              active ? "text-white" : "text-slate-500"
-            }`}
-          >
-            {name}{" "}
-            {active ? (
-              <div className="badge badge-primary text-green-400">active</div>
-            ) : null}
-            {/* <div>#1</div> */}
-          </div>
-
-          <ul
-            className={`flex w-full flex-col gap-1 px-2 py-2 text-white ${
-              active ? "text-white" : "text-slate-700"
-            }`}
-          >
-            <li className="flex justify-between">
-              <div className="">Earned</div>
-              <div className="font-bold text-info">
-                {(+earned).toFixed(10).toString()}
-              </div>
-            </li>
-            <li className="flex justify-between">
-              <div className="">APR</div>
-              <div className="font-bold text-info">{apr}</div>
-            </li>
-            <li className="flex justify-between">
-              <div className="">Liquidity</div>
-              <div className="font-bold text-info">
-                {+liquidity > 0 ? (
-                  liquidity
-                ) : (
-                  <span className="badge badge-primary">Pending</span>
-                )}
-              </div>
-            </li>
-            <li className="flex justify-between">
-              <div className="">Total Staked</div>
-              <div className="font-bold text-info">{totalStaked}</div>
-            </li>
-            <li className="flex justify-between">
-              <div className="">End In</div>
-              <div className="font-bold text-info">{end}</div>
-            </li>
-            <li className="flex justify-center">
-              {isConnected ? (
-                <Link
-                  href={`/${link}?mine=${mineAddress}&title=${name}&isActive=${active}`}
-                  className="font-bold"
-                >
-                  <span className="btn btn-info font-bold text-white">
-                    Manage
-                  </span>
-                </Link>
-              ) : null}
-            </li>
-          </ul>
+    <div className="card glass w-96 w-full text-white shadow-xl md:max-w-[380px]">
+      <figure className="relative w-full overflow-hidden">
+        <Image src={image} alt="mine" width={1000} height={1000} />
+        <div className="absolute right-[5%] top-[5%] font-bold">
+          {active ? (
+            <div className="badge badge-primary text-green-400 ring ring-green-300">
+              Active
+            </div>
+          ) : (
+            <div className="badge badge-ghost text-gray-400">Ended</div>
+          )}
         </div>
-      </td>
-    </tr>
+      </figure>
+      <div className="card-body">
+        <h2 className="card-title">{name}</h2>
+        <div className="badge badge-info font-semibold text-white">
+          {rewardToken}
+        </div>
+        <hr />
+        <div className="card-content">
+          <div className="grid grid-cols-2">
+            <div>APR</div>
+            <div className="flex justify-end">{apr}</div>
+            <div>EARN</div>
+            <div className="flex justify-end">{earned}</div>
+            <div>Liquidity</div>
+            <div className="flex justify-end">{liquidity}</div>
+            <div>Total Staked</div>
+            <div className="flex justify-end">{totalStaked}</div>
+            <div>End</div>
+            <div className="flex justify-end">{end}</div>
+          </div>
+        </div>
+        <div className="card-actions justify-end">
+          {isConnected ? (
+            <Link
+              href={`/${link}?mine=${mineAddress}&title=${name}&isActive=${active}`}
+              className="font-bold"
+            >
+              <span className="btn btn-info font-bold text-white">Enter</span>
+            </Link>
+          ) : null}
+        </div>
+      </div>
+    </div>
   );
 }

@@ -31,7 +31,7 @@ export default function TableElement({
     <tr
       className={`bg-white bg-opacity-20 ${
         active ? "cursor-pointer text-white" : "text-slate-500"
-      } backdrop-blur-sm`}
+      }`}
     >
       <td>
         <div className="font-bold">
@@ -75,7 +75,7 @@ export default function TableElement({
             href={`/${link}?mine=${mineAddress}&title=${name}&isActive=${active}`}
             className="font-bold"
           >
-            <span className="btn btn-info font-bold text-white">Manage</span>
+            <span className="btn btn-info font-bold text-white">Enter</span>
           </Link>
         ) : null}
       </td>

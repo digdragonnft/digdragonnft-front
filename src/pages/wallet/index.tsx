@@ -196,7 +196,7 @@ const WalletPage = () => {
     setReady(true);
   }, [ready, setReady]);
 
-  if (!ready || loadingBalance || userInfoLoading) {
+  if (!ready || loadingBalance || userInfoLoading || !isConnected) {
     return <LoadingScreen />;
   }
 

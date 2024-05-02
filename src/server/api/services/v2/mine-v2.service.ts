@@ -21,24 +21,32 @@ import { address as jibDistributor } from "~/blockchain/JBC/Distributor/abi";
 const mines = [
   {
     mineName: "OG/JAN",
+    rewardToken: "kBTC",
+    image: "/images/dig-mine.jpg",
     abi: abi2,
     address: address1,
     link: "wallet",
   },
   {
     mineName: "OG/FEB",
+    rewardToken: "kBTC",
+    image: "/images/dig-mine.jpg",
     abi: abi2,
     address: address2,
     link: "wallet",
   },
   {
     mineName: "OG/APR",
+    rewardToken: "kBTC",
+    image: "/images/dig-mine.jpg",
     abi: abi2,
     address: address4,
     link: "wallet",
   },
   {
     mineName: "JIBJIB/DigXMoon",
+    rewardToken: "JIBJIB",
+    image: "/images/dig-moon-mine.jpg",
     abi: abi2,
     address: address3,
     link: "wallet/dig-x-moon",
@@ -169,12 +177,22 @@ export const getAllMineInfo = async (owner: Address) => {
             : mineInfo?.balance,
         name: mine.mineName,
         link: mine.link,
+        rewardToken: mine.rewardToken,
+        image: mine.image,
         pendingReward: formatUnits(userInfo[0] as bigint, 18) ?? 0,
       };
     }),
   );
 
-  return data;
+  //SORTING
+  const activeMines = data
+    .filter((mine) => mine.isActive === true)
+    .sort((a, b) => +b.startBlock.toString() - +a.startBlock.toString());
+  const closedMines = data
+    .filter((mine) => mine.isActive === false)
+    .sort((a, b) => +b.startBlock.toString() - +a.startBlock.toString());
+
+  return [...activeMines, ...closedMines];
 };
 
 export const getMineInfo = async (abi: any, address: Address) => {

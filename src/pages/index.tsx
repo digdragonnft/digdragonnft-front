@@ -51,22 +51,6 @@ export default function Home() {
           <GridSpacer />
           <BoxLeft />
           <BoxRightV2 />
-          {/* {allMineLoading ? (
-            <Loading />
-          ) : (
-            <div className="col-span-12 h-[700px] overflow-y-scroll md:col-span-6">
-              {allMines?.map((mine, index) => (
-                <>
-                  <BoxRight
-                    mineName={mine.name}
-                    //@ts-ignore
-                    mineInfo={mine}
-                  />
-                  <div className="divider text-white">_</div>
-                </>
-              ))}
-            </div>
-          )} */}
           <GridSpacer />
         </GridLayout>
       </motion.div>
@@ -74,19 +58,3 @@ export default function Home() {
     </BaseLayoutV2>
   );
 }
-
-// export default function Home() {
-//   return (
-//     <BaseLayout>
-//       <BaseNavbar />
-//       <BaseContainer>
-//         <Hero />
-//         <About />
-//         <OurNFT />
-//         <Project />
-//         <Team />
-//       </BaseContainer>
-//       <Footer />
-//     </BaseLayout>
-//   );
-// }
