@@ -8,6 +8,7 @@ import {
   address1,
   address3,
   address4,
+  address5,
 } from "~/blockchain/Mine/abi2";
 import { MineType } from "sanity/schema/Mine";
 import { Address, formatEther, formatUnits } from "viem";
@@ -41,6 +42,14 @@ const mines = [
     image: "/images/dig-mine.jpg",
     abi: abi2,
     address: address4,
+    link: "wallet",
+  },
+  {
+    mineName: "OG/MAY",
+    rewardToken: "kBTC",
+    image: "/images/dig-mine.jpg",
+    abi: abi2,
+    address: address5,
     link: "wallet",
   },
   {

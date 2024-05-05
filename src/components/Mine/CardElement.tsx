@@ -59,7 +59,13 @@ export default function CardElement({
             <div>EARN</div>
             <div className="flex justify-end">{earned}</div>
             <div>Liquidity</div>
-            <div className="flex justify-end">{liquidity}</div>
+            <div className="flex justify-end">
+              {+liquidity > 0 ? (
+                liquidity
+              ) : (
+                <span className="badge badge-info text-white">Pending</span>
+              )}
+            </div>
             <div>Total Staked</div>
             <div className="flex justify-end">{totalStaked}</div>
             <div>End</div>
