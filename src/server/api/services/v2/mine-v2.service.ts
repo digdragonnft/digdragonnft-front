@@ -9,6 +9,7 @@ import {
   address3,
   address4,
   address5,
+  address6,
 } from "~/blockchain/Mine/abi2";
 import { MineType } from "sanity/schema/Mine";
 import { Address, formatEther, formatUnits } from "viem";
@@ -50,6 +51,14 @@ const mines = [
     image: "/images/dig-mine.jpg",
     abi: abi2,
     address: address5,
+    link: "wallet",
+  },
+  {
+    mineName: "OG/JUN",
+    rewardToken: "kBTC",
+    image: "/images/dig-mine.jpg",
+    abi: abi2,
+    address: address6,
     link: "wallet",
   },
   {
@@ -233,7 +242,8 @@ export const getMineInfo = async (abi: any, address: Address) => {
       totolStaked: totalStaked ?? 0,
       // totalHashPower: info.totalHashPower ?? 0,
       totalHashPower: totalHash ?? 0,
-      isActive: info.rewardEndBlock > currentBlock,
+      isActive:
+        info.rewardEndBlock > currentBlock && info.startBlock < currentBlock,
       // isActive: true,
     };
 
