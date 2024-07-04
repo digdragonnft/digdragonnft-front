@@ -473,3 +473,4 @@ export const address3 = "0x278067Fa98664648D45806705D00782a1fcb8e85";
 export const address4 = "0x245E1B0207D9A2eb323766722a38FbDD129fF772";
 export const address5 = "0xA6E034CeF24184DCb2Eed382adA63F87303F1e43";
 export const address6 = "0xDc8e042714F948020255f81d970fcEB2337124d2";
+export const address7 = "0x3fE5CD7F57824B79450b4f4202bd06acb9D50e0e";
