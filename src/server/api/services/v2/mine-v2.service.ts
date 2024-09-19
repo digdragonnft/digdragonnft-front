@@ -13,6 +13,7 @@ import {
   address7,
   address8,
 } from "~/blockchain/Mine/abi2";
+import { address9, abi as abi3 } from "~/blockchain/Mine/abi3";
 import { MineType } from "sanity/schema/Mine";
 import { Address, formatEther, formatUnits } from "viem";
 import { contractAPRCalculator } from "../../utils/contractAPR";
@@ -77,6 +78,14 @@ const mines = [
     image: "/images/dig-mine.jpg",
     abi: abi2,
     address: address8,
+    link: "wallet",
+  },
+  {
+    mineName: "OG/SEP",
+    rewardToken: "KUB",
+    image: "/images/dig-mine.jpg",
+    abi: abi3,
+    address: address9,
     link: "wallet",
   },
   {
