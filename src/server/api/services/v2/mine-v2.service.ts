@@ -15,7 +15,7 @@ import {
 } from "~/blockchain/Mine/abi2";
 import { address9, abi as abi3 } from "~/blockchain/Mine/abi3";
 import { MineType } from "sanity/schema/Mine";
-import { Address, formatEther, formatUnits } from "viem";
+import { Address, formatEther, formatUnits, parseEther } from "viem";
 import { contractAPRCalculator } from "../../utils/contractAPR";
 import { getTokenURI, getTokensURIOf } from "../nft.service";
 import { calculateRewardTimeParameters } from "../../utils/RewardCalculation";
@@ -214,12 +214,22 @@ export const getAllMineInfo = async (owner: Address) => {
     mines.map(async (mine) => {
       const mineInfo = await getMineInfo(mine.abi, mine.address as Address);
       const userInfo = await getPendingReward(owner, mine.address as Address);
+
+      let balance = "";
+      balance = mineInfo?.balance!;
+      //IF KUB CONTRACT DO THIS
+      if (mine.rewardToken == "KUB") {
+        let b = await getKubBalance(mine.address as `0x${string}`);
+        balance = formatEther(b);
+      }
+
+      if (mine.address === address3) {
+        balance = (await getJibJibBalance(jibDistributor)).toString();
+      }
+
       return {
         ...mineInfo,
-        balance:
-          mine.address === address3
-            ? (await getJibJibBalance(jibDistributor)).toString()
-            : mineInfo?.balance,
+        balance,
         name: mine.mineName,
         link: mine.link,
         rewardToken: mine.rewardToken,
@@ -253,6 +263,8 @@ export const getMineInfo = async (abi: any, address: Address) => {
     const totalStaked = await getTotalStakedTokens(address);
     const totalHash = await getTotalHashPower(address);
 
+    console.log(info);
+
     const parsedData = {
       mine: address,
       nft: info.digdragon ?? "0x00",
@@ -271,7 +283,6 @@ export const getMineInfo = async (abi: any, address: Address) => {
       totalHashPower: totalHash ?? 0,
       isActive:
         info.rewardEndBlock > currentBlock && info.startBlock < currentBlock,
-      // isActive: true,
     };
 
     const apr =
@@ -339,4 +350,13 @@ export const getTotalHashPower = async (address: Address) => {
   })) as any;
 
   return hashPower;
+};
+
+export const getKubBalance = async (mine: `0x${string}`) => {
+  const balance = (await viem.readContract({
+    address: mine,
+    abi: abi3,
+    functionName: "getBalance",
+  })) as bigint;
+  return balance;
 };
