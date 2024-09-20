@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Address, useAccount } from "wagmi";
+import { Address, useAccount, useBalance } from "wagmi";
 import { useStake, useStakedEvent } from "~/blockchain/Mine/stake";
 import { useUnStakedEvent, useUnstake } from "~/blockchain/Mine/unstake";
 import { useRevoke } from "~/blockchain/NFT/revoke";
@@ -20,10 +20,10 @@ import Link from "next/link";
 
 const WalletPage = () => {
   const { isConnected, address } = useAccount();
+  const result = useBalance({ address });
+  console.log(result);
   const { replace, query } = useRouter();
   const { mine: mineAddress, title, isActive } = query;
-
-  console.log(query);
 
   const [nft, setNfts] = useState<number[]>([]);
   const [approvedLoading, setApprovedLoading] = useState<boolean>(false);
@@ -313,8 +313,12 @@ const WalletPage = () => {
             decimal={false}
           />
           <StatCardOutline
-            title="Your kBTC"
-            value={balance?.toString()!}
+            title={mineInfo?.reward.includes("0x00") ? "Your KUB" : "Your kBTC"}
+            value={
+              mineInfo?.reward.includes("0x00")
+                ? result.data?.formatted.toString()!
+                : balance?.toString()!
+            }
             count={true}
             decimal={true}
           />
