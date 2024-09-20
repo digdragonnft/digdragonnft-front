@@ -263,8 +263,6 @@ export const getMineInfo = async (abi: any, address: Address) => {
     const totalStaked = await getTotalStakedTokens(address);
     const totalHash = await getTotalHashPower(address);
 
-    console.log(info);
-
     const parsedData = {
       mine: address,
       nft: info.digdragon ?? "0x00",
@@ -281,8 +279,8 @@ export const getMineInfo = async (abi: any, address: Address) => {
       totolStaked: totalStaked ?? 0,
       // totalHashPower: info.totalHashPower ?? 0,
       totalHashPower: totalHash ?? 0,
-      isActive:
-        info.rewardEndBlock > currentBlock && info.startBlock < currentBlock,
+      isActive: info.rewardEndBlock > currentBlock,
+      // info.rewardEndBlock > currentBlock && info.startBlock < currentBlock,
     };
 
     const apr =
