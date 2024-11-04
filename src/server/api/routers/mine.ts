@@ -23,7 +23,12 @@ import {
   address8,
 } from "~/blockchain/Mine/abi2";
 
-import { abi as abi3, address9, address10 } from "~/blockchain/Mine/abi3";
+import {
+  abi as abi3,
+  address9,
+  address10,
+  address11,
+} from "~/blockchain/Mine/abi3";
 
 const mines = [
   {
@@ -61,6 +66,10 @@ const mines = [
   {
     abi: abi3,
     address: address10,
+  },
+  {
+    abi: abi3,
+    address: address11,
   },
   {
     abi: abi2,
