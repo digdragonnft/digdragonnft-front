@@ -5,7 +5,6 @@ import { abi, address } from "~/blockchain/Mine/abi";
 import {
   abi as abi2,
   address2,
-  address1,
   address3,
   address4,
   address5,
@@ -14,6 +13,7 @@ import {
   address8,
 } from "~/blockchain/Mine/abi2";
 import {
+  address1,
   address9,
   address10,
   address11,
@@ -31,10 +31,10 @@ import { address as jibDistributor } from "~/blockchain/JBC/Distributor/abi";
 
 const mines = [
   {
-    mineName: "OG/JAN",
-    rewardToken: "kBTC",
+    mineName: "OG/JAN-2025",
+    rewardToken: "KUB",
     image: "/images/dig-mine.jpg",
-    abi: abi2,
+    abi: abi3,
     address: address1,
     link: "wallet",
   },
