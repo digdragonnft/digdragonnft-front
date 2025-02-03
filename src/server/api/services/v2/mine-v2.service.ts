@@ -4,7 +4,6 @@ import { viem } from "../viem.service";
 import { abi, address } from "~/blockchain/Mine/abi";
 import {
   abi as abi2,
-  address2,
   address3,
   address4,
   address5,
@@ -14,6 +13,7 @@ import {
 } from "~/blockchain/Mine/abi2";
 import {
   address1,
+  address2,
   address9,
   address10,
   address11,
@@ -21,9 +21,9 @@ import {
   abi as abi3,
 } from "~/blockchain/Mine/abi3";
 import { MineType } from "sanity/schema/Mine";
-import { Address, formatEther, formatUnits, parseEther } from "viem";
+import { Address, formatEther, formatUnits } from "viem";
 import { contractAPRCalculator } from "../../utils/contractAPR";
-import { getTokenURI, getTokensURIOf } from "../nft.service";
+import { getTokenURI } from "../nft.service";
 import { calculateRewardTimeParameters } from "../../utils/RewardCalculation";
 import { getBalanceOf } from "../reward.service";
 import { getJibJibBalance } from "./jbc/jbc.distributor.service";
@@ -39,8 +39,8 @@ const mines = [
     link: "wallet",
   },
   {
-    mineName: "OG/FEB",
-    rewardToken: "kBTC",
+    mineName: "OG/FEB-2025",
+    rewardToken: "KUB",
     image: "/images/dig-mine.jpg",
     abi: abi2,
     address: address2,

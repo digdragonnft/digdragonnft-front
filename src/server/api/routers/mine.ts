@@ -13,7 +13,6 @@ import {
 import { abi, address } from "~/blockchain/NFT/abi";
 import {
   abi as abi2,
-  address2,
   address3,
   address4,
   address5,
@@ -25,6 +24,7 @@ import {
 import {
   abi as abi3,
   address1,
+  address2,
   address9,
   address10,
   address11,
@@ -37,7 +37,7 @@ const mines = [
     address: address1,
   },
   {
-    abi: abi2,
+    abi: abi3,
     address: address2,
   },
   {
