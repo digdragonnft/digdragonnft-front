@@ -4,7 +4,6 @@ import { viem } from "../viem.service";
 import { abi, address } from "~/blockchain/Mine/abi";
 import {
   abi as abi2,
-  address3,
   address4,
   address5,
   address6,
@@ -14,6 +13,7 @@ import {
 import {
   address1,
   address2,
+  address3,
   address9,
   address10,
   address11,
@@ -119,12 +119,12 @@ const mines = [
     link: "wallet",
   },
   {
-    mineName: "JIBJIB/DigXMoon",
-    rewardToken: "JIBJIB",
-    image: "/images/dig-moon-mine.jpg",
-    abi: abi2,
+    mineName: "OG/MAR-2025",
+    rewardToken: "KUB",
+    image: "/images/dig-mine.jpg",
+    abi: abi3,
     address: address3,
-    link: "wallet/dig-x-moon",
+    link: "wallet",
   },
 ];
 
@@ -253,9 +253,9 @@ export const getAllMineInfo = async (owner: Address) => {
         balance = formatEther(b);
       }
 
-      if (mine.address === address3) {
-        balance = (await getJibJibBalance(jibDistributor)).toString();
-      }
+      // if (mine.address === address3) {
+      //   balance = (await getJibJibBalance(jibDistributor)).toString();
+      // }
 
       return {
         ...mineInfo,

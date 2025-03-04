@@ -718,6 +718,7 @@ export const abi = [
 
 export const address1 = "0xf760e434C8567d19155D56E71eF5feF609e2B771";
 export const address2 = "0x694c13E62907Fe78F8159234A76D1d7d680be4dD";
+export const address3 = "0xD5163B7c12454Bf3d973bf3a9DA6EEB92463B9fA";
 export const address9 = "0xf288E1305910a7079a7f1F5EA756eb8037c07B94";
 export const address10 = "0x64B906B022bbFc472C0704B7F20dB7dc93A73a07";
 export const address11 = "0xf2cC9566bF1e93f9bb3EBDF70eb663997A154C74";
