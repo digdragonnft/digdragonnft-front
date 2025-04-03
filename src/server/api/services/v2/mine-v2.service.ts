@@ -18,6 +18,7 @@ import {
   address10,
   address11,
   address12,
+  address13,
   abi as abi3,
 } from "~/blockchain/Mine/abi3";
 import { MineType } from "sanity/schema/Mine";
@@ -124,6 +125,14 @@ const mines = [
     image: "/images/dig-mine.jpg",
     abi: abi3,
     address: address3,
+    link: "wallet",
+  },
+  {
+    mineName: "OG/APR-2025",
+    rewardToken: "KUB",
+    image: "/images/dig-mine.jpg",
+    abi: abi3,
+    address: address13,
     link: "wallet",
   },
 ];
