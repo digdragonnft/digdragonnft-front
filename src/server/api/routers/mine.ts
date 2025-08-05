@@ -33,6 +33,7 @@ import {
   address14,
   address15,
   address16,
+  address17,
 } from "~/blockchain/Mine/abi3";
 
 const mines = [
@@ -95,6 +96,10 @@ const mines = [
   {
     abi: abi3,
     address: address16,
+  },
+  {
+    abi: abi3,
+    address: address17,
   },
   {
     abi: abi3,
