@@ -11,29 +11,35 @@ import {
   getStakedTokenMetadataOf,
 } from "../services/v2/mine-v2.service";
 import { abi, address } from "~/blockchain/NFT/abi";
-import {
-  abi as abi2,
-  address4,
-  address5,
-  address6,
-  address7,
-  address8,
-} from "~/blockchain/Mine/abi2";
+// import {
+//   abi as abi2,
+//   address4,
+//   address5,
+//   address6,
+//   address7,
+//   address8,
+// } from "~/blockchain/Mine/abi2";
 
 import {
   abi as abi3,
   address1,
   address2,
   address3,
-  address9,
-  address10,
-  address11,
-  address12,
+  // address9,
+  // address10,
+  // address11,
+  // address12,
   address13,
   address14,
   address15,
   address16,
   address17,
+  address18,
+  address19,
+  address20,
+  address21,
+  address22,
+  address23,
 } from "~/blockchain/Mine/abi3";
 
 const mines = [
@@ -45,42 +51,42 @@ const mines = [
     abi: abi3,
     address: address2,
   },
-  {
-    abi: abi2,
-    address: address4,
-  },
-  {
-    abi: abi2,
-    address: address5,
-  },
-  {
-    abi: abi2,
-    address: address6,
-  },
-  {
-    abi: abi2,
-    address: address7,
-  },
-  {
-    abi: abi2,
-    address: address8,
-  },
-  {
-    abi: abi3,
-    address: address9,
-  },
-  {
-    abi: abi3,
-    address: address10,
-  },
-  {
-    abi: abi3,
-    address: address11,
-  },
-  {
-    abi: abi3,
-    address: address12,
-  },
+  // {
+  //   abi: abi2,
+  //   address: address4,
+  // },
+  // {
+  //   abi: abi2,
+  //   address: address5,
+  // },
+  // {
+  //   abi: abi2,
+  //   address: address6,
+  // },
+  // {
+  //   abi: abi2,
+  //   address: address7,
+  // },
+  // {
+  //   abi: abi2,
+  //   address: address8,
+  // },
+  // {
+  //   abi: abi3,
+  //   address: address9,
+  // },
+  // {
+  //   abi: abi3,
+  //   address: address10,
+  // },
+  // {
+  //   abi: abi3,
+  //   address: address11,
+  // },
+  // {
+  //   abi: abi3,
+  //   address: address12,
+  // },
   {
     abi: abi3,
     address: address13,
@@ -100,6 +106,29 @@ const mines = [
   {
     abi: abi3,
     address: address17,
+  },
+  {    abi: abi3,
+    address: address18,
+  },
+  {
+    abi: abi3,
+    address: address19,
+  },
+  {
+    abi: abi3,
+    address: address20,
+  },
+  {
+    abi: abi3,
+    address: address21,
+  },
+  {
+    abi: abi3,
+    address: address22,
+  },
+  {
+    abi: abi3,
+    address: address23,
   },
   {
     abi: abi3,
